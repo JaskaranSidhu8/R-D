@@ -1,0 +1,13 @@
+#test file for setting up
+# tech stack #
+##FRONT-END##
+#react, redux, tailwind css, fetch API for http requests#
+
+##BACK-END##
+#node.js and express with sequelize for mysql. 
+#JWT/passport.js for authentication
+#morgan for loggin
+#redis for session management
+#bcrypt and rate limiting
+
+## postman for documenting API
