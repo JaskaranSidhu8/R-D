@@ -8,7 +8,7 @@ By integrating with real-time restaurant APIs like Yelp or Google Places, Tiebre
 
 ### How to run the project locally
 
-// TO DO
+We install locally the latest version of node.js. In our git repository, we npm install at the first run of the project (or later on if other libraries of react will be used) and then each time you want to run the project, you have to npm run dev inside the git repository. A localhost link is generated, we copy that link and paste it in the prefered web browser in order to see the website.
 
 ### How to contribute to the project
 
