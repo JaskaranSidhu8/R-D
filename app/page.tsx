@@ -4,10 +4,10 @@ import React from 'react';
 
 const Home: React.FC = () => { 
   return (
-    <div>
+    <div className='flex items-center justify-center  min-h-screen shadow-ml bg-gray-200'>
       <h1 className="text-3xl text-red bg-red-900">Welcome to the R&D Project!</h1>
-      <p>This is a simple page rendered on the client side.</p>
-      <p>This is a simple page rendered on the client side 2.</p>
+      <p className='bg-gray-500'> Pula in cur</p>
+      <p>MUIE DINAMO! MUIE RAPID!</p>
     </div>
   );
 };

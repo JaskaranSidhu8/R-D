@@ -4,7 +4,7 @@ on:
   # Trigger on push to any branch, pull request to main, or manually via GitHub's Actions tab
   push:
     branches:
-      - "" # All branches
+      - "*" # All branches
   pull_request:
     branches:
       - main
