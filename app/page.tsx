@@ -8,6 +8,7 @@ const Home: React.FC = () => {
       <h1 className="text-3xl text-red bg-red-900">Welcome to the R&D Project!</h1>
       <p className='bg-gray-500'> Pula in cur</p>
       <p>MUIE DINAMO! MUIE RAPID!</p>
+      <p>Adelin trust me</p>
     </div>
   );
 };
