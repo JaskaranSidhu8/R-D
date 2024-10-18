@@ -1,0 +1,51 @@
+name: CI Pipeline
+
+on:
+  # Trigger on push to any branch, pull request to main, or manually via GitHub's Actions tab
+  push:
+    branches:
+      - "" # All branches
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering of the workflow
+    inputs:
+      reason:
+        description: "Reason for triggering the workflow"
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Run Jest tests
+        run: npm run test -- --coverage
+
+      - name: Upload Jest coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jest-coverage-report
+          path: coverage
+
+      - name: Lint the code (Optional)
+        run: npm run lint
