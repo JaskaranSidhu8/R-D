@@ -39,7 +39,7 @@ jobs:
         run: npm run build
 
       - name: Run Jest tests
-        run: npm run test -- --coverage
+        run: npx jest --coverage --verbose  # Updated line with verbose flag
 
       - name: Upload Jest coverage report
         uses: actions/upload-artifact@v3
