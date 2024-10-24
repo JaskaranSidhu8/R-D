@@ -1,17 +1,17 @@
 import type { Config } from '@jest/types';
 
 const config: Config.InitialOptions = {
-  testEnvironment: 'jsdom',  // Ensure the environment is 'jsdom' for browser-like testing
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],  // Make sure the setup file path is correct
+  testEnvironment: 'jsdom',  // Ensures Jest runs in a browser-like environment
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],  // Path to setup file for testing library
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',  // Map imports like @/components to actual directories
-    '\\.(css|scss|sass)$': 'identity-obj-proxy',  // Mock CSS imports to prevent errors
+    '^@/(.*)$': '<rootDir>/$1',  // Adjust as needed for your import paths
+    '\\.(css|scss|sass)$': 'identity-obj-proxy',  // Mock CSS imports
   },
   transform: {
-    '^.+\\.(ts|tsx|js|jsx)$': 'ts-jest',  // Transform TypeScript and JavaScript files with ts-jest
+    '^.+\\.(ts|tsx)$': 'ts-jest',  // Use ts-jest to handle TS and TSX files
   },
-  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],  // Ignore build files and node_modules
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],  // Allow these file extensions
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],  // Ignore build artifacts
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],  // Include necessary file types
 };
 
 export default config;
