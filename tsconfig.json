@@ -1,29 +1,36 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es5", // The JavaScript language version to compile to
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext" // Modern JS features
     ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx", // Ensure this is set for React 17 and later
-    "incremental": true,
+    "allowJs": true, // Allows JavaScript files to be compiled
+    "skipLibCheck": true, // Skips type checking of declaration files (helps speed up compilation)
+    "strict": true, // Enables all strict type-checking options
+    "forceConsistentCasingInFileNames": true, // Ensures consistent file naming
+    "noEmit": true, // Disables emitting files (used when only type checking)
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules
+    "module": "esnext", // Use ECMAScript module syntax
+    "moduleResolution": "node", // Node module resolution strategy
+    "resolveJsonModule": true, // Allows importing JSON modules
+    "isolatedModules": true, // Ensures that each file can be transpiled independently
+    "jsx": "react-jsx", // Use React's new JSX transform (React 17+)
+    "incremental": true, // Enables incremental compilation
     "plugins": [
       {
-        "name": "next"
+        "name": "next" // Next.js plugin for TypeScript
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx" // Include TypeScript files for compilation
+  ],
+  "exclude": [
+    "node_modules", // Exclude node_modules
+    "**/*.spec.ts", // Exclude test files
+    "**/*.spec.tsx" // Exclude test files
+  ]
 }
