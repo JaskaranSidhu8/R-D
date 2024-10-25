@@ -14,6 +14,8 @@ const config: Config.InitialOptions = {
   },
   transformIgnorePatterns: [
     '/node_modules/', // Ensure to transform node_modules if necessary
+    // Add specific patterns here if you need to transform certain packages
+    // Example: '/node_modules/(?!your-module-name)'
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],

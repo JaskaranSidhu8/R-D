@@ -1,17 +1,13 @@
 name: CI Pipeline
 
 on:
-  # Trigger on push to any branch, pull request to main, or manually via GitHub's Actions tab
   push:
     branches:
       - "*" # All branches
   pull_request:
     branches:
       - main
-  workflow_dispatch: # Allows manual triggering of the workflow
-    inputs:
-      reason:
-        description: "Reason for triggering the workflow"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -32,14 +28,22 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
+      - name: Check Node.js and NPM versions
+        run: |
+          node -v
+          npm -v
+
+      - name: Clear npm cache
+        run: npm cache clean --force
+
       - name: Install dependencies
         run: npm install
 
       - name: Build the project
         run: npm run build
 
-      - name: Run Jest tests
-        run: npx jest --coverage --verbose  # Updated line with verbose flag
+      - name: Run Jest tests with coverage
+        run: npx jest --coverage --verbose
 
       - name: Upload Jest coverage report
         uses: actions/upload-artifact@v3
@@ -49,3 +53,6 @@ jobs:
 
       - name: Lint the code (Optional)
         run: npm run lint
+
+      - name: List installed packages
+        run: npm list --depth=0
