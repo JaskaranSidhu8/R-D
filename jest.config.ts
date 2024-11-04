@@ -1,22 +1,24 @@
-import type { Config } from '@jest/types';
+// jest.config.js
+const nextJest = require('next/jest');
 
-const config: Config.InitialOptions = {
-  preset: 'ts-jest', 
-  testEnvironment: 'jsdom', 
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
-    '\\.(css|scss|sass)$': 'identity-obj-proxy',
-  },
+// Provide the path to your Next.js app to load next.config.js and .env variables in tests
+const createJestConfig = nextJest({
+  dir: './', // path to your Next.js app
+});
+
+// All custom Jest configuration will go here
+const customJestConfig = {
+  preset: 'ts-jest',
+  testEnvironment: 'jsdom', // Necessary for testing React components
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest', // Use ts-jest to transpile TypeScript
   },
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
+  // Optional: Configure transformIgnorePatterns if needed
   transformIgnorePatterns: [
-    '/node_modules/',
+    '/node_modules/(?!your-module-name|another-module-name)', // Include any module that needs transformation
   ],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
 
-export default config;
+// Export the Jest configuration
+module.exports = createJestConfig(customJestConfig);
