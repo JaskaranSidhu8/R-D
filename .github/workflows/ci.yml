@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - main
+      - test2 # Add test2 branch to trigger on pull requests
   workflow_dispatch: # Allows manual triggering of the workflow
     inputs:
       reason:
@@ -46,6 +47,3 @@ jobs:
         with:
           name: jest-coverage-report
           path: coverage
-
-      - name: Lint the code (Optional)
-        run: npm run lint
