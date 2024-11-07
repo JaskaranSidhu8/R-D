@@ -4,6 +4,7 @@
 @tailwind utilities;
 body{
   font-family: "Poppins", sans-serif;
+  
 
 }
 .montserrat{
@@ -14,7 +15,7 @@ body{
 @layer base {
   
 :root  {
-  --background: 349 0% 95%;
+  --background: 210 20% 98%;
   --foreground: 349 0% 0%;
   --card: 349 0% 90%;
   --card-foreground: 349 0% 10%;
@@ -66,4 +67,10 @@ body{
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.gradient{
+
+background: rgb(250,200,189);
+background: linear-gradient(180deg, rgba(250,200,189,1) 0%, rgba(249,250,251,1) 70%);
 }

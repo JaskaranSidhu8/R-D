@@ -3,13 +3,14 @@ import Logo from '../static/Logo'
 import PulsingPicture from './PulsingPicture'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import Link from 'next/link'
 
 type Props = {}
 
 
 const Header = (props: Props) => {
   return (
-    <header className=' container mx-auto flex flex-col  gap-3  justify-center items-center py-16'>
+    <header className=' container mx-auto flex flex-col  gap-3  justify-center items-center py-16 gradient'>
 
         <div className='flex flex-col justify-center items-center'>
             <Logo big={true} showText={false}/>
@@ -33,20 +34,19 @@ const Header = (props: Props) => {
           <Input 
             type="email"
             placeholder="Enter your email"
-            className="border-secondary poppins mt-4  text-center  py-5"/>
-
-          <Button  className=" poppins w-full mt-4 py-5">Get Started</Button>
-
-
-          </div>
+            className="border-secondary  mt-4  text-center  py-5"/>
           
 
+          <Link href="/Signup">
+            <Button className="w-full mt-4 py-5 ">
+              Get Started
+            </Button>
+          </Link>
 
-    
+          
 
+          </div>
 
-
-        
     </header>
   )
 }

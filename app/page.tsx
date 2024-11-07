@@ -4,10 +4,8 @@ const Home: React.FC = () => {
 
   return (
     <main>
-
-      <Header/>
-      
-    </main>
+    <Header/>
+  </main>
   );
 };
 
