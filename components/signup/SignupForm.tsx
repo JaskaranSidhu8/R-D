@@ -1,23 +1,19 @@
-import React from 'react'
-import { Input } from '../ui/input'
-import Password from '../static/Password'
-import { Button } from '../ui/button'
+import React from "react";
+import { Input } from "../ui/input";
+import Password from "../static/Password";
+import { Button } from "../ui/button";
 
-type Props = {}
+type Props = {};
 
 const SignupForm = (props: Props) => {
   return (
-    <form className=' space-y-4'>
-        <Input
-        type='email'
-        placeholder='Enter your email address'   
-        />
-        <Password/>
+    <form className=" space-y-5">
+      <Input type="email" placeholder="Enter your email address" />
+      <Password />
 
-        <Button className=' w-full'> Sign up</Button>
-
+      <Button className=" w-full"> Sign up</Button>
     </form>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;
