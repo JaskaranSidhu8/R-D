@@ -16,7 +16,7 @@ const Home: React.FC = () => {
     <div className='flex items-center justify-center min-h-screen shadow-ml bg-gray-200'>
       <h1 className="text-3xl text-red bg-red-900">{appTitle}</h1>
       <p>We are building a SaaS application</p>
-      <p> Testing vercel deployment on dev branch</p>
+      <p> Testing vercel deployment on dev branch here</p>
       
       {/* Button to toggle the message */}
       <button 
