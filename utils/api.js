@@ -22,5 +22,30 @@ export const fetchQuizImages = async () => {
     return [];
   }
 
-
 };
+// New function to increment age in the 'test' table
+export const incrementUserAge = async (userId) => {
+  try {
+    // First, retrieve the current age
+    const { data: userData, error: fetchError } = await supabase
+      .from('test_table')
+      .select('age')
+      .eq('id', userId)
+      .single();
+    if (fetchError) throw fetchError;
+    // Increment the age locally and update
+    const newAge = userData.age + 1;
+    const { data, error: updateError } = await supabase
+      .from('test_table')
+      .update({ age: newAge })
+      .eq('id', userId)
+      .select();
+    if (updateError) throw updateError;
+    return data;
+  } catch (error) {
+    console.error('Error incrementing age:', error.message);
+    return null;
+  }
+};
+
+
