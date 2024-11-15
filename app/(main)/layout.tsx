@@ -12,7 +12,7 @@ export default function RootLayout({
         <div className=" gradient h-[25vh] absolute top-0 left-0 w-full -z-10"></div>
 
         <Link href="/">
-          <Logo showText={true} big={false} />
+          <Logo showText={false} big={true} />
         </Link>
 
         {children}

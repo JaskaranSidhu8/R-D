@@ -22,7 +22,7 @@ const Logo = ({ className, ...props }: Props & { className?: string }) => {
       />
       {props.showText && (
         <span className={`montserrat ${props.big ? "text-xl" : "text-md"}`}>
-          TieBreaker
+          TIEBREAKER
         </span>
       )}
     </div>

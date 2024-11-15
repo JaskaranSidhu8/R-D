@@ -12,47 +12,47 @@ body {
 @layer base {
   :root {
     --background: 210 20% 98%;
-    --foreground: 349 0% 0%;
-    --card: 349 0% 90%;
-    --card-foreground: 349 0% 10%;
-    --popover: 349 0% 95%;
-    --popover-foreground: 349 95% 0%;
-    --primary: 349 79.8% 55.3%;
+    --foreground: 11 0% 0%;
+    --card: 11 0% 90%;
+    --card-foreground: 11 0% 10%;
+    --popover: 11 0% 95%;
+    --popover-foreground: 11 95% 0%;
+    --primary: 11 85.2% 54.9%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 349 10% 70%;
+    --secondary: 11 10% 70%;
     --secondary-foreground: 0 0% 0%;
-    --muted: 311 10% 85%;
-    --muted-foreground: 349 0% 35%;
-    --accent: 311 10% 80%;
-    --accent-foreground: 349 0% 10%;
+    --muted: -27 10% 85%;
+    --muted-foreground: 11 0% 35%;
+    --accent: -27 10% 80%;
+    --accent-foreground: 11 0% 10%;
     --destructive: 0 50% 30%;
-    --destructive-foreground: 349 0% 90%;
-    --border: 349 20% 50%;
-    --input: 349 20% 18%;
-    --ring: 349 79.8% 55.3%;
-    --radius: 1rem;
+    --destructive-foreground: 11 0% 90%;
+    --border: 11 20% 50%;
+    --input: 11 20% 18%;
+    --ring: 11 85.2% 54.9%;
+    --radius: 0.75rem;
   }
   .dark {
-    --background: 349 10% 5%;
-    --foreground: 349 0% 90%;
-    --card: 349 0% 0%;
-    --card-foreground: 349 0% 90%;
-    --popover: 349 10% 5%;
-    --popover-foreground: 349 0% 90%;
-    --primary: 349 79.8% 55.3%;
+    --background: 11 10% 5%;
+    --foreground: 11 0% 90%;
+    --card: 11 0% 0%;
+    --card-foreground: 11 0% 90%;
+    --popover: 11 10% 5%;
+    --popover-foreground: 11 0% 90%;
+    --primary: 11 85.2% 54.9%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 349 10% 10%;
+    --secondary: 11 10% 10%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 311 10% 15%;
-    --muted-foreground: 349 0% 60%;
-    --accent: 311 10% 15%;
-    --accent-foreground: 349 0% 90%;
+    --muted: -27 10% 15%;
+    --muted-foreground: 11 0% 60%;
+    --accent: -27 10% 15%;
+    --accent-foreground: 11 0% 90%;
     --destructive: 0 50% 30%;
-    --destructive-foreground: 349 0% 90%;
-    --border: 349 20% 18%;
-    --input: 349 20% 18%;
-    --ring: 349 79.8% 55.3%;
-    --radius: 1rem;
+    --destructive-foreground: 11 0% 90%;
+    --border: 11 20% 18%;
+    --input: 11 20% 18%;
+    --ring: 11 85.2% 54.9%;
+    --radius: 0.75rem;
   }
 }
 @layer base {
@@ -62,13 +62,4 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-}
-
-.gradient {
-  background: rgb(250, 200, 189);
-  background: linear-gradient(
-    180deg,
-    rgba(250, 200, 189, 1) 0%,
-    rgba(249, 250, 251, 1) 70%
-  );
 }
