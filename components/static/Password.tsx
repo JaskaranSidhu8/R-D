@@ -13,7 +13,7 @@ const Password = (props: Props) => {
       <Input
         type={showPassword ? "text" : "password"}
         placeholder="Password"
-        className="w-full pr-10"
+        className="w-full pr-10 py-5  "
       />
       <span
         onClick={() => setShowPassword(!showPassword)}

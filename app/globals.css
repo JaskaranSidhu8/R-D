@@ -30,7 +30,7 @@ body {
     --border: 11 20% 50%;
     --input: 11 20% 18%;
     --ring: 11 85.2% 54.9%;
-    --radius: 0.75rem;
+    --radius: 1rem;
   }
   .dark {
     --background: 11 10% 5%;
