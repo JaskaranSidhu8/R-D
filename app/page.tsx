@@ -90,10 +90,8 @@ const Home: React.FC = () => {
 };
 
 const App: React.FC = () => (
-  <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string}>
-    <Map id="default-map" center={{ lat: 50.8794, lng: 4.7009 }} zoom={14}>
+  <APIProvider apiKey={process.env.GOOGLE_API_KEY as string}>
       <Home />
-    </Map>
   </APIProvider>
 );
 
