@@ -2,8 +2,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Home from '../app/page'; // Adjust the import path based on your folder structure
-import About from '../app/about'; // Assuming you have an About component
+import Home from '../app2/page'; // Adjust the import path based on your folder structure
+import About from '../app2/about'; // Assuming you have an About component
 
 // Mock the next/router module
 jest.mock('next/router', () => ({
