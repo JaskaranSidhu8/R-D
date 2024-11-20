@@ -1,25 +1,35 @@
+"use client";
 import React from "react";
 import { Input } from "../ui/input";
 import Password from "../static/Password";
 import { Button } from "../ui/button";
-import { text } from "stream/consumers";
+import { redirect } from "next/navigation";
+import PasswordValidator from "../static/PasswordValidator";
 
 type Props = {
-  text: string;
+  mode: "Signup" | "Signin";
 };
 
 const SignupForm = (props: Props) => {
+  const onSubmit = () => {
+    if (props.mode === "Signup") {
+      redirect("/Signup/Verify");
+    } else {
+      redirect("/Home");
+    }
+  };
   return (
-    <form className=" space-y-5">
+    <form action={onSubmit} className=" space-y-5">
       <Input
+        required
         type="email"
         placeholder="Enter your email address"
-        className=" py-5"
+        name="email"
       />
-      <Password />
+      {props.mode === "Signup" ? <PasswordValidator /> : <Password />}
 
-      <Button className={`w-full py-6 rounded-full shadow-lg `}>
-        {props.text}
+      <Button type="submit">
+        {props.mode === "Signup" ? "Sign up" : "Sign in"}
       </Button>
     </form>
   );

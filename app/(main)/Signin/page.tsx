@@ -9,7 +9,7 @@ const Signin = (props: Props) => {
   return (
     <div>
       <SectionTitle classname="mt-20  mb-5" text="Welcome back !" />
-      <SignupForm text=" Sign in" />
+      <SignupForm mode="Signin" />
       <AuthLink
         text="Don't have an account yet ?"
         href="Signup"

@@ -15,7 +15,7 @@ const Signup = (props: Props) => {
   return (
     <div>
       <SectionTitle classname="mt-20  mb-5" text="Sign up, let's eat!" />
-      <SignupForm text="Sign up" />
+      <SignupForm mode="Signup" />
       <AuthLink
         text="Don't have an account "
         href="/Signin"

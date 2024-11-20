@@ -1,28 +1,38 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import React from "react";
-import { Input } from "../ui/input";
 
-type Props = {};
+export default function Password() {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
-const Password = (props: Props) => {
-  const [showPassword, setShowPassword] = useState(false);
+  const toggleVisibility = () => setIsVisible((prevState) => !prevState);
 
   return (
-    <div className="relative">
-      <Input
-        type={showPassword ? "text" : "password"}
-        placeholder="Password"
-        className="w-full pr-10 py-5  "
-      />
-      <span
-        onClick={() => setShowPassword(!showPassword)}
-        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-      >
-        {showPassword ? "🙈" : "👁️"}
-      </span>
+    <div className="space-y-2">
+      <div className="relative">
+        <Input
+          id="input-23"
+          className="pe-9"
+          placeholder="Password"
+          type={isVisible ? "text" : "password"}
+        />
+        <button
+          className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-lg text-muted-foreground/80 ring-offset-background transition-shadow hover:text-foreground focus-visible:border focus-visible:border-ring focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+          type="button"
+          onClick={toggleVisibility}
+          aria-label={isVisible ? "Hide password" : "Show password"}
+          aria-pressed={isVisible}
+          aria-controls="password"
+        >
+          {isVisible ? (
+            <EyeOff size={16} strokeWidth={2} aria-hidden="true" />
+          ) : (
+            <Eye size={16} strokeWidth={2} aria-hidden="true" />
+          )}
+        </button>
+      </div>
     </div>
   );
-};
-
-export default Password;
+}
