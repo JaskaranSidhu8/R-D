@@ -6,14 +6,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Get the current pathname
+  const shouldHideLogo = typeof window !== 'undefined' && 
+    (window.location.pathname === '/DiningTime' || 
+     window.location.pathname === '/Settings');
+
   return (
     <html lang="en">
-      <body className="  p-10  ">
-        <div className=" gradient h-[25vh] absolute top-0 left-0 w-full -z-10"></div>
+      <body className="p-10">
+        <div className="gradient h-[25vh] absolute top-0 left-0 w-full -z-10"></div>
 
-        <Link href="/">
-          <Logo showText={false} big={true} />
-        </Link>
+        {!shouldHideLogo && (
+          <Link href="/">
+            <Logo showText={false} big={true} />
+          </Link>
+        )}
 
         {children}
       </body>
