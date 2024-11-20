@@ -3,6 +3,7 @@ import Logo from "@/components/static/Logo";
 import SectionTitle from "@/components/static/SectionTitle";
 import SignupForm from "@/components/signup/SignupForm";
 import AuthLink from "@/components/static/AuthLink";
+import { Button } from "@/components/ui/button";
 
 export const metadata = {
   title: "TieBreaker | signup",
