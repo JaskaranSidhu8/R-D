@@ -2,26 +2,24 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { Button } from "../ui/button";
 
 type Props = {};
 
 const Diagram = (props: Props) => {
   const { ref, inView } = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
     threshold: 1,
   });
 
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
-    if (inView) {
-      setIsVisible(true);
-    }
+    setIsVisible(inView);
   }, [inView]);
   return (
-    <div ref={ref} className=" relative  mt-10 w-5/6 mx-auto ">
+    <div ref={ref} className=" relative  aspect-square mt-10 w-5/6 mx-auto ">
       <Image
-        style={{ transitionDelay: "1s" }}
-        className={`absolute top-0 left-0 w-full duration-1000 ${
+        className={`absolute top-0 left-0 w-full duration-500 ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
         src="/1.png"
@@ -30,8 +28,8 @@ const Diagram = (props: Props) => {
         alt="1"
       />
       <Image
-        style={{ transitionDelay: "2s" }}
-        className={`absolute top-0 left-0 w-full duration-1000  ${
+        style={{ transitionDelay: "500ms" }}
+        className={`absolute top-0 left-0 w-full duration-500  ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
         src="/2.png"
@@ -40,8 +38,8 @@ const Diagram = (props: Props) => {
         alt="2"
       />
       <Image
-        style={{ transitionDelay: "3s" }}
-        className={`absolute top-0 left-0 w-full duration-1000  ${
+        style={{ transitionDelay: "1s" }}
+        className={`absolute top-0 left-0 w-full duration-500  ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
         src="/3.png"

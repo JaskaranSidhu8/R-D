@@ -1,20 +1,21 @@
+import Link from "next/link";
 import React from "react";
 
 type Props = {};
 
 const Foter = (props: Props) => {
   return (
-    <footer>
-      <div className="container mx-auto text-center text-sm text-gray-600 space-x-4">
-        <a href="/faq" className="hover:underline">
+    <footer className=" py-3">
+      <div className="container  flex  flex-row  justify-end   px-5 mx-auto text-center text-tiny text-gray-600 space-x-4">
+        <Link href="/faq" className="underline">
           FAQ
-        </a>
-        <a href="/terms" className="hover:underline">
+        </Link>
+        <Link href="/terms" className="underline">
           Terms and Service
-        </a>
-        <a href="/help-center" className="hover:underline">
+        </Link>
+        <Link href="/help-center" className="underline">
           Help Center
-        </a>
+        </Link>
       </div>
     </footer>
   );
