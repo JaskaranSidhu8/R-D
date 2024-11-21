@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import SectionTitle from "@/components/static/SectionTitle";
-import { Pencil } from "lucide-react"; // Import the edit icon
+import  SectionTitle from "@/components/static/SectionTitle"; 
+import { ProfileImage } from "@/components/AccountDetails/ProfileImage";
+import { AccountForm } from "@/components/AccountDetails/AccountForm";
+
 
 const AccountDetailsPage = () => {
   const initialValues = {
@@ -30,75 +30,23 @@ const AccountDetailsPage = () => {
     setIsModified(false);
   };
 
+  const handleEditProfilePicture = () => {
+    console.log('Edit profile picture');
+  };
+
   return (
     <div className="min-h-screen max-w-md mx-auto flex flex-col">
-      {/* Profile Image with Edit Button */}
-      <div className="flex justify-center mt-8 mb-6">
-        <div className="relative">
-          <img
-            src="/pfp.jpg"
-            alt="Profile"
-            className="w-32 h-32 rounded-full object-cover"
-          />
-          <button
-            className="absolute bottom-0 right-0 p-2 bg-primary hover:bg-primary/90 rounded-full text-white"
-            onClick={() => console.log('Edit profile picture')}
-          >
-            <Pencil className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
+      <ProfileImage
+        imageUrl="/pfp.jpg"
+        onEditClick={handleEditProfilePicture}
+      />
       <SectionTitle text="Account Details" />
-
-      <div className="flex flex-col gap-6 mt-6">
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm text-muted-foreground mb-1.5 block">
-              Full Name
-            </label>
-            <Input
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleInputChange}
-              className="h-12 rounded-full"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm text-muted-foreground mb-1.5 block">
-              Country
-            </label>
-            <Input
-              name="country"
-              value={formData.country}
-              onChange={handleInputChange}
-              className="h-12 rounded-full"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm text-muted-foreground mb-1.5 block">
-              City
-            </label>
-            <Input
-              name="city"
-              value={formData.city}
-              onChange={handleInputChange}
-              className="h-12 rounded-full"
-            />
-          </div>
-
-          <Button 
-            onClick={handleSubmit}
-            className="w-full mt-4"
-            variant={isModified ? "default" : "secondary"}
-            disabled={!isModified}
-          >
-            Save Changes
-          </Button>
-        </div>
-      </div>
+      <AccountForm
+        formData={formData}
+        isModified={isModified}
+        onInputChange={handleInputChange}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 };
