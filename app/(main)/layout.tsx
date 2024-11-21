@@ -1,3 +1,4 @@
+import Foter from "@/components/static/Foter";
 import Logo from "@/components/static/Logo";
 import Link from "next/link";
 
@@ -18,6 +19,9 @@ export default function RootLayout({
 
         {children}
       </body>
+      <footer>
+        <Foter />
+      </footer>
     </html>
   );
 }

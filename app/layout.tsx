@@ -1,3 +1,4 @@
+import Foter from "@/components/static/Foter";
 import "./globals.css";
 export const metadata = {
   title: "TieBreaker",
