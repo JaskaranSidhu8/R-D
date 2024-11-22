@@ -11,12 +11,13 @@ type Props = {
 
 const AuthLink = (props: Props) => {
   return (
-    <div>
-      <div
-        className={`w-full h-px mt-4 bg-gray-300 opacity-50 ${props.classname}`}
-      ></div>
+    <div className={`text-center space-y-5   ${props.classname}`}>
+      <div className=" relative block">
+        <div className="w-full h-px mt-4 bg-gray-300 absolute left-0 -top-1 -z-10 "></div>
+        <span className=" bg-background p-3 text-gray-300 ">or</span>
+      </div>
 
-      <span className=" text-sm">
+      <div className=" text-sm block relative">
         {" "}
         {props.text}{" "}
         <Link
@@ -26,7 +27,7 @@ const AuthLink = (props: Props) => {
           {" "}
           {props.signinup} <ArrowRight size={14} className=" inline" />
         </Link>
-      </span>
+      </div>
     </div>
   );
 };
