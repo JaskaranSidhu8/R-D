@@ -9,7 +9,7 @@ interface FormFieldProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   }
   
-  export const FormField = ({ label, name, value, onChange }: FormFieldProps) => {
+  const FormField = ({ label, name, value, onChange }: FormFieldProps) => {
     return (
       <div>
         <label className="text-sm text-muted-foreground mb-1.5 block">
@@ -25,3 +25,4 @@ interface FormFieldProps {
     );
   };
   
+  export default FormField;

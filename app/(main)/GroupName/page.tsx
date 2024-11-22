@@ -15,7 +15,7 @@ const GroupNamePage = () => {
           className="h-12 rounded-full"
         />
 
-        <Button className="w-full mt-4">
+        <Button className="w-full mt-4"> 
           Next
         </Button>
       </div>

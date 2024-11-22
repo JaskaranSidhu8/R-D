@@ -7,7 +7,7 @@ interface ProfileImageProps {
     onEditClick: () => void;
   }
   
-  export const ProfileImage = ({ imageUrl, onEditClick }: ProfileImageProps) => {
+  const ProfileImage = ({ imageUrl, onEditClick }: ProfileImageProps) => {
     return (
       <div className="flex justify-center mt-8 mb-6">
         <div className="relative">
@@ -26,3 +26,5 @@ interface ProfileImageProps {
       </div>
     );
   };
+
+  export default ProfileImage;

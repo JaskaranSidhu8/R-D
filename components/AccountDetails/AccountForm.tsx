@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { FormField } from "./FormField";
+import  FormField  from "./FormField";
 
 interface FormData {
   fullName: string;
@@ -20,7 +20,7 @@ interface AccountFormProps {
   onSubmit: () => void;
 }
 
-export const AccountForm = ({
+const AccountForm = ({
   formData,
   isModified,
   onInputChange,
@@ -60,3 +60,5 @@ export const AccountForm = ({
     </div>
   );
 };
+
+export default AccountForm;

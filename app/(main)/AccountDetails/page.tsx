@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import  SectionTitle from "@/components/static/SectionTitle"; 
-import { ProfileImage } from "@/components/AccountDetails/ProfileImage";
-import { AccountForm } from "@/components/AccountDetails/AccountForm";
+import  ProfileImage  from "@/components/AccountDetails/ProfileImage";
+import  AccountForm  from "@/components/AccountDetails/AccountForm";
+import  FlexLayout  from "@/components/static/FlexLayout";
 
 
 const AccountDetailsPage = () => {
@@ -35,7 +36,7 @@ const AccountDetailsPage = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-md mx-auto flex flex-col">
+    <FlexLayout>
       <ProfileImage
         imageUrl="/pfp.jpg"
         onEditClick={handleEditProfilePicture}
@@ -47,7 +48,7 @@ const AccountDetailsPage = () => {
         onInputChange={handleInputChange}
         onSubmit={handleSubmit}
       />
-    </div>
+    </FlexLayout>
   );
 };
 
