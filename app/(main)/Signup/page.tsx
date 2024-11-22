@@ -16,11 +16,12 @@ const Signup = (props: Props) => {
   return (
     <div>
       <SectionTitle classname="mt-20  mb-5" text="Sign up, let's eat!" />
-      <SignupForm />
+      <SignupForm mode="Signup" />
       <AuthLink
-        text="Already have a Tiebreaker account ?"
+        text="Don't have an account "
         href="/Signin"
         signinup="Sign in"
+        classname=" mt-8"
       />
     </div>
   );

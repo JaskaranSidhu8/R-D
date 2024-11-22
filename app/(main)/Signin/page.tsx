@@ -8,12 +8,13 @@ type Props = {};
 const Signin = (props: Props) => {
   return (
     <div>
-      <SectionTitle classname="mt-20  mb-5" text="Sign up, let's eat!" />
-      <SignupForm />
+      <SectionTitle classname="mt-20  mb-5" text="Welcome back !" />
+      <SignupForm mode="Signin" />
       <AuthLink
         text="Don't have an account yet ?"
         href="Signup"
         signinup="Signup"
+        classname=" mt-8"
       />
     </div>
   );
