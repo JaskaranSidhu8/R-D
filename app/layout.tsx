@@ -1,3 +1,4 @@
+import Foter from "@/components/static/Foter";
 import "./globals.css";
 export const metadata = {
   title: "TieBreaker",
@@ -11,7 +12,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Foter />
+      </body>
     </html>
   );
 }
