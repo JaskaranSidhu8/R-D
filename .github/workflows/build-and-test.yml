@@ -1,9 +1,15 @@
-name: Light-Weight Check
+name: Build and Test Workflow
 
 on:
-  push:
-    branches:
-      - "*" # All branches
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+      run-lint:
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   lightweight-checks:
@@ -27,7 +33,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: ${{ inputs.node-version }}
 
       # Step 4: Install Dependencies
       - name: Install Dependencies
@@ -35,6 +41,7 @@ jobs:
 
       # Step 5: Lint Code
       - name: Run Linter
+        if: ${{ inputs.run-lint }}
         run: npm run lint
 
       # Step 6: Run Prettier Check

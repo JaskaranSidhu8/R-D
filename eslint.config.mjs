@@ -17,7 +17,6 @@ export default [
       // Nothing yet
       "react/prop-types": "off",
       "no-unused-vars": "warn",
-      "linebreak-style": ["error", "windows"], // Use "unix" for LF
     },
     settings: {
       react: {
