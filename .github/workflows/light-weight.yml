@@ -1,0 +1,42 @@
+name: Branch Push Checks
+
+on:
+  push:
+    branches:
+      - '*' # All branches
+
+jobs:
+  lightweight-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout Code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Cache Node.js Dependencies
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Step 3: Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      # Step 4: Install Dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Step 5: Lint Code
+      - name: Run Linter
+        run: npm run lint
+
+    #   # Step 6: Run Unit Tests
+    #   - name: Run Unit Tests
+    #     run: npm test

@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "../ui/button";
 
-type Props = {};
+// type Props = {};
 
-const VerificationForm = (props: Props) => {
+const VerificationForm = () => {
   return (
     <form className=" flex flex-col gap-10 mt-10 items-center justify-center">
       <InputOTP maxLength={6}>

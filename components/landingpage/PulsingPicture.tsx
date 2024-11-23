@@ -1,8 +1,8 @@
 import React from "react";
 
-type Props = {};
+// type Props = {};
 
-const PulsingPicture = (props: Props) => {
+const PulsingPicture = () => {
   return (
     <div className=" relative w-60 h-60 rounded-full  flex items-center justify-center">
       <img

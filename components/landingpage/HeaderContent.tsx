@@ -3,14 +3,14 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
-type Props = {};
+// type Props = {};
 
-const HeaderContent = (props: Props) => {
+const HeaderContent = () => {
   return (
     <div className="absolute bottom-20 w-full items-center">
       <div className="relative z-10 text-center w-full px-6 mt-10">
         <p className="montserrat text-2xl font-bold  text-white">
-          Don't know where to eat?
+          Don&apos;t know where to eat?
         </p>
         <p className="montserrat text-2xl font-bold text-primary mt-2">
           Let Tiebreaker decide.
