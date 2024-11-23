@@ -1,14 +1,14 @@
 import React from "react";
 import Logo from "../static/Logo";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import GetStartedBtn from "./GetStartedBtn";
+// import { Input } from "../ui/input";
+// import { Button } from "../ui/button";
+// import Link from "next/link";
+// import GetStartedBtn from "./GetStartedBtn";
 import HeaderContent from "./HeaderContent";
 
-type Props = {};
+// type Props = {};
 
-const Header = (props: Props) => {
+const Header = () => {
   return (
     <>
       <header

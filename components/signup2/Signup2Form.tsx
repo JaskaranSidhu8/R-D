@@ -2,9 +2,9 @@ import React from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
-type Props = {};
+// type Props = {};
 
-const Signup2Form = (props: Props) => {
+const Signup2Form = () => {
   return (
     <form className=" space-y-5">
       <Input type="text" placeholder=" Full Name " />{" "}

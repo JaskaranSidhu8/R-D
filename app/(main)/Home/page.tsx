@@ -2,9 +2,9 @@ import GroupJoinForm from "@/components/Home/GroupJoinForm";
 import PreviousGroups from "@/components/Home/PreviousGroups";
 import React from "react";
 
-type Props = {};
+// type Props = {};
 
-const Home = (props: Props) => {
+const Home = () => {
   return (
     <div>
       <GroupJoinForm />

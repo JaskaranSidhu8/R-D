@@ -6,12 +6,11 @@ type Props = {
   big: boolean;
 };
 
-const Logo = ({ className, ...props }: Props & { className?: string }) => {
+const Logo = ({ ...props }: Props & { className?: string }) => {
   return (
     <div
-      className={`flex flex-col gap-0.5 justify-center items-center ${
-        props.big ? "max-w-20" : "max-w-16"
-      }`}
+      className={`flex flex-col gap-0.5 justify-center items-center ${props.big ? "max-w-20" : "max-w-16"
+        }`}
     >
       <Image
         className="w-full"

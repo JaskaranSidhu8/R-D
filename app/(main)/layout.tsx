@@ -1,6 +1,7 @@
-import Foter from "@/components/static/Foter";
+// import Foter from "@/components/static/Foter";
 import Logo from "@/components/static/Logo";
 import Link from "next/link";
+import React from 'react'
 
 export default function RootLayout({
   children,

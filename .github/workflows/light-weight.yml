@@ -33,9 +33,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-    #   # Step 5: Lint Code
-    #   - name: Run Linter
-    #     run: npm run lint
+      # Step 5: Lint Code
+      - name: Run Linter
+        run: npm run lint
 
     #   # Step 6: Run Unit Tests
     #   - name: Run Unit Tests

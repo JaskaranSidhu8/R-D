@@ -5,11 +5,11 @@ import { Button } from "../ui/button";
 import Aos from "aos";
 import Link from "next/link";
 
-type Props = {};
+// type Props = {};
 
-const CallToAction = (props: Props) => {
+const CallToAction = () => {
   useEffect(() => {
-    Aos.init;
+    Aos.init();
   }, []);
   return (
     <div

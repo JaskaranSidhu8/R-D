@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -23,17 +23,23 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",  
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]  
+      "@/*": [
+        "./*"
+      ]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, ".next/types/app/page.tsx", ".next/types/app/layout.tsx", ".next/types/app/(main)/layout.tsx", ".next/types/app/(main)/Signup/page.tsx"  ],
+    // ".next/types/**/*.ts",
+    // ".next/types/app/page.tsx",
+    // ".next/types/app/layout.tsx",
+    // ".next/types/app/(main)/layout.tsx",
+    // ".next/types/app/(main)/Signup/page.tsx"
+  ],
   "exclude": [
     "node_modules"
   ]
