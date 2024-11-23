@@ -10,6 +10,14 @@ on:
         required: false
         type: boolean
         default: true
+      run-prettier:
+        required: false
+        type: boolean
+        default: true
+      run-jest:
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   lightweight-checks:
@@ -46,4 +54,10 @@ jobs:
 
       # Step 6: Run Prettier Check
       - name: Run Prettier
+        if: ${{ inputs.run-prettier }}
         run: npm run check-format
+
+      # Step 7: Run Jest Check
+      - name: Run Jest (No Unit Tests)
+        if: ${{ inputs.run-jest }}
+        run: npm run test
