@@ -20,7 +20,7 @@ on:
         default: true
 
 jobs:
-  lightweight-checks:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
