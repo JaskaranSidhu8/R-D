@@ -3,7 +3,7 @@ name: Branch Push Checks
 on:
   push:
     branches:
-      - '**' # All branches
+      - '*' # All branches
 
 jobs:
   lightweight-checks:
@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x'
+          node-version: '20.x'
 
       # Step 4: Install Dependencies
       - name: Install Dependencies
