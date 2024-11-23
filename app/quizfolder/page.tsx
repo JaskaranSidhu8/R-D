@@ -1,6 +1,6 @@
-'use client'; // Add this at the top
-import React, { useEffect, useState } from 'react';
-import { fetchQuizImages } from '../../utils/api'; // Adjust the path as necessary
+"use client"; // Add this at the top
+import React, { useEffect, useState } from "react";
+import { fetchQuizImages } from "../../utils/api"; // Adjust the path as necessary
 // Define the Image interface
 interface Image {
   name: string;
@@ -11,12 +11,12 @@ const Quiz = () => {
   useEffect(() => {
     const loadImages = async () => {
       const fetchedImages = await fetchQuizImages();
-      console.log('Fetched Images:', fetchedImages); // Log the images
+      console.log("Fetched Images:", fetchedImages); // Log the images
       if (fetchedImages) {
         setImages(fetchedImages);
       }
     };
-  
+
     loadImages();
   }, []);
   return (

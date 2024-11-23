@@ -1,9 +1,9 @@
-name: Branch Push Checks
+name: Light-Weight Check
 
 on:
   push:
     branches:
-      - '*' # All branches
+      - "*" # All branches
 
 jobs:
   lightweight-checks:
@@ -37,6 +37,6 @@ jobs:
       - name: Run Linter
         run: npm run lint
 
-    #   # Step 6: Run Unit Tests
-    #   - name: Run Unit Tests
-    #     run: npm test
+      # Step 6: Run Prettier Check
+      - name: Run Prettier
+        run: npm run check-format

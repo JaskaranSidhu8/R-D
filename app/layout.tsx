@@ -1,5 +1,5 @@
 import Foter from "@/components/static/Foter";
-import React from 'react'
+import React from "react";
 import "./globals.css";
 export const metadata = {
   title: "TieBreaker",

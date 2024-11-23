@@ -1,7 +1,7 @@
 // import Foter from "@/components/static/Foter";
 import Logo from "@/components/static/Logo";
 import Link from "next/link";
-import React from 'react'
+import React from "react";
 
 export default function RootLayout({
   children,
@@ -17,7 +17,6 @@ export default function RootLayout({
             <Logo showText={false} big={false} />
           </Link>
         </div>
-
         {children}
       </body>
     </html>
