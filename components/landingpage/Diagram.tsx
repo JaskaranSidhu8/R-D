@@ -19,8 +19,9 @@ const Diagram = () => {
   return (
     <div ref={ref} className=" relative  aspect-square mt-10 w-5/6 mx-auto ">
       <Image
-        className={`absolute top-0 left-0 w-full duration-500 ${isVisible ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute top-0 left-0 w-full duration-500 ${
+          isVisible ? "opacity-100" : "opacity-0"
+        }`}
         src="/1.png"
         width={400}
         height={400}
@@ -28,8 +29,9 @@ const Diagram = () => {
       />
       <Image
         style={{ transitionDelay: "500ms" }}
-        className={`absolute top-0 left-0 w-full duration-500  ${isVisible ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute top-0 left-0 w-full duration-500  ${
+          isVisible ? "opacity-100" : "opacity-0"
+        }`}
         src="/2.png"
         width={400}
         height={400}
@@ -37,8 +39,9 @@ const Diagram = () => {
       />
       <Image
         style={{ transitionDelay: "1s" }}
-        className={`absolute top-0 left-0 w-full duration-500  ${isVisible ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute top-0 left-0 w-full duration-500  ${
+          isVisible ? "opacity-100" : "opacity-0"
+        }`}
         src="/3.png"
         width={400}
         height={400}
