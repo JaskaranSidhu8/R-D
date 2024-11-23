@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import PreviousGroupCarousel from "./PreviousGroupCarousel";
 
-type Props = {};
+// type Props = {};
 
 export type CarouselDataType = {
   groupName: string;
@@ -74,7 +74,7 @@ const carouselData: CarouselDataType[] = [
   },
 ];
 
-const PreviousGroups = (props: Props) => {
+const PreviousGroups = () => {
   return (
     <div className="mt-10">
       <div className=" mb-6 flex flex-row justify-between items-center">

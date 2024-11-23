@@ -8,7 +8,7 @@ export type ChatBubbleProps = {
   bordercolour: string;
 };
 
-type Props = {};
+// type Props = {};
 
 const Conversation: ChatBubbleProps[] = [
   {
@@ -61,7 +61,7 @@ const Conversation: ChatBubbleProps[] = [
   },
 ];
 
-const ConversationSection = (props: Props) => {
+const ConversationSection = () => {
   return (
     <div className="flex flex-col overflow-x-hidden">
       <div className="w-full space-y-5 p-5">

@@ -3,9 +3,9 @@ import AuthLink from "@/components/static/AuthLink";
 import SectionTitle from "@/components/static/SectionTitle";
 import React from "react";
 
-type Props = {};
+// type Props = {};
 
-const Signin = (props: Props) => {
+const Signin = () => {
   return (
     <div>
       <SectionTitle classname="mt-20  mb-5" text="Welcome back !" />
