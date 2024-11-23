@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Check, Eye, EyeOff, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import React from 'react'
+import React from "react";
 
 export default function PasswordValidator() {
   const [password, setPassword] = useState("");
@@ -89,7 +89,7 @@ export default function PasswordValidator() {
       >
         <div
           className={`h-full ${getStrengthColor(
-            strengthScore
+            strengthScore,
           )} transition-all duration-500 ease-out`}
           style={{ width: `${(strengthScore / 4) * 100}%` }}
         ></div>
@@ -121,8 +121,9 @@ export default function PasswordValidator() {
               />
             )}
             <span
-              className={`text-xs ${req.met ? "text-emerald-600" : "text-muted-foreground"
-                }`}
+              className={`text-xs ${
+                req.met ? "text-emerald-600" : "text-muted-foreground"
+              }`}
             >
               {req.text}
               <span className="sr-only">

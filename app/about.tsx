@@ -7,7 +7,6 @@ const About: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <h1 className="text-3xl text-red bg-red-900">About Us</h1>
       <p>We provide innovative solutions for businesses.</p>
-      <p>Nazar adding some random stuff</p>
     </div>
   );
 };

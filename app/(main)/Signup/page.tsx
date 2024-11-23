@@ -3,7 +3,7 @@
 import SectionTitle from "@/components/static/SectionTitle";
 import SignupForm from "@/components/signup/SignupForm";
 import AuthLink from "@/components/static/AuthLink";
-import React from 'react'
+import React from "react";
 // import { Button } from "@/components/ui/button";
 
 export const metadata = {
