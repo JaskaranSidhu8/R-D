@@ -25,6 +25,6 @@ export default [
     },
   },
   {
-    ignores: [".next/*"],
+    ignores: [".next/*", "coverage/*"],
   },
 ];
