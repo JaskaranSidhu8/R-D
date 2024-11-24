@@ -10,7 +10,7 @@ const HeaderContent = () => {
     <div className="absolute bottom-20 w-full items-center">
       <div className="relative z-10 text-center w-full px-6 mt-10">
         <p className="montserrat text-2xl font-bold  text-white">
-          Don&apos;t know where to eat?
+          Don't know where to eat?
         </p>
         <p className="montserrat text-2xl font-bold text-primary mt-2">
           Let Tiebreaker decide.
