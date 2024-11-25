@@ -45,7 +45,7 @@ jobs:
 
       # Step 4: Install Dependencies
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       # Step 5: Lint Code
       - name: Run Linter

@@ -1,0 +1,45 @@
+name: CI Pipeline Production Deployment
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build-and-test-deploy-production:
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      node-version: "20"
+      run-lint: true
+      run-prettier: true
+      run-jest: true
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: build-and-test-deploy-production
+    steps:
+      # Step 1: Checkout Code
+      - uses: actions/checkout@v3
+
+      # Step 2: Install Vercel CLI
+      - name: Install Vercel CLI
+        run: npm install --global vercel
+
+      # Step 3: Pull Vercel Environment Information
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      # Step 4: Build Project Artifacts
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      # Step 5: Deploy Project Artifacts
+      - name: Deploy Project Artifacts
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
