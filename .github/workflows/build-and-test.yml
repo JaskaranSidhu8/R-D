@@ -1,0 +1,63 @@
+name: Build and Test Workflow
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+      run-lint:
+        required: false
+        type: boolean
+        default: true
+      run-prettier:
+        required: false
+        type: boolean
+        default: true
+      run-jest:
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout Code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Cache Node.js Dependencies
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Step 3: Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      # Step 4: Install Dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Step 5: Lint Code
+      - name: Run Linter
+        if: ${{ inputs.run-lint }}
+        run: npm run lint
+
+      # Step 6: Run Prettier Check
+      - name: Run Prettier
+        if: ${{ inputs.run-prettier }}
+        run: npm run check-format
+
+      # Step 7: Run Jest Check
+      - name: Run Jest (No Unit Tests)
+        if: ${{ inputs.run-jest }}
+        run: npm run test
