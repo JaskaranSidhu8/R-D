@@ -3,9 +3,9 @@ import SectionTitle from "@/components/static/SectionTitle";
 import GroupStatus from "@/components/Status/GroupStatus";
 import React from "react";
 
-type Props = {};
+// type Props = {};
 
-const StatusMgr = (props: Props) => {
+const StatusMgr = () => {
   return (
     <div>
       <ReturnButton />

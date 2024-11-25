@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import MemberStatus from "./MemberStatus";
 import { Link2Icon } from "lucide-react";
 
-type Props = {};
+// type Props = {};
 export type MemberCardProps = {
   fullname: string;
   email: string;
@@ -195,13 +195,13 @@ export const profileCardDummyData: MemberCardProps[] = [
   },
 ];
 
-const GroupStatus = (props: Props) => {
+const GroupStatus = () => {
   return (
     <div>
       {" "}
       <div className=" mt-10 items-center space-y-4  text-center">
         {" "}
-        <span>It's time to invite your members </span>
+        <span>It&apos;s time to invite your members </span>
         <Button
           className=" font-bold text-primary shadow-none border-primary border-2 "
           variant={"outline"}
