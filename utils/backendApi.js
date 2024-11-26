@@ -1,13 +1,31 @@
 import { supabase } from './supabaseClient';
 
 export function filterRestaurantsByHardConstraints(groupUsers, restaurants) {
-  const glutenRequired = groupUsers.some(user => user.users?.hardTags?.[0] === '1');
+  console.log("Filtering restaurants. GroupUsers:", groupUsers);
+  console.log("Initial restaurants list:", restaurants);
 
+  
+  const glutenRequired = groupUsers.some(user => {
+    if (!user.users || !user.users.hardconstraints) {
+      console.error("Undefined or missing hardconstraints for user:", user);
+      return false; 
+    }
+    return user.users.hardconstraints[0] === '1';
+  });
+
+  console.log("Gluten-free requirement:", glutenRequired);
+
+ 
   return restaurants.filter(restaurant => {
-    const isGlutenFree = restaurant.hardconstraints?.[0] === '1';
+    if (!restaurant.hardconstraints) {
+      console.error("Undefined or missing hardconstraints for restaurant:", restaurant);
+      return false; 
+    }
+    const isGlutenFree = restaurant.hardconstraints[0] === '1';
     return !glutenRequired || isGlutenFree;
   });
 }
+
 
 export async function fetchGroupPreferences(groupId) {
   const { data: groupUsers, error } = await supabase
@@ -16,22 +34,15 @@ export async function fetchGroupPreferences(groupId) {
       user_id,
       softconstraints,
       users (
-        hardTags
+        hardconstraints
       )
     `)
     .eq('group_id', groupId);
 
   if (error) {
-    console.error('Supabase query error:', error); // Supabase query failed
     throw new Error(`Error fetching group users: ${error.message}`);
   }
 
-  if (!groupUsers || groupUsers.length === 0) {
-    console.warn('No group users found for groupId:', groupId);
-    return [];
-  }
-
-  console.log('Fetched groupUsers:', groupUsers); // This ensures groupUsers is valid
   return groupUsers;
 }
 
@@ -39,7 +50,8 @@ export async function fetchGroupPreferences(groupId) {
 
 
 
-// Fetch all restaurants with their constraints
+
+
 export async function fetchRestaurants() {
   const { data: restaurants, error } = await supabase
     .from('restaurants')
@@ -57,14 +69,14 @@ export function combinePreferences(groupUsers, weights = Array(10).fill(1)) {
     const totalPreferences = Array(10).fill(0);
   
     groupUsers.forEach(({ softconstraints }) => {
-      console.log('softconstraints:', softconstraints); // Debug log
+      console.log('softconstraints:', softconstraints); 
       const prefs = softconstraints.split('').map(Number);
       prefs.forEach((pref, index) => {
         totalPreferences[index] += pref * weights[index];
       });
     });
   
-    // Average each preference by the number of users
+    
     return totalPreferences.map(total => total / numUsers);
   }
   

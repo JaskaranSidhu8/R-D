@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 const TestRestaurantPage = () => {
   const [bestRestaurant, setBestRestaurant] = useState<{ name: string; similarity: string } | null>(null);
   const [allRestaurants, setAllRestaurants] = useState<{ id: number; name: string; similarity: string }[]>([]);
-  const groupId = 1; // Replace with the appropriate groupId from your database
+  const groupId = 1;
 
   useEffect(() => {
     async function fetchBestRestaurant() {
