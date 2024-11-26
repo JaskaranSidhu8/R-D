@@ -4,7 +4,7 @@ import {
   combinePreferences,
   filterRestaurantsByHardConstraints,
   cosineSimilarity,
-} from '../../utils/backendApi';
+} from "../../utils/backendApi";
 
 export default async function handler(req, res) {
   const { groupId } = req.query;
@@ -16,7 +16,10 @@ export default async function handler(req, res) {
     const allRestaurants = await fetchRestaurants();
 
     const combinedPreferences = combinePreferences(groupUsers);
-    const filteredRestaurants = filterRestaurantsByHardConstraints(groupUsers, allRestaurants);
+    const filteredRestaurants = filterRestaurantsByHardConstraints(
+      groupUsers,
+      allRestaurants,
+    );
 
     let bestRestaurant = null;
     let highestSimilarity = -1;
@@ -24,26 +27,36 @@ export default async function handler(req, res) {
     console.log("Evaluating Restaurants with Cosine Similarities:");
 
     // Array to store restaurants with their similarity scores
-    const allRestaurantsWithSimilarity = filteredRestaurants.map((restaurant) => {
-      const restaurantPreferences = restaurant.softconstraints.split('').map(Number);
-      const similarity = cosineSimilarity(combinedPreferences, restaurantPreferences);
+    const allRestaurantsWithSimilarity = filteredRestaurants.map(
+      (restaurant) => {
+        const restaurantPreferences = restaurant.softconstraints
+          .split("")
+          .map(Number);
+        const similarity = cosineSimilarity(
+          combinedPreferences,
+          restaurantPreferences,
+        );
 
-      const restaurantWithSimilarity = {
-        id: restaurant.id,
-        name: restaurant.name,
-        similarity: similarity.toFixed(4),
-      };
+        const restaurantWithSimilarity = {
+          id: restaurant.id,
+          name: restaurant.name,
+          similarity: similarity.toFixed(4),
+        };
 
-      // Find the best restaurant
-      if (similarity > highestSimilarity) {
-        highestSimilarity = similarity;
-        bestRestaurant = restaurant;
-      }
+        // Find the best restaurant
+        if (similarity > highestSimilarity) {
+          highestSimilarity = similarity;
+          bestRestaurant = restaurant;
+        }
 
-      return restaurantWithSimilarity;
-    });
+        return restaurantWithSimilarity;
+      },
+    );
 
-    console.log("All Restaurants with Similarities:", allRestaurantsWithSimilarity);
+    console.log(
+      "All Restaurants with Similarities:",
+      allRestaurantsWithSimilarity,
+    );
     console.log("Best Restaurant:", {
       id: bestRestaurant.id,
       name: bestRestaurant.name,
