@@ -8,6 +8,7 @@ import PasswordValidator from "../static/PasswordValidator";
 
 type Props = {
   mode: "Signup" | "Signin";
+  email: string;
 };
 
 const SignupForm = (props: Props) => {
