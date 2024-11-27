@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
 import Password from "../static/Password";
 import { Button } from "../ui/button";
@@ -12,6 +12,8 @@ type Props = {
 };
 
 const SignupForm = (props: Props) => {
+  const [email, setEmail] = useState(props.email); // Set email state to props.email initially
+
   const onSubmit = () => {
     if (props.mode === "Signup") {
       redirect("/Signup/Verify");
@@ -19,13 +21,16 @@ const SignupForm = (props: Props) => {
       redirect("/Home");
     }
   };
+
   return (
-    <form action={onSubmit} className=" space-y-5">
+    <form onSubmit={onSubmit} className="space-y-5">
       <Input
         required
         type="email"
         placeholder="Enter your email address"
         name="email"
+        value={email}  // Bind the email value to the input field
+        onChange={(e) => setEmail(e.target.value)} // Handle change for email
       />
       {props.mode === "Signup" ? <PasswordValidator /> : <Password />}
 
