@@ -14,7 +14,7 @@ export const ProfileHeader = ({ name, joinedDate }: ProfileHeaderProps) => {
         className="w-32 h-32 rounded-full object-cover"
       />
       <div className="text-left">
-        <h2 className="montserrat text-2xl font-semibold">{`Hey ${name}!`}</h2>
+        <h2 className="montserrat text-2xl">{`Hey ${name}!`}</h2>
         <p className="text-sm text-muted-foreground">{`joined ${joinedDate}`}</p>
       </div>
     </div>

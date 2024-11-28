@@ -3,6 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import React from "react";
 
 export default function Password() {
   const [isVisible, setIsVisible] = useState<boolean>(false);

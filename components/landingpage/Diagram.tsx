@@ -2,11 +2,11 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
 
-type Props = {};
+// type Props = {};
 
-const Diagram = (props: Props) => {
+const Diagram = () => {
   const { ref, inView } = useInView({
     triggerOnce: false,
     threshold: 1,
