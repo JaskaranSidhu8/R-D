@@ -74,7 +74,9 @@ const PreferencesForm = () => {
         </div>
       </div>
 
-      <Button className="mt-20 w-full ">Save Changes</Button>
+      <div className="mt-[460px]">
+        <Button className="w-full">Save Changes</Button>
+      </div>
 
     </div>
   )

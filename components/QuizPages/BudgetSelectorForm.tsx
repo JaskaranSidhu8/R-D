@@ -16,7 +16,7 @@ const BudgetSelectorForm = () => {
 
   return (
     <div className="flex flex-col w-full max-w-md mx-auto px-6 pt-4">
-      <SectionTitle text="What's your budget?" classname="mb-8" /> {/* Use SectionTitle */}
+      <SectionTitle text="What's your budget?" classname="mb-8" /> 
 
       <div className="mb-12">
         <Slider
@@ -41,9 +41,8 @@ const BudgetSelectorForm = () => {
         </div>
       </div>
 
-      <div className="mt-[460px]">
-        <Button className="w-full">Save Changes</Button>
-      </div>
+        <Button>Next</Button>
+      
     </div>
     
   );

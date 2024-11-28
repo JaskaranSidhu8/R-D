@@ -49,7 +49,6 @@ const SettingsForm = ({ name, joinedDate }: SettingsFormProps) => {
           href="/logout"
           icon={LogOut as React.ElementType}
           label="Log out"
-          destructive
         />
       </div>
     </div>
