@@ -1,5 +1,6 @@
 "use client"; // Add this at the top
 import React from "react";
+import { supabase } from "../../utils/supabaseClient.ts";
 // import { fetchQuizImages } from "../../utils/api"; // Adjust the path as necessary
 // Define the Image interface
 // interface Image {
@@ -19,13 +20,18 @@ const Quiz = () => {
 
   //   loadImages();
   // }, []);
+  async function getCountries() {
+    const { data } = await supabase.from("countries").select();
+    setCountries(data);
+  }
+
   return (
     <div>
       <h1>Quiz Images</h1>
       <div>
-        {/* {images.map((image) => (
+        {images.map((image) => (
           <img key={image.name} src={image.url} alt={image.name} />
-        ))} */}
+        ))}
       </div>
     </div>
   );
