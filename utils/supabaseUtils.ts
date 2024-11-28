@@ -1,4 +1,6 @@
-import { supabase } from "./utils/supabaseClient";
+//"use client";
+
+import { supabase } from "./supabaseClient";
 
 export const checkEmailExists = async (email: string) => {
   const { data, error } = await supabase
@@ -16,6 +18,6 @@ export const checkUserCredentials = async (email: string, password: string) => {
 };
 
 export const sendVerificationEmail = async (email: string) => {
-  const { data, error } = await supabase.auth.sendVerificationEmail(email);
+  const { data, error } = await supabase.auth.sendVerificationEmail(email); //check supabase auth functions
   return { data, error };
 };

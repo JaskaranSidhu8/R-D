@@ -1,18 +1,19 @@
+"use client";
+
 import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { validateEmail } from "@/utils/emailUtils";  // Import email validation function
-import { checkEmailExists } from "@/utils/supabaseUtils";  // Import supabase query function
-import { useRouter } from "next/router";
+import { validateEmail } from "@/utils/emailUtils"; // Import email validation function
+import { useRouter } from "next/navigation"; // Correct use of router for "use client"
 
 const HeaderContent = () => {
-  const router = useRouter();
+  const router = useRouter(); // Corrected routing hook for client-side navigation
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    setError("");  // Reset error if email is updated
+    setError(""); // Reset error if email is updated
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,21 +25,28 @@ const HeaderContent = () => {
       return;
     }
 
-    // Check if email exists in the database (Supabase query)
-    const { data, error: dbError } = await checkEmailExists(email);
+    try {
+      // Call the API endpoint to check email existence
+      const response = await fetch("/api/checkEmail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
-    if (dbError) {
-      setError("Error checking email in database.");
-      return;
-    }
+      const result = await response.json();
 
-    // Redirect based on email existence
-    if (data) {
-      // Email exists, redirect to sign-in page with email as query parameter
-      router.push(`/Signin?email=${email}`);
-    } else {
-      // Email doesn't exist, redirect to sign-up page with email as query parameter
-      router.push(`/Signup?email=${email}`);
+      if (response.ok) {
+        // Redirect based on the response
+        if (result.exists) {
+          router.push(`/Signin?email=${email}`);
+        } else {
+          router.push(`/Signup?email=${email}`);
+        }
+      } else {
+        setError(result.error || "Error checking email in database.");
+      }
+    } catch (error) {
+      setError("Something went wrong. Please try again later.");
     }
   };
 

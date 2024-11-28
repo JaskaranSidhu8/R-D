@@ -1,3 +1,4 @@
+"use client";
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 // Define types for the AuthContext
@@ -6,6 +7,7 @@ interface AuthContextType {
   password: string;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
+  resetUser: () => void; // Reset email and password
 }
 
 // Create the AuthContext
@@ -16,8 +18,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  // Reset function to clear email and password (can be called if the user navigates away before completing the flow)
+  const resetUser = () => {
+    setEmail("");
+    setPassword("");
+  };
+
   return (
-    <AuthContext.Provider value={{ email, password, setEmail, setPassword }}>
+    <AuthContext.Provider value={{ email, password, setEmail, setPassword, resetUser }}>
       {children}
     </AuthContext.Provider>
   );
