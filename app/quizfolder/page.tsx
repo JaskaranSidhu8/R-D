@@ -1,7 +1,5 @@
 "use client"; // Add this at the top
-// import React from "react";
 import React, { useEffect, useState } from "react";
-// import supabase from "../../utils/supabaseClient";
 import { fetchQuizImages } from "../../utils/api"; // Adjust the path as necessary
 // // Define the Image interface
 interface Image {
