@@ -10,12 +10,7 @@ interface FormFieldProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FormField = ({ 
-  label, 
-  name, 
-  value, 
-  onChange 
-}: FormFieldProps) => {
+const FormField = ({ label, name, value, onChange }: FormFieldProps) => {
   return (
     <div className="mb-4">
       <label className="text-sm font-medium text-black mb-2 block">

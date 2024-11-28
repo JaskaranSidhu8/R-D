@@ -1,9 +1,8 @@
+"use client";
 
-"use client"
-
-import React from "react"
-import { Progress } from "@/components/ui/progress"
-import ReturnButton from "@/components/static/ReturnButton"
+import React from "react";
+import { Progress } from "@/components/ui/progress";
+import ReturnButton from "@/components/static/ReturnButton";
 
 interface QuizHeaderProps {
   progress: number;
@@ -18,7 +17,7 @@ const QuizHeader = ({ progress, returnLink }: QuizHeaderProps) => {
         <Progress value={progress} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default QuizHeader
+export default QuizHeader;

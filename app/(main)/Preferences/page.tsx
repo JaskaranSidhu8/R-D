@@ -1,8 +1,8 @@
-import React from "react"
-import PreferencesForm from "@/components/Preferences/PreferenceForm"
+import React from "react";
+import PreferencesForm from "@/components/Preferences/PreferenceForm";
 
 const PreferencesPage = () => {
- return <PreferencesForm />
-}
+  return <PreferencesForm />;
+};
 
-export default PreferencesPage
+export default PreferencesPage;

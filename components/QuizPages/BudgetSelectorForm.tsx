@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "../ui/slider";
 import SectionTitle from "../static/SectionTitle";
 
-
-
 const BudgetSelectorForm = () => {
   const [range, setRange] = useState([20, 40]);
 
@@ -16,7 +14,7 @@ const BudgetSelectorForm = () => {
 
   return (
     <div className="flex flex-col w-full max-w-md mx-auto px-6 pt-4">
-      <SectionTitle text="What's your budget?" classname="mb-8" /> 
+      <SectionTitle text="What's your budget?" classname="mb-8" />
 
       <div className="mb-12">
         <Slider
@@ -41,12 +39,9 @@ const BudgetSelectorForm = () => {
         </div>
       </div>
 
-        <Button>Next</Button>
-      
+      <Button>Next</Button>
     </div>
-    
   );
 };
-
 
 export default BudgetSelectorForm;

@@ -41,9 +41,7 @@ const DiningTimeForm = () => {
           value={time}
           onChange={(e) => setTime(e.target.value)}
         />
-        <Button type="submit">
-          Create group
-        </Button>
+        <Button type="submit">Create group</Button>
       </form>
     </div>
   );

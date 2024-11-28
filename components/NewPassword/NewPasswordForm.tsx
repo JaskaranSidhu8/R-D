@@ -32,9 +32,7 @@ const NewPasswordForm = () => {
         </div>
       </div>
 
-      <Button className="mt-10">
-        Save Changes
-      </Button>
+      <Button className="mt-10">Save Changes</Button>
     </div>
   );
 };

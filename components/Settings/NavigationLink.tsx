@@ -7,7 +7,12 @@ interface NavigationLinkProps {
   destructive?: boolean;
 }
 
-export const NavigationLink = ({ href, icon: Icon, label, destructive }: NavigationLinkProps) => {
+export const NavigationLink = ({
+  href,
+  icon: Icon,
+  label,
+  destructive,
+}: NavigationLinkProps) => {
   return (
     <a
       href={href}

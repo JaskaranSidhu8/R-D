@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import React from "react"
-import GroupNameForm from "@/components/GroupName/GroupNameForm"
+import React from "react";
+import GroupNameForm from "@/components/GroupName/GroupNameForm";
 import ReturnButton from "@/components/static/ReturnButton";
-import ScreenWrapper from "@/components/static/ScreenWrapper" 
+import ScreenWrapper from "@/components/static/ScreenWrapper";
 
-const GroupNamePage = () => { 
+const GroupNamePage = () => {
   return (
     <div>
       <ReturnButton />
@@ -14,7 +14,6 @@ const GroupNamePage = () => {
       </ScreenWrapper>
     </div>
   );
-}
+};
 
-export default GroupNamePage
-
+export default GroupNamePage;

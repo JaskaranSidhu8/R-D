@@ -1,7 +1,7 @@
 // components/Preferences/PreferencesForm.tsx
-"use client"
+"use client";
 
-import React, { useState } from "react"
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -9,39 +9,43 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import PreferenceTag from "./PreferenceTag"
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import PreferenceTag from "./PreferenceTag";
 
 const PreferencesForm = () => {
-  const [selectedRestrictions, setSelectedRestrictions] = useState<string[]>([])
+  const [selectedRestrictions, setSelectedRestrictions] = useState<string[]>(
+    [],
+  );
 
   const restrictions = [
     "Vegan",
-    "Vegetarian", 
+    "Vegetarian",
     "Halal",
     "Gluten",
     "Peanuts",
     "Lactose",
-    "Lupin"
-  ]
+    "Lupin",
+  ];
 
   const handleSelect = (value: string) => {
     if (!selectedRestrictions.includes(value)) {
-      setSelectedRestrictions([...selectedRestrictions, value])
+      setSelectedRestrictions([...selectedRestrictions, value]);
     }
-  }
+  };
 
   const removeRestriction = (restrictionToRemove: string) => {
-    setSelectedRestrictions(selectedRestrictions.filter(
-      restriction => restriction !== restrictionToRemove
-    ))
-  }
+    setSelectedRestrictions(
+      selectedRestrictions.filter(
+        (restriction) => restriction !== restrictionToRemove,
+      ),
+    );
+  };
 
   return (
     <div className="flex flex-col w-full max-w-md mx-auto px-6">
       <h2 className="montserrat text-2xl mb-8">Preferences</h2>
-      
+
       <div className="mt-4">
         <p className="text-sm mb-2">Dietary Restrictions</p>
         <Select onValueChange={handleSelect}>
@@ -51,8 +55,8 @@ const PreferencesForm = () => {
           <SelectContent>
             <SelectGroup>
               {restrictions.map((restriction) => (
-                <SelectItem 
-                  key={restriction} 
+                <SelectItem
+                  key={restriction}
                   value={restriction}
                   disabled={selectedRestrictions.includes(restriction)}
                 >
@@ -77,9 +81,8 @@ const PreferencesForm = () => {
       <div className="mt-[460px]">
         <Button className="w-full">Save Changes</Button>
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default PreferencesForm
+export default PreferencesForm;
