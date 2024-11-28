@@ -1,9 +1,9 @@
 import PulsingPicture from "@/components/landingpage/PulsingPicture";
 import React from "react";
 
-type Props = {};
+//type Props = {};
 
-const Analysis = (props: Props) => {
+const Analysis = () => {
   return (
     <div>
       <PulsingPicture />
