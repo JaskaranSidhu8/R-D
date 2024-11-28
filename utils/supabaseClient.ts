@@ -1,15 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
 
 // Use environment variables for the Supabase URL and Key
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL_DEV!;
-const supabaseKey = process.env.NEXT_PUBLIC_ANON_KEY_DEV!;
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL_DEV!;
+const supabaseKey = process.env.REACT_APP_ANON_KEY_DEV!;
 
-console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL_DEV);
-console.log("Supabase Key:", process.env.NEXT_PUBLIC_ANON_KEY_DEV);
+console.log("Supabase URL:", process.env.REACT_APP_SUPABASE_URL_DEV);
+console.log("Supabase Key:", process.env.REACT_APP_ANON_KEY_DEV);
 
 if (
-  !process.env.NEXT_PUBLIC_SUPABASE_URL_DEV ||
-  !process.env.NEXT_PUBLIC_ANON_KEY_DEV
+  !process.env.REACT_APP_SUPABASE_URL_DEV ||
+  !process.env.REACT_APP_ANON_KEY_DEV
 ) {
   throw new Error("Supabase environment variables are not set!");
 }
