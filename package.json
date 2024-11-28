@@ -49,6 +49,7 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
     "@babel/preset-typescript": "^7.26.0",
+    "@supabase/supabase-js": "^2.46.2",
     "@eslint/js": "^9.15.0",
     "@jest/globals": "^29.7.0",
     "@testing-library/jest-dom": "^6.6.3",
