@@ -12,7 +12,6 @@
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "lint-fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
-    "generate:types": "npx supabase gen types typescript --project-id uqcrymzvamkqgrpribjf --schema public > database.types.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
