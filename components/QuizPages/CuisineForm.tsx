@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import SectionTitle from "../static/SectionTitle";
 import VerticalCarousel from "./VerticalCarousel";
+import Link from "next/link";
 
 interface CarouselOption {
   id: number;
@@ -23,7 +23,6 @@ const cuisineOptions: CarouselOption[] = [
 ];
 
 const CuisineForm = () => {
-  const router = useRouter();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
   const handleSelection = (itemId: number) => {
@@ -40,14 +39,6 @@ const CuisineForm = () => {
     });
   };
 
-  const handleNext = () => {
-    if (selectedItems.length < 1) {
-      alert(`Please select at least one cuisine! `);
-      return;
-    }
-    router.push("/QuizQuestionBudget");
-  };
-
   return (
     <div className="flex flex-col max-w-md">
       <SectionTitle text="What type of cuisine are you craving?" />
@@ -58,9 +49,18 @@ const CuisineForm = () => {
           onSelect={handleSelection}
         />
       </div>
-      <Button className="mt-3" onClick={handleNext}>
-        Next
-      </Button>
+      {selectedItems.length > 0 ? (
+        <Link href="/QuizQuestionBudget">
+          <Button className="mt-3 w-full">Next</Button>
+        </Link>
+      ) : (
+        <Button
+          className="mt-3 w-full"
+          onClick={() => alert("Please select at least one cuisine!")}
+        >
+          Next
+        </Button>
+      )}
     </div>
   );
 };
