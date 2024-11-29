@@ -1,84 +1,129 @@
-// import { supabase } from "./supabaseClient";
+import supabase from "./supabaseClient";
 
-// export function filterRestaurantsByHardConstraints(groupUsers, restaurants) {
-//   console.log("Filtering restaurants. GroupUsers:", groupUsers);
-//   console.log("Initial restaurants list:", restaurants);
+interface User {
+  hardconstraints: string; // Hard constraints from the `users` table
+}
 
-//   const glutenRequired = groupUsers.some((user) => {
-//     if (!user.users || !user.users.hardconstraints) {
-//       console.error("Undefined or missing hardconstraints for user:", user);
-//       return false;
-//     }
-//     return user.users.hardconstraints[0] === "1";
-//   });
+interface GroupUser {
+  user_id: number;
+  softconstraints: string;
+  users: User | null; // Single user per group_users row
+}
 
-//   console.log("Gluten-free requirement:", glutenRequired);
+type SupabaseGroupUser = {
+  user_id: number;
+  softconstraints: string;
+  users: { hardconstraints: string } | null; // Single user or null
+};
 
-//   return restaurants.filter((restaurant) => {
-//     if (!restaurant.hardconstraints) {
-//       console.error(
-//         "Undefined or missing hardconstraints for restaurant:",
-//         restaurant,
-//       );
-//       return false;
-//     }
-//     const isGlutenFree = restaurant.hardconstraints[0] === "1";
-//     return !glutenRequired || isGlutenFree;
-//   });
-// }
 
-// export async function fetchGroupPreferences(groupId) {
-//   const { data: groupUsers, error } = await supabase
-//     .from("group_users")
-//     .select(
-//       `
-//       user_id,
-//       softconstraints,
-//       users (
-//         hardconstraints
-//       )
-//     `,
-//     )
-//     .eq("group_id", groupId);
+interface Restaurant {
+  id: number;
+  name: string;
+  softconstraints: string;
+  hardconstraints: string; // Restaurants can have null for hard constraints
+}
 
-//   if (error) {
-//     throw new Error(`Error fetching group users: ${error.message}`);
-//   }
 
-//   return groupUsers;
-// }
+export async function fetchGroupPreferences(groupId: number): Promise<GroupUser[]> {
+  const { data: groupUsers, error } = await supabase
+    .from("group_users")
+    .select(`
+      user_id,
+      softconstraints,
+      users (
+        hardconstraints
+      )
+    `)
+    .eq("group_id", groupId);
 
-// export async function fetchRestaurants() {
-//   const { data: restaurants, error } = await supabase
-//     .from("restaurants")
-//     .select("id, name, softconstraints, hardconstraints");
+  if (error) {
+    throw new Error(`Error fetching group users: ${error.message}`);
+  }
 
-//   if (error) {
-//     throw new Error(`Error fetching restaurants: ${error.message}`);
-//   }
+  if (!groupUsers) {
+    throw new Error("No group users found");
+  }
 
-//   return restaurants;
-// }
+  // Explicitly type the response from Supabase
+  const typedGroupUsers = groupUsers as Array<{
+    user_id: number;
+    softconstraints: string;
+    users: { hardconstraints: string } | null;
+  }>;
 
-// export function combinePreferences(groupUsers, weights = Array(10).fill(1)) {
-//   const numUsers = groupUsers.length;
-//   const totalPreferences = Array(10).fill(0);
+  // Transform the data to match the GroupUser interface
+  const transformedGroupUsers: GroupUser[] = typedGroupUsers.map((user) => ({
+    user_id: user.user_id,
+    softconstraints: user.softconstraints,
+    users: user.users
+      ? { hardconstraints: user.users.hardconstraints || "" }
+      : null, // Handle null user relation
+  }));
 
-//   groupUsers.forEach(({ softconstraints }) => {
-//     console.log("softconstraints:", softconstraints);
-//     const prefs = softconstraints.split("").map(Number);
-//     prefs.forEach((pref, index) => {
-//       totalPreferences[index] += pref * weights[index];
-//     });
-//   });
+  return transformedGroupUsers;
+}
 
-//   return totalPreferences.map((total) => total / numUsers);
-// }
 
-// export function cosineSimilarity(vecA, vecB) {
-//   const dotProduct = vecA.reduce((acc, val, i) => acc + val * vecB[i], 0);
-//   const magA = Math.sqrt(vecA.reduce((acc, val) => acc + val * val, 0));
-//   const magB = Math.sqrt(vecB.reduce((acc, val) => acc + val * val, 0));
 
-//   return dotProduct / (magA * magB);
-// }
+export function filterRestaurantsByHardConstraints(
+  groupUsers: GroupUser[],
+  restaurants: Restaurant[]
+): Restaurant[] {
+  console.log("Filtering restaurants. GroupUsers:", groupUsers);
+  console.log("Initial restaurants list:", restaurants);
+
+  const glutenRequired = groupUsers.some((user) => {
+    const userHardconstraints = user.users?.hardconstraints || "";
+    if (!userHardconstraints) {
+      console.error("Undefined or missing hardconstraints for user:", user);
+      return false;
+    }
+    return userHardconstraints[0] === "1";
+  });
+
+  console.log("Gluten-free requirement:", glutenRequired);
+
+  return restaurants.filter((restaurant) => {
+    if (!restaurant.hardconstraints) {
+      console.error("Undefined or missing hardconstraints for restaurant:", restaurant);
+      return false;
+    }
+    const isGlutenFree = restaurant.hardconstraints[0] === "1";
+    return !glutenRequired || isGlutenFree;
+  });
+}
+
+export async function fetchRestaurants(): Promise<Restaurant[]> {
+  const { data: restaurants, error } = await supabase
+    .from("restaurants")
+    .select("id, name, softconstraints, hardconstraints");
+
+  if (error) {
+    throw new Error(`Error fetching restaurants: ${error.message}`);
+  }
+
+  return restaurants;
+}
+
+export function combinePreferences(groupUsers: GroupUser[], weights = Array(10).fill(1)): number[] {
+  const numUsers = groupUsers.length;
+  const totalPreferences = Array(10).fill(0);
+
+  groupUsers.forEach(({ softconstraints }) => {
+    console.log("softconstraints:", softconstraints);
+    const prefs = softconstraints.split("").map(Number);
+    prefs.forEach((pref, index) => {
+      totalPreferences[index] += pref * weights[index];
+    });
+  });
+
+  return totalPreferences.map((total) => total / numUsers);
+}
+
+export function cosineSimilarity(vecA: number[], vecB: number[]): number {
+  const dotProduct = vecA.reduce((acc, val, i) => acc + val * vecB[i], 0);
+  const magA = Math.sqrt(vecA.reduce((acc, val) => acc + val * val, 0));
+  const magB = Math.sqrt(vecB.reduce((acc, val) => acc + val * val, 0));
+  return dotProduct / (magA * magB);
+}
