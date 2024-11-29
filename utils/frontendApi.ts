@@ -14,7 +14,7 @@ export const fetchQuizImages = async () => {
     console.log("Data from Supabase:", data); // Add this line
     const images = data.map((file) => ({
       name: file.name,
-      url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/quiz-images/${file.name}`,
+      url: `${process.env.NEXT_PUBLIC_SUPABASE_URL_DEV}/storage/v1/object/public/quiz-images/${file.name}`,
     }));
 
     return images;
