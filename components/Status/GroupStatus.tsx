@@ -4,7 +4,10 @@ import { Button } from "../ui/button";
 import MemberStatus from "./MemberStatus";
 import { Link2Icon } from "lucide-react";
 
-type Props = {};
+type Props = {
+  state: "Makeyourchoices" | "Changeyourchoices";
+  generate?: boolean;
+};
 export type MemberCardProps = {
   fullname: string;
   email: string;
@@ -201,7 +204,7 @@ const GroupStatus = (props: Props) => {
       {" "}
       <div className=" mt-10 items-center space-y-4  text-center">
         {" "}
-        <span>It's time to invite your members </span>
+        <span>It&apos;s time to invite your members </span>
         <Button
           className=" font-bold text-primary shadow-none border-primary border-2 "
           variant={"outline"}
@@ -213,10 +216,20 @@ const GroupStatus = (props: Props) => {
             <MemberStatus member={item} key={`member_status_${index}`} />
           ))}
         </Card>
-        <Button className="font-bold">Generate</Button>
-        <Button className="font-bold shadow-none" variant={"link"}>
-          Change your choices
-        </Button>
+        {props.state === "Makeyourchoices" && (
+          <Button
+            className="font-bold shadow-none border-primary text-primary"
+            variant={"outline"}
+          >
+            Make your choices
+          </Button>
+        )}
+        {props.generate && <Button className="font-bold">Generate</Button>}
+        {props.state === "Changeyourchoices" && (
+          <Button className="font-bold shadow-none" variant={"link"}>
+            Change your choices
+          </Button>
+        )}
       </div>
     </div>
   );
