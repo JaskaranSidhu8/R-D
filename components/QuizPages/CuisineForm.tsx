@@ -6,26 +6,42 @@ import { useRouter } from "next/navigation";
 import SectionTitle from "../static/SectionTitle";
 import VerticalCarousel from "./VerticalCarousel";
 
+interface CarouselOption {
+  id: number;
+  name: string;
+  image: string;
+}
+
+//we need to get these from the database later on
+const cuisineOptions: CarouselOption[] = [
+  { id: 1, name: "Mexican", image: "/mexican.jpg" },
+  { id: 2, name: "Latin", image: "/latin.jpg" },
+  { id: 3, name: "Burger", image: "/burger.jpg" },
+  { id: 4, name: "Pizza", image: "/pizza.jpg" },
+  { id: 5, name: "Hot Dog", image: "/hotdog.jpg" },
+  { id: 6, name: "Pasta", image: "/pasta.jpg" },
+];
+
 const CuisineForm = () => {
   const router = useRouter();
-  const [selectedCuisines, setSelectedCuisines] = useState<number[]>([]);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
-  const handleSelection = (cuisineId: number) => {
-    setSelectedCuisines((prev: number[]) => {
-      //if already selected, it gets deselected
-      if (prev.includes(cuisineId)) {
-        return prev.filter((id) => id !== cuisineId);
+  const handleSelection = (itemId: number) => {
+    setSelectedItems((prev: number[]) => {
+      //if it is already selected then it becomes deselected
+      if (prev.includes(itemId)) {
+        return prev.filter((id) => id !== itemId);
       }
-      // cannot be more than three options selected
+      //cannot select more than three items at once
       if (prev.length < 3) {
-        return [...prev, cuisineId];
+        return [...prev, itemId];
       }
       return prev;
     });
   };
 
   const handleNext = () => {
-    if (selectedCuisines.length < 1) {
+    if (selectedItems.length < 1) {
       alert(`Please select at least one cuisine! `);
       return;
     }
@@ -37,7 +53,8 @@ const CuisineForm = () => {
       <SectionTitle text="What type of cuisine are you craving?" />
       <div className="h-[550px] mt-6">
         <VerticalCarousel
-          selectedCuisines={selectedCuisines}
+          options={cuisineOptions}
+          selectedItems={selectedItems}
           onSelect={handleSelection}
         />
       </div>
