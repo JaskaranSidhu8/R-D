@@ -13,25 +13,6 @@ const Home: React.FC = () => {
    
   const coordinatesList = [
     { lat: 50.879135, lng: 4.701937 },
-    { lat: 50.879584660802955, lng: 4.701937 },
-    { lat: 50.87941535892494, lng: 4.702494182513546 },
-    { lat: 50.87903494105816, lng: 4.70263179522994 },
-    { lat: 50.87872986961541, lng: 4.70224621296695 },
-    { lat: 50.87872986961541, lng: 4.7016277870330505 },
-    { lat: 50.87903494105816, lng: 4.70124220477006 },
-    { lat: 50.87941535892494, lng: 4.701379817486454 },
-    { lat: 50.88003432160592, lng: 4.701937 },
-    { lat: 50.87993130973496, lng: 4.702599382190814 },
-    { lat: 50.87964587290029, lng: 4.703110020604283 },
-    { lat: 50.879243401240856, lng: 4.703351934133742 },
-    { lat: 50.87881609616352, lng: 4.703269703304966 },
-    { lat: 50.878461848111904, lng: 4.702882166209837 },
-    { lat: 50.8782618110455, lng: 4.702278102926522 },
-    { lat: 50.8782618110455, lng: 4.701595897073478 },
-    { lat: 50.878461848111904, lng: 4.700991833790163 },
-    { lat: 50.87881609616352, lng: 4.700604296695034 },
-    { lat: 50.879243401240856, lng: 4.700522065866258 },
-    { lat: 50.87964587290029, lng: 4.700763979395717 },
     { lat: 50.87993130973496, lng: 4.701274617809186 },
   
     // Add more points as needed to cover the area
@@ -55,21 +36,40 @@ const Home: React.FC = () => {
       }
 
       const fetchPlaces = async () => {
-        const service = new placesLib.PlacesService(map);
+        //const service = new placesLib.PlacesService(map);
         const allRestaurants: any[] = [];
 
         for (const coord of coordinatesList) {
-          console.log(coord);
+          //console.log(coord);
           const request = {
             fields: [
-              'id',
-              'displayName',
-              'location',
-              'businessStatus',
-              'primaryType',
-              'primaryTypeDisplayName',
-              'rating',
-              'userRatingCount',
+              'id', //string
+              'displayName', //object (LocalizedText) The localized name of the place, suitable as a short human-readable description. For example, "Google Sydney", "Starbucks", "Pyrmont", etc.
+              'location', //position of this place lat lng
+              'businessStatus', //enum (BusinessStatus) The business status for the place.
+              'primaryType', //string The primary type of the given result. This type must one of the Places API supported types. For example, "restaurant", "cafe", "airport", etc. A place can only have a single primary type. For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types
+              'primaryTypeDisplayName', //object (LocalizedText) The display name of the primary type, localized to the request language if applicable. For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types             
+              'regularOpeningHours', //object (OpeningHours) The regular hours of operation. Note that if a place is always open (24 hours), the close field will not be set. Clients can rely on always open (24 hours) being represented as an [open][google.foo.OpeningHours.Period.open] period containing [day][google.foo.Point.day] with value 0, [hour][google.foo.Point.hour] with value 0, and [minute][google.foo.Point.minute] with value 0.
+              'formattedAddress', // string A full, human-readable address for this place.
+              'viewport', //if we want a google map to be displayed for the restaurant
+              'websiteURI', //string The authoritative website for this place, e.g. a business' homepage. Note that for places that are part of a chain (e.g. an IKEA store), this will usually be the website for the individual store, not the overall chain.
+              'nationalPhoneNumber', //string A human-readable phone number for the place, in national format.
+              'priceLevel', //enum (PriceLevel) Price level of the place.
+              'svgIconMaskURI', //string A truncated URL to an icon mask. User can access different icon type by appending type suffix to the end (eg, ".svg" or ".png").
+              'photos', //Information (including references) about photos of this place. A maximum of 10 photos can be returned.
+              'isReservable', //boolean  Specifies if the place supports reservations.
+              'servesBeer', //boolean
+              'servesWine', //boolean
+              'servesVegetarianFood', //boolean
+              'hasDineIn', //boolean
+              'hasOutdoorSeating', //boolean
+              'hasLiveMusic', //boolean
+              'servesCocktails', //boolean
+              'servesDessert', //boolean
+              'servesCoffee', //boolean
+              'isGoodForGroups', //boolean
+              'isGoodForWatchingSports', //boolean 
+              'googleMapsURI',   //string link to google maps for directions
             ],
             locationRestriction: {
               center: new google.maps.LatLng(coord.lat, coord.lng),
@@ -95,7 +95,7 @@ const Home: React.FC = () => {
           }
         }
 
-        //console.log(allRestaurants);
+        console.log(allRestaurants);
         setRestaurants(allRestaurants);
         setLoading(false);
       };
@@ -132,11 +132,14 @@ const Home: React.FC = () => {
                 className="p-4 border rounded shadow-md bg-white hover:shadow-lg"
               >
                 <h3 className="font-semibold text-xl mb-2">{restaurant.displayName}</h3>
-                <p>businessStatus: {restaurant.businessStatus}</p>
-                <p>primaryType: {restaurant.primaryType}</p>
-                <p>rating: {restaurant.rating}</p>
-                <p>userRatingCount: {restaurant.userRatingCount}</p>
-                <p>primaryTypeDisplayName: {restaurant.primaryTypeDisplayName}</p>
+                <p><strong>Business Status:</strong> {restaurant.businessStatus}</p>
+                <p><strong>Primary Type:</strong> {restaurant.primaryType}</p>
+                <p><strong>Primary Type Display Name:</strong> {restaurant.primaryTypeDisplayName}</p>
+                <p><strong>Formatted Address:</strong> {restaurant.formattedAddress}</p>
+                <p><strong>Website:</strong> <a href={restaurant.websiteUri} target="_blank" rel="noopener noreferrer">{restaurant.websiteUri}</a></p>
+                <p><strong>Phone Number:</strong> {restaurant.nationalPhoneNumber}</p>
+                <p>Soft : {restaurant.softConstraint}</p>
+                <p> Hard dick: {restaurant.hardConstraint}</p>
               </li>
             ))}
           </ul>

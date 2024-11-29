@@ -15,7 +15,7 @@ const App = () => {
   });
 
   return (
-  <APIProvider apiKey="AIzaSyD2uraZOYpS1F15bbxD6qvqPAmkaXGAbsY">
+  <APIProvider apiKey="AIzaSyDbtOz7Df5lEKdXeZQpamwHKt_tpfQGyLo">
    {home}
   </APIProvider>
   )
