@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import SectionTitle from "../static/SectionTitle";
 import VerticalCarousel from "./VerticalCarousel";
 import Link from "next/link";
@@ -24,7 +23,6 @@ const cuisineOptions: CarouselOption[] = [
 ];
 
 const CuisineForm = () => {
-  const router = useRouter();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
   const handleSelection = (itemId: number) => {
