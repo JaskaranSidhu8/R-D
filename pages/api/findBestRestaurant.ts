@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       allRestaurants,
     );
 
-    let bestRestaurant = null;
+    let bestRestaurant;
     let highestSimilarity = -1;
 
     console.log("Evaluating Restaurants with Cosine Similarities:");
@@ -57,21 +57,32 @@ export default async function handler(req, res) {
       "All Restaurants with Similarities:",
       allRestaurantsWithSimilarity,
     );
-    console.log("Best Restaurant:", {
-      id: bestRestaurant.id,
-      name: bestRestaurant.name,
-      similarity: highestSimilarity.toFixed(4),
-    });
-
-    // Return both the best restaurant and all restaurants with similarities
-    res.status(200).json({
-      bestRestaurant: {
-        id: bestRestaurant.id,
-        name: bestRestaurant.name,
-        similarity: highestSimilarity.toFixed(4),
-      },
-      allRestaurants: allRestaurantsWithSimilarity,
-    });
+    console.log(
+      "Best Restaurant:",
+      bestRestaurant
+        ? {
+            id: bestRestaurant.id,
+            name: bestRestaurant.name,
+            similarity: highestSimilarity.toFixed(4),
+          }
+        : "No suitable restaurant found",
+    );
+    // Return response
+    if (bestRestaurant) {
+      res.status(200).json({
+        bestRestaurant: {
+          id: bestRestaurant.id,
+          name: bestRestaurant.name,
+          similarity: highestSimilarity.toFixed(4),
+        },
+        allRestaurants: allRestaurantsWithSimilarity,
+      });
+    } else {
+      res.status(200).json({
+        bestRestaurant: null,
+        allRestaurants: allRestaurantsWithSimilarity,
+      });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
