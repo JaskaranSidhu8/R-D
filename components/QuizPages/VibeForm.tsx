@@ -36,7 +36,7 @@ const AtmosphereForm = () => {
       </div>
 
       {selectedItems.length > 0 ? (
-        <Link href="/Budget">
+        <Link href="/Entertainment">
           <Button className="mt-8 mx-4 w-[343px] h-[48px]">Next</Button>
         </Link>
       ) : (
