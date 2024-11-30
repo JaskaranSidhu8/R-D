@@ -3,7 +3,13 @@
 import React from "react";
 import { ProfileHeader } from "./ProfileHeader";
 import { NavigationLink } from "./NavigationLink";
-import { User, Lock, Settings2, HelpCircle, LogOut } from "lucide-react";
+import {
+  PersonIcon,
+  LockClosedIcon,
+  GearIcon,
+  QuestionMarkIcon,
+  ExitIcon,
+} from "@radix-ui/react-icons";
 
 interface SettingsFormProps {
   name: string;
@@ -18,29 +24,25 @@ const SettingsForm = ({ name, joinedDate }: SettingsFormProps) => {
       <div className="flex flex-col flex-1 px-6">
         <NavigationLink
           href="/AccountDetails"
-          icon={User as React.ElementType}
+          icon={PersonIcon}
           label="Account details"
         />
         <NavigationLink
           href="/NewPassword"
-          icon={Lock as React.ElementType}
+          icon={LockClosedIcon}
           label="Change password"
         />
         <NavigationLink
-          href="/preferences"
-          icon={Settings2 as React.ElementType}
+          href="/Preferences"
+          icon={GearIcon}
           label="Preferences"
         />
         <NavigationLink
           href="/help-support"
-          icon={HelpCircle as React.ElementType}
+          icon={QuestionMarkIcon}
           label="Help and support"
         />
-        <NavigationLink
-          href="/logout"
-          icon={LogOut as React.ElementType}
-          label="Log out"
-        />
+        <NavigationLink href="/logout" icon={ExitIcon} label="Log out" />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client"; // Add this at the top
 import React, { useEffect, useState } from "react";
-import { fetchQuizImages } from "../../utils/api"; // Adjust the path as necessary
+import { fetchQuizImages } from "../../utils/frontendApi"; // Adjust the path as necessary
 // // Define the Image interface
 interface Image {
   name: string;
