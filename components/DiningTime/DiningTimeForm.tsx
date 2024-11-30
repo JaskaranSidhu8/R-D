@@ -13,7 +13,7 @@ const DiningTimeForm = () => {
   const isValid = date && time;
 
   return (
-    <div className="flex flex-col gap-4 max-w-md mx-auto px-6">
+    <div className="flex flex-col gap-4 max-w-md mx-auto">
       <SectionTitle text="Dining time" classname="mt-8" />
 
       <div className="mt-4 flex flex-col gap-4">
@@ -22,21 +22,23 @@ const DiningTimeForm = () => {
           placeholder="Date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          className="bg-white"
         />
         <Input
           type="time"
           placeholder="Time"
           value={time}
           onChange={(e) => setTime(e.target.value)}
+          className="bg-white mt-1"
         />
         {isValid ? (
           <Link href="/StatusMgr">
-            <Button className="w-full">Create group</Button>
+            <Button>Create group</Button>
           </Link>
         ) : (
           <Button
             onClick={() => alert("Please fill in both fields")}
-            className="w-full"
+            className="mt-5"
           >
             Create group
           </Button>

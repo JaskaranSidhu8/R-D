@@ -14,7 +14,7 @@ const BudgetSelectorForm = () => {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto px-6 pt-4">
+    <div className="flex flex-col w-full mx-auto  pt-4">
       <SectionTitle text="What's your budget?" classname="mb-8" />
 
       <div className="mb-12">

@@ -60,7 +60,7 @@ const GridSelection = ({
                 ${selectedItems.includes(index) ? "opacity-100" : "opacity-0"}`}
             />
             <div className="absolute bottom-0 p-3">
-              <span className="text-white font-normal">{option.name}</span>
+              <span className="text-white font-light">{option.name}</span>
             </div>
           </div>
         </button>

@@ -8,9 +8,10 @@ const Cuisine = () => {
   return (
     <div>
       <QuizHeader progress={23} />
-      <div className="flex justify-center">
+      <CuisineForm></CuisineForm>
+      {/* <div className="flex justify-center">
         <CuisineForm></CuisineForm>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -46,9 +46,9 @@ const AccountForm = ({
   };
 
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto px-6 py-4">
+    <div className="flex flex-col w-full  mx-auto  py-4">
       {/* Profile Image Section */}
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-2">
         <div className="relative">
           <img
             src="/pfp.jpg"
@@ -89,7 +89,7 @@ const AccountForm = ({
         onClick={handleSubmit}
         variant={isModified ? "default" : "secondary"}
         disabled={!isModified}
-        className="mt-4"
+        className="mt-8"
       >
         Save Changes
       </Button>

@@ -20,7 +20,7 @@ const FormField = ({ label, name, value, onChange }: FormFieldProps) => {
         name={name}
         value={value}
         onChange={onChange}
-        className="text-gray-500 placeholder:text-gray-400"
+        className="text-gray-500 placeholder:text-gray-400 bg-white border-[0.1px]"
       />
     </div>
   );

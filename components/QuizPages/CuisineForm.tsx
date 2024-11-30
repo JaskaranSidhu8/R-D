@@ -40,9 +40,9 @@ const CuisineForm = () => {
   };
 
   return (
-    <div className="flex flex-col max-w-md">
+    <div className="flex flex-col">
       <SectionTitle text="What type of cuisine are you craving?" />
-      <div className="h-[550px] mt-6">
+      <div className="h-[50vh] mt-6">
         <VerticalCarousel
           options={cuisineOptions}
           selectedItems={selectedItems}
@@ -51,11 +51,11 @@ const CuisineForm = () => {
       </div>
       {selectedItems.length > 0 ? (
         <Link href="/IndoorOutdoor">
-          <Button className="mt-3 w-full">Next</Button>
+          <Button className="mt-6">Next</Button>
         </Link>
       ) : (
         <Button
-          className="mt-3 w-full"
+          className="mt-6"
           onClick={() => alert("Please select at least one cuisine!")}
         >
           Next

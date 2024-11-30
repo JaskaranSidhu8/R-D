@@ -7,9 +7,7 @@ const DiningTimePage = () => {
   return (
     <div>
       <ReturnButton />
-      <ScreenWrapper>
-        <DiningTimeForm />
-      </ScreenWrapper>
+      <DiningTimeForm />
     </div>
   );
 };

@@ -42,7 +42,7 @@ const PreferencesForm = () => {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto px-6">
+    <div className="flex flex-col w-full max-w-md mx-auto mt-[10vh]">
       <h2 className="montserrat text-2xl mb-8">Preferences</h2>
 
       <div className="mt-4">
@@ -77,7 +77,7 @@ const PreferencesForm = () => {
         </div>
       </div>
 
-      <div className="mt-[460px]">
+      <div className="mt-[15vh]">
         <Button className="w-full">Save Changes</Button>
       </div>
     </div>
