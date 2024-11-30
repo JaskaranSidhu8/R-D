@@ -2,17 +2,17 @@
 
 import React from "react";
 import QuizHeader from "@/components/QuizPages/QuizHeader";
-import CuisineForm from "@/components/QuizPages/CuisineForm";
+import EntertainmentForm from "@/components/QuizPages/EntertainmentForm";
 
-const Cuisine = () => {
+const Entertainment = () => {
   return (
     <div>
-      <QuizHeader progress={23} />
+      <QuizHeader progress={63} />
       <div className="flex justify-center">
-        <CuisineForm></CuisineForm>
+        <EntertainmentForm />
       </div>
     </div>
   );
 };
 
-export default Cuisine;
+export default Entertainment;

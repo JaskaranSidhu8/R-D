@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import QuizHeader from "@/components/QuizPages/QuizHeader";
 import BudgetSelectorForm from "@/components/QuizPages/BudgetSelectorForm";
+import QuizHeader from "@/components/QuizPages/QuizHeader";
 
 const Budget = () => {
   return (
