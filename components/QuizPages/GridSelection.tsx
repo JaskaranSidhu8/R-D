@@ -25,7 +25,7 @@ const GridSelection = ({
       case 2:
         return "grid-cols-2 max-w-2xl";
       case 3:
-        return "grid-cols-3 max-w-4xl";
+        return "grid-cols-2 max-w-4xl [&>*:last-child]:col-span-2 [&>*:last-child]:mx-auto [&>*:last-child]:w-1/2";
       case 4:
         return "grid-cols-2 max-w-4xl";
       default:
@@ -59,10 +59,8 @@ const GridSelection = ({
                 transition-opacity duration-200 ease-in-out
                 ${selectedItems.includes(index) ? "opacity-100" : "opacity-0"}`}
             />
-            <div className="absolute bottom-0 w-full p-3">
-              <span className="text-white font-medium text-lg">
-                {option.name}
-              </span>
+            <div className="absolute bottom-0 p-3">
+              <span className="text-white font-normal">{option.name}</span>
             </div>
           </div>
         </button>

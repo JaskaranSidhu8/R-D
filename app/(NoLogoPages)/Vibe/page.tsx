@@ -1,16 +1,16 @@
 "use client";
 
-import AtmosphereForm from "@/components/QuizPages/AtmosphereForm";
+import VibeForm from "@/components/QuizPages/VibeForm";
 import QuizHeader from "@/components/QuizPages/QuizHeader";
 import React from "react";
 
-const Atmosphere = () => {
+const Vibe = () => {
   return (
     <div>
       <QuizHeader progress={43} />
-      <AtmosphereForm />
+      <VibeForm />
     </div>
   );
 };
 
-export default Atmosphere;
+export default Vibe;

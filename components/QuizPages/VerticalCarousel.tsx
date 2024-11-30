@@ -58,10 +58,8 @@ const VerticalCarousel = ({
                     transition-opacity duration-200 ease-in-out
                     ${selectedItems.includes(option.id) ? "opacity-100" : "opacity-0"}`}
                 />
-                <div className="absolute bottom-0 w-full p-3">
-                  <span className="text-white font-medium text-lg">
-                    {option.name}
-                  </span>
+                <div className="absolute bottom-0  p-3">
+                  <span className="text-white font-normal">{option.name}</span>
                 </div>
               </div>
             </button>

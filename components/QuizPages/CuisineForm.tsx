@@ -50,7 +50,7 @@ const CuisineForm = () => {
         />
       </div>
       {selectedItems.length > 0 ? (
-        <Link href="/Budget">
+        <Link href="/IndoorOutdoor">
           <Button className="mt-3 w-full">Next</Button>
         </Link>
       ) : (

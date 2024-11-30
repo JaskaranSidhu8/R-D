@@ -11,10 +11,14 @@ interface QuizHeaderProps {
 
 const QuizHeader = ({ progress, returnLink }: QuizHeaderProps) => {
   return (
-    <div className="absolute top-0 left-0 right-0">
-      <div className="relative flex items-center gap-3 px-6">
-        <ReturnButton link={returnLink} />
-        <Progress value={progress} />
+    <div className=" pt-2">
+      <div className="flex items-center ">
+        <div className="w-6 h-6 flex items-center justify-center">
+          <ReturnButton link={returnLink} />
+        </div>
+        <div className="ml-2 flex-1">
+          <Progress value={progress} className="h-2" />
+        </div>
       </div>
     </div>
   );
