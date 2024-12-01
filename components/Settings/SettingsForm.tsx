@@ -18,10 +18,10 @@ interface SettingsFormProps {
 
 const SettingsForm = ({ name, joinedDate }: SettingsFormProps) => {
   return (
-    <div className="flex flex-col w-full  mx-auto bg-background min-h-screen">
+    <div className="flex flex-col w-full  mx-auto bg-background min-h-screen justify-center">
       <ProfileHeader name={name} joinedDate={joinedDate} />
 
-      <div className="flex flex-col flex-1 ">
+      <div className="flex flex-col flex-1 max-w-md mx-auto w-full ">
         <NavigationLink
           href="/AccountDetails"
           icon={PersonIcon}

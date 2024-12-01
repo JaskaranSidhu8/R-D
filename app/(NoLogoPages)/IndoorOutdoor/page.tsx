@@ -7,7 +7,7 @@ import IndoorOutdoorForm from "@/components/QuizPages/IndoorOutdoorForm";
 const IndoorOutdoor = () => {
   return (
     <div>
-      <QuizHeader progress={53} />
+      <QuizHeader progress={20} />
       <div className="flex justify-center">
         <IndoorOutdoorForm />
       </div>

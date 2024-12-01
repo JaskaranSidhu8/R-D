@@ -7,7 +7,7 @@ import DessertForm from "@/components/QuizPages/DessertForm";
 const Dessert = () => {
   return (
     <div>
-      <QuizHeader progress={83} />
+      <QuizHeader progress={60} />
       <div className="flex justify-center">
         <DessertForm />
       </div>

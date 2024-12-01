@@ -7,7 +7,7 @@ import DrinksForm from "@/components/QuizPages/DrinksForm";
 const Drinks = () => {
   return (
     <div>
-      <QuizHeader progress={73} />
+      <QuizHeader progress={50} />
       <div className="flex justify-center">
         <DrinksForm />
       </div>

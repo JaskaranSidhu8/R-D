@@ -7,7 +7,7 @@ import React from "react";
 const Vibe = () => {
   return (
     <div>
-      <QuizHeader progress={43} />
+      <QuizHeader progress={30} />
       <VibeForm />
     </div>
   );
