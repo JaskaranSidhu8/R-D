@@ -1,21 +1,21 @@
-import { useRouter } from "next/router";
-import SectionTitle from "@/components/static/SectionTitle";
-import SignupForm from "@/components/signup/SignupForm";
-import AuthLink from "@/components/static/AuthLink";
+"use client"; // Mark this component as a Client Component
+
 import React from "react";
+import SignupForm from "@/components/signup/SignupForm";
+import SectionTitle from "@/components/static/SectionTitle";
+import AuthLink from "@/components/static/AuthLink";
+
+// Removed session handling logic
+
 const Signup = () => {
-  const router = useRouter();
-  const { email } = router.query;
-  // Ensure email is a string before passing it to SignupForm
-  const emailString = typeof email === "string" ? email : ""; // Fallback to empty string if it's not a string
   return (
     <div>
-      <SectionTitle classname="mt-20 mb-5" text="Sign up, let's eat!" />
-      <SignupForm mode="Signup" email={emailString} />
+      <SectionTitle classname="mt-20 mb-5" text="Sign up, Let's eat!" />
+      <SignupForm mode="Signup" />
       <AuthLink
         text="Already have an account?"
         href="/Signin"
-        signinup="Sign in"
+        signinup="Signin"
         classname="mt-8"
       />
     </div>

@@ -1,160 +1,179 @@
-"use client";
+"use client"; // Mark this component as a Client Component
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { validateEmail } from "@/utils/emailUtils"; // Email validation
-import { validatePassword } from "@/utils/passwordUtils"; // Password validation
-import { useRouter } from "next/router"; // For routing
-import { useAuth } from "../../app/context/authcontext"; // Importing useAuth hook to access the AuthContext
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AppContext"; // Import useAuth from AuthContext
 
-type Props = {
-  mode: "Signup" | "Signin";
-  email: string;
+type SignupFormProps = {
+  mode: "Signin" | "Signup"; // Mode to decide whether to route to Home or Verify
 };
 
-const SignupForm = (props: Props) => {
-  // Get setEmail and setPassword from the AuthContext to store email and password temporarily
-  const { setEmail, setPassword } = useAuth(); // Access context methods to store email and password
-
-  const [email, setEmailState] = useState(props.email || ""); // Email state, pre-filled if provided
-  const [password, setPasswordState] = useState(""); // Password state
-  const [error, setError] = useState(""); // Error message state
-  const [passwordValid, setPasswordValid] = useState(true); // Password validity check
-  const [verificationSent, setVerificationSent] = useState(false); // Track if verification email was sent
-  const [isLoading, setIsLoading] = useState(false); // Loading indicator
-  const [emailValid, setEmailValid] = useState(true); // Email validity check
+const SignupForm: React.FC<SignupFormProps> = ({ mode }) => {
   const router = useRouter();
-
-  // Handle email input change
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailState(e.target.value);
-    setEmailValid(validateEmail(e.target.value)); // Validate email
-    setError(""); // Reset error message
-  };
+  const { email, setEmail } = useAuth(); // Use useAuth to get email and setEmail from context
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // Added for confirmation
+  const [name, setName] = useState(""); // Added for name input
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Handle password input change
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordState(e.target.value);
-    setPasswordValid(validatePassword(e.target.value)); // Validate password
-    setError(""); // Reset error message
+    setPassword(e.target.value);
+    setError(""); // Clear error on input change
+  };
+
+  // Handle confirm password input change
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
+    setError(""); // Clear error on input change
+  };
+
+  // Handle name input change
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+    setError(""); // Clear error on input change
+  };
+
+  // Handle email input change
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value); // Update email in context
+    setError(""); // Clear error on input change
   };
 
   // Handle form submission
-  const onSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !emailValid) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    if (!passwordValid) {
-      setError("Password does not meet the required criteria.");
-      return;
-    }
-
-    setIsLoading(true); // Show loading state while processing
-
-    if (props.mode === "Signup") {
-      // Store email and password in AuthContext
-      setEmail(email); // Store email temporarily in context
-      setPassword(password); // Store password temporarily in context
-
-      // Call API route to send verification email
-      try {
-        const res = await fetch("/api/sendVerificationEmail", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.error || "Error sending verification email");
-        }
-
-        setVerificationSent(true); // Show success message
-        router.push("/Signup/Verify"); // Redirect to verification page
-      } catch (err) {
-        setError("Error sending verification email.");
-        setIsLoading(false);
+    // Validation for signup mode
+    if (mode === "Signup") {
+      if (!name) {
+        setError("Name is required.");
+        return;
       }
-    } else {
-      // Call API route to check credentials for sign-in
-      try {
-        const res = await fetch("/api/checkCredentials", {
+      if (!password || !confirmPassword) {
+        setError("Password and Confirm Password are required.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        setError("Passwords do not match.");
+        return;
+      }
+    }
+
+    setLoading(true);
+
+    try {
+      let response;
+
+      if (mode === "Signin") {
+        // Existing signin logic
+        response = await fetch("/api/checkCredentials", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, password }),
         });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.error || "Invalid credentials");
-        }
-
-        router.push("/Home"); // Redirect to home page on successful login
-      } catch (err) {
-        setError("Wrong password or email.");
-        setIsLoading(false);
+      } else {
+        // Modified signup logic
+        response = await fetch("/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }), // Include name in the request
+        });
       }
+
+      const result = await response.json();
+
+      if (response.ok) {
+        if (mode === "Signin") {
+          router.push("/Home");
+        } else {
+          // Display success message instead of navigation
+          alert("Check your email for a verification link!");
+        }
+      } else {
+        setError(result.message || "An error occurred. Please try again.");
+      }
+    } catch (err) {
+      console.error("Error during submission:", err);
+      setError("Something went wrong. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (props.email) {
-      setEmailState(props.email); // Use the email passed from the landing page
-    }
-  }, [props.email]);
-
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
-      {/* Email input */}
-      <Input
-        required
-        type="email"
-        placeholder="Enter your email address"
-        name="email"
-        value={email}
-        onChange={handleEmailChange} // Handle email input change
-      />
+    <div className="form-container">
+      <form onSubmit={handleSubmit}>
+        {mode === "Signup" && (
+          <>
+            {/* Name Input Field */}
+            <div className="input-field">
+              <label htmlFor="name">Name</label>
+              <Input
+                type="text"
+                id="name"
+                value={name}
+                onChange={handleNameChange}
+                className="input"
+                placeholder="Your Full Name"
+              />
+            </div>
+          </>
+        )}
 
-      {/* Display email validity error */}
-      {!emailValid && <p className="text-red-500">Please enter a valid email address.</p>}
+        <div className="input-field">
+          <label htmlFor="email">Email</label>
+          <Input
+            type="email"
+            id="email"
+            value={email || ""} // Autofill email from context
+            onChange={handleEmailChange} // Allow user to edit the email
+            className="input"
+            placeholder="Enter your email"
+          />
+        </div>
 
-      {/* Password input */}
-      <Input
-        required
-        type="password"
-        placeholder="Enter your password"
-        name="password"
-        value={password}
-        onChange={handlePasswordChange} // Handle password input change
-      />
+        <div className="input-field">
+          <label htmlFor="password">Password</label>
+          <Input
+            type="password"
+            id="password"
+            value={password}
+            onChange={handlePasswordChange}
+            className="input"
+          />
+        </div>
 
-      {/* Display password validation error if necessary */}
-      {!passwordValid && <p className="text-red-500">Password does not meet the required criteria.</p>}
+        {mode === "Signup" && (
+          <>
+            {/* Confirm Password Input Field */}
+            <div className="input-field">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <Input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                className="input"
+              />
+            </div>
+          </>
+        )}
 
-      {/* Display error message if signup or signin fails */}
-      {error && <p className="text-red-500">{error}</p>}
+        {error && <div className="error-message">{error}</div>}
 
-      {/* Submit button */}
-      <Button type="submit" disabled={isLoading}>
-        {props.mode === "Signup" ? "Sign up" : "Sign in"}
-      </Button>
-
-      {/* Inform user that a verification email has been sent */}
-      {verificationSent && (
-        <p className="text-green-500">A verification code has been sent to your email.</p>
-      )}
-    </form>
+        <Button type="submit" className="submit-btn" disabled={loading}>
+          {loading ? "Processing..." : mode === "Signin" ? "Sign In" : "Sign Up"}
+        </Button>
+      </form>
+    </div>
   );
 };
 

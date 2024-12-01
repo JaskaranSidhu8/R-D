@@ -1,7 +1,7 @@
-import Foter from "@/components/static/Foter";
+import Footer from "@/components/static/Foter"; // Ensure this is correctly spelled as 'Footer'
 import React from "react";
-import { AuthProvider } from "./context/authcontext";  // Import the AuthProvider
 import "./globals.css";
+import { AuthProvider } from "./context/AppContext"; // Import the AuthProvider
 
 export const metadata = {
   title: "TieBreaker",
@@ -13,14 +13,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log("Rendering RootLayout...");
   return (
     <html lang="en">
       <body>
-        {/* Wrap children with the AuthProvider */}
+        {/* Wrap the children with AuthProvider to provide context to the entire app */}
         <AuthProvider>
-          {children}
+          {children}  {/* Children will have access to the AuthContext */}
+          <Footer />
         </AuthProvider>
-        <Foter />
       </body>
     </html>
   );

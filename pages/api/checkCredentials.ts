@@ -14,10 +14,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { data, error } = await checkUserCredentials(email, password);
 
     if (error) {
+      console.log("error after calling checkUserCredentials");
       return res.status(400).json({ error: "Invalid credentials" });
     }
 
     // Send back the successful response
+    console.log("no error calling checkCredentials");
     return res.status(200).json({ message: "User authenticated successfully", data });
   } catch (err) {
     // Send back a 500 error if something goes wrong
