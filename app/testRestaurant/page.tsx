@@ -1,9 +1,7 @@
-
+"use client";
 
 import { algorithm } from "@/actions/functions";
-import { Database, Tables } from "@/types/supabase";
-
-
+import React from "react";
 
 const BestRestaurantComponent = async () => {
   const group_id = 1; // Assign a static value for testing

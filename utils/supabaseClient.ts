@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { Database } from "./types/supabase";
 
 // Use environment variables for the Supabase URL and Key
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL_DEV!;
@@ -15,10 +16,6 @@ if (
 }
 
 // Initialize Supabase
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
 export default supabase;
-
-// const supabaseUrl = "https://uqcrymzvamkqgrpribjf.supabase.co";
-// const supabaseKey =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxY3J5bXp2YW1rcWdycHJpYmpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAyMTM2MTAsImV4cCI6MjA0NTc4OTYxMH0.Br46z5HHUTT3m7U1w9tbnF1VA4KhnauoExEhUNMPVZo";

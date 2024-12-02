@@ -15,7 +15,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "generate:types":"supabase gen types typescript --project-id uqcrymzvamkqgrpribjf --schema public > ./types/supabase.ts"
+    "generate:types": "supabase gen types typescript --project-id uqcrymzvamkqgrpribjf --schema public > ./utils/types/supabase.ts"
   },
   "keywords": [],
   "author": "",
