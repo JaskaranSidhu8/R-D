@@ -198,7 +198,7 @@ export const profileCardDummyData: MemberCardProps[] = [
   },
 ];
 
-const GroupStatus = () => {
+const GroupStatus: React.FC<Props> = ({ state, generate }) => {
   return (
     <div>
       {" "}
@@ -216,7 +216,7 @@ const GroupStatus = () => {
             <MemberStatus member={item} key={`member_status_${index}`} />
           ))}
         </Card>
-        {props.state === "Makeyourchoices" && (
+        {state === "Makeyourchoices" && (
           <Button
             className="font-bold shadow-none border-primary text-primary"
             variant={"outline"}
@@ -224,8 +224,8 @@ const GroupStatus = () => {
             Make your choices
           </Button>
         )}
-        {props.generate && <Button className="font-bold">Generate</Button>}
-        {props.state === "Changeyourchoices" && (
+        {generate && <Button className="font-bold">Generate</Button>}
+        {state === "Changeyourchoices" && (
           <Button className="font-bold shadow-none" variant={"link"}>
             Change your choices
           </Button>

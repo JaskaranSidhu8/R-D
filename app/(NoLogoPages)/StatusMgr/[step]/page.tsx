@@ -7,8 +7,8 @@ type Props = {
   params: { step: string };
 };
 
-const StatusMgr = (props: Props) => {
-  const { step } = props.params;
+const StatusMgr: React.FC<Props> = ({ params }) => {
+  const { step } = params;
   return (
     <div>
       <ReturnButton />
