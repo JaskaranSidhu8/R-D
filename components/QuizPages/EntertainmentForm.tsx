@@ -8,7 +8,7 @@ import SectionTitle from "../static/SectionTitle";
 
 const entertainmentOptions = [
   { name: "Live Music", image: "/liveMusic.webp" },
-  { name: "Good for watching Sports", image: "/sports.jepg" },
+  { name: "Good for watching Sports", image: "/liveSports.jpg" },
 ];
 
 const EntertainmentForm = () => {

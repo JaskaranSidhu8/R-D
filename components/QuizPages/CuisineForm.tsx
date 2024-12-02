@@ -12,14 +12,20 @@ interface CarouselOption {
   image: string;
 }
 
-//we need to get these from the database later on
+//pictures can be changed later on
 const cuisineOptions: CarouselOption[] = [
-  { id: 1, name: "Mexican", image: "/mexican.jpg" },
-  { id: 2, name: "Latin", image: "/latin.jpg" },
-  { id: 3, name: "Burger", image: "/burger.jpg" },
-  { id: 4, name: "Pizza", image: "/pizza.jpg" },
-  { id: 5, name: "Hot Dog", image: "/hotdog.jpg" },
-  { id: 6, name: "Pasta", image: "/pasta.jpg" },
+  { id: 1, name: "Asian", image: "/asian.jpg" },
+  { id: 2, name: "American", image: "/american.webp" },
+  { id: 3, name: "Italian", image: "/italian.jpg" },
+  { id: 4, name: "Mexican_Latin", image: "/mexican.jpg" },
+  { id: 5, name: "Indian", image: "/indian.jpg" },
+  { id: 6, name: "Mediterranean", image: "/mediterranean.jpg" },
+  { id: 7, name: "European", image: "/european.webp" },
+  { id: 8, name: "Seafood", image: "/seafood.jpg" },
+  { id: 9, name: "Vegan", image: "/vegan.jpg" },
+  { id: 10, name: "Dessert", image: "/dessert.jpg" },
+  { id: 11, name: "Bar", image: "/bar.jpg" },
+  { id: 13, name: "African", image: "/african.jpg" },
 ];
 
 const CuisineForm = () => {
