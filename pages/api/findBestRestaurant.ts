@@ -1,3 +1,4 @@
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import {
   fetchGroupPreferences,
   fetchRestaurants,
@@ -5,8 +6,14 @@ import {
   filterRestaurantsByHardConstraints,
   cosineSimilarity,
 } from "../../utils/backendApi";
+import { groupUsers } from "../../utils/types/groupUsers";
+import { restaurants } from "../../utils/types/restaurants";
 
-export default async function handler(req, res) {
+
+
+
+export default async function handler(req: NextApiRequest, res:NextApiResponse
+) {
   const { groupId } = req.query;
 
   try {
