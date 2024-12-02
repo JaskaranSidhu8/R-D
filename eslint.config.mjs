@@ -17,6 +17,7 @@ export default [
       // Nothing yet
       "react/prop-types": "off",
       "no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
     },
     settings: {
       react: {

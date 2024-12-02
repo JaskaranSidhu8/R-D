@@ -1,4 +1,7 @@
 node_modules
 .next/
 .env
+coverage/
 package-lock.json
+.vercel
+.env*.local

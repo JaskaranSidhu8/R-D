@@ -1,7 +1,7 @@
 "use client"; // Add this at the top
 import React, { useEffect, useState } from "react";
 import { fetchQuizImages } from "../../utils/api"; // Adjust the path as necessary
-// Define the Image interface
+// // Define the Image interface
 interface Image {
   name: string;
   url: string;
@@ -19,15 +19,19 @@ const Quiz = () => {
 
     loadImages();
   }, []);
+
   return (
     <div>
       <h1>Quiz Images</h1>
       <div>
-        {images.map((image) => (
-          <img key={image.name} src={image.url} alt={image.name} />
-        ))}
+        <ul>
+          {images.map((image) => (
+            <img key={image.name} src={image.url} alt={image.name} />
+          ))}
+        </ul>
       </div>
     </div>
   );
 };
+
 export default Quiz;

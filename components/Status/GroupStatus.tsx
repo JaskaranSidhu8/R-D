@@ -198,7 +198,7 @@ export const profileCardDummyData: MemberCardProps[] = [
   },
 ];
 
-const GroupStatus = (props: Props) => {
+const GroupStatus = () => {
   return (
     <div>
       {" "}
