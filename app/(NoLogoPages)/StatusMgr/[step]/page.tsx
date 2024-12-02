@@ -3,14 +3,20 @@ import SectionTitle from "@/components/static/SectionTitle";
 import GroupStatus from "@/components/Status/GroupStatus";
 import React from "react";
 
-// type Props = {};
+type Props = {
+  params: { step: string };
+};
 
-const StatusMgr = () => {
+const StatusMgr = (props: Props) => {
+  const { step } = props.params;
   return (
     <div>
       <ReturnButton />
       <SectionTitle text="SaaS BOYS" />
-      <GroupStatus />
+      <GroupStatus
+        state={step === "1" ? "Makeyourchoices" : "Changeyourchoices"}
+        generate
+      />
     </div>
   );
 };

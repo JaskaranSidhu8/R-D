@@ -1,3 +1,4 @@
+// import Foter from "@/components/static/Foter";
 import React from "react";
 
 export default function RootLayout({
