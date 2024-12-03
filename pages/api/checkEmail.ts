@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Query the 'test_users' table for the provided email
-    const { data, error } = await supabase
+    const { data, error } = await supabase 
       .from("test_users")
       .select("email")
       .eq("email", email)

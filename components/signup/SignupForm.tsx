@@ -64,12 +64,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ mode }) => {
     }
 
     setLoading(true);
-
+    console.log("hi");
     try {
       let response;
 
       if (mode === "Signin") {
         // Existing signin logic
+        console.log("before calling backend api");
         response = await fetch("/api/checkCredentials", {
           method: "POST",
           headers: {
@@ -77,6 +78,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ mode }) => {
           },
           body: JSON.stringify({ email, password }),
         });
+        console.log("after calling api");
       } else {
         // Modified signup logic
         response = await fetch("/api/signup", {
@@ -87,12 +89,27 @@ const SignupForm: React.FC<SignupFormProps> = ({ mode }) => {
           body: JSON.stringify({ name, email, password }), // Include name in the request
         });
       }
-
+      console.log(localStorage.getItem('supabase.auth.token'));
       const result = await response.json();
-
+      console.log("API response:", response);
+      
       if (response.ok) {
         if (mode === "Signin") {
-          router.push("/Home");
+          if (result.access_token) {
+            // Store the access token and refresh token in localStorage manually
+            localStorage.setItem('supabase.auth.token', result.access_token);
+            if (result.refresh_token) {
+              localStorage.setItem('supabase.auth.refresh_token', result.refresh_token);
+            }
+            localStorage.setItem("user_email", email);
+            console.log("Session saved in localStorage");
+          } else {
+          console.error("No access_token in response");
+        }
+          console.log("Preparing to log hello");
+          console.log("hello");
+
+          await router.push("/Home");
         } else {
           // Display success message instead of navigation
           alert("Check your email for a verification link!");
@@ -122,7 +139,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ mode }) => {
                 value={name}
                 onChange={handleNameChange}
                 className="input"
-                placeholder="Your Full Name"
+                placeholder="Your Name"
               />
             </div>
           </>
