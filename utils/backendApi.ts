@@ -1,7 +1,9 @@
 import supabase from "./supabaseClient";
-import { unstable_noStore as noStore } from "next/cache";
+import { unstable_noStore as noStore} from "next/cache";
 import { Database, Tables } from "./types/supabase";
-import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
+import { QueryResult, QueryData, QueryError } from '@supabase/supabase-js'
+
+
 
 //export async function fetchGroupPreferences2(group_id: number) {
 //   const preferencesUserMax =  supabase
@@ -45,10 +47,12 @@ import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
 //    return !glutenRequired || isGlutenFree;
 //  });
 
+
+
 //}
 export async function fetchGroupPreferences(group_id: number) {
   const { data, error } = await supabase
-    .from("group_users")
+    .from('group_users')
     .select(
       `
       id,
@@ -67,7 +71,9 @@ export async function fetchGroupPreferences(group_id: number) {
   return data;
 }
 export async function fetchRestaurants() {
-  const { data, error } = await supabase.from("restaurants").select("*");
+  const { data, error } = await supabase
+    .from('restaurants')
+    .select('*');
   if (error) {
     throw new Error(`Error fetching restaurants: ${error.message}`);
   }
@@ -85,9 +91,9 @@ export async function fetchRestaurants() {
 //  });
 //  return totalPreferences.map((total) => total / numUsers);
 //}
-export function cosineSimilarity(vecA: number[], vecB: number[]) {
-  const dotProduct = vecA.reduce((acc, val, i) => acc + val * vecB[i], 0);
-  const magA = Math.sqrt(vecA.reduce((acc, val) => acc + val * val, 0));
-  const magB = Math.sqrt(vecB.reduce((acc, val) => acc + val * val, 0));
-  return dotProduct / (magA * magB);
-}
+//export function cosineSimilarity(vecA: number[], vecB: number[]) {
+//  const dotProduct = vecA.reduce((acc, val, i) => acc + val * vecB[i], 0);
+//  const magA = Math.sqrt(vecA.reduce((acc, val) => acc + val * val, 0));
+//  const magB = Math.sqrt(vecB.reduce((acc, val) => acc + val * val, 0));
+//  return dotProduct / (magA * magB);
+//}
