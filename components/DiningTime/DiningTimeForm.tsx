@@ -14,9 +14,9 @@ const DiningTimeForm = () => {
 
   return (
     <div className="flex flex-col gap-4 max-w-md mx-auto mt-20 ">
-      <SectionTitle text="Dining time" classname="mt-8" />
+      <SectionTitle text="Dining time" classname="mt-14" />
 
-      <div className="mt-4 flex flex-col gap-4">
+      <div className="mt-1 flex flex-col gap-4">
         <Input
           type="date"
           placeholder="Date"

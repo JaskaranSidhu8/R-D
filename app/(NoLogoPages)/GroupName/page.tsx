@@ -4,7 +4,7 @@ import React from "react";
 import GroupNameForm from "@/components/GroupName/GroupNameForm";
 import ReturnButton from "@/components/static/ReturnButton";
 
-const GroupNamePage = () => {
+const GroupName = () => {
   return (
     <div>
       <ReturnButton />
@@ -13,4 +13,4 @@ const GroupNamePage = () => {
   );
 };
 
-export default GroupNamePage;
+export default GroupName;

@@ -9,9 +9,9 @@ import Link from "next/link";
 const GroupNameForm = () => {
   return (
     <div className="flex flex-col gap-4 max-w-md mx-auto  mt-20">
-      <SectionTitle text="Give your group a name!" classname="mt-8" />
+      <SectionTitle text="Give your group a name!" classname="mt-14" />
 
-      <div className="mt-4 flex flex-col gap-4">
+      <div className=" mt-1 flex flex-col gap-4">
         <Input type="text" placeholder="Group Name" className="bg-white" />
         <Link href={"/Location"}>
           <Button className="mt-4">Next</Button>

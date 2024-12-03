@@ -13,8 +13,6 @@ interface FormData {
 
 interface AccountFormProps {
   defaultValues?: FormData;
-  onSubmit?: (data: FormData) => void;
-  onEditProfilePicture?: () => void;
 }
 
 const DEFAULT_VALUES: FormData = {
@@ -23,11 +21,7 @@ const DEFAULT_VALUES: FormData = {
   city: "Leuven",
 };
 
-const AccountForm = ({
-  defaultValues = DEFAULT_VALUES,
-  onSubmit,
-  onEditProfilePicture,
-}: AccountFormProps) => {
+const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
   const [formData, setFormData] = useState<FormData>(defaultValues);
   const [isModified, setIsModified] = useState(false);
 
@@ -37,16 +31,20 @@ const AccountForm = ({
       ...prev,
       [name]: value,
     }));
-    setIsModified(true);
+    setIsModified(true); // Mark the form as modified when any input changes
   };
 
   const handleSubmit = () => {
-    onSubmit?.(formData);
-    setIsModified(false);
+    console.log("Saving changes:", formData); // Simulated submission logic
+    setIsModified(false); // Reset modified state after submission
+  };
+
+  const handleEditProfilePicture = () => {
+    console.log("Edit profile picture"); // Simulated profile picture edit logic
   };
 
   return (
-    <div className="flex flex-col w-full  mx-auto  py-4">
+    <div className="flex flex-col w-full max-w-xl mx-auto py-4">
       {/* Profile Image Section */}
       <div className="flex justify-center mb-2">
         <div className="relative">
@@ -57,7 +55,7 @@ const AccountForm = ({
           />
           <button
             className="absolute bottom-0 right-0 p-1.5 bg-primary hover:bg-primary/90 rounded-full text-white"
-            onClick={onEditProfilePicture}
+            onClick={handleEditProfilePicture} // Logic moved here
           >
             <Pencil className="w-3.5 h-3.5" />
           </button>
@@ -67,6 +65,7 @@ const AccountForm = ({
       <div className="flex flex-col items-start mb-8">
         <h2 className="montserrat mt-10 text-2xl">Account Details</h2>
       </div>
+
       <FormField
         label="Full Name"
         name="fullName"
@@ -86,9 +85,9 @@ const AccountForm = ({
         onChange={handleInputChange}
       />
       <Button
-        onClick={handleSubmit}
+        onClick={handleSubmit} // Logic moved here
         variant={isModified ? "default" : "secondary"}
-        disabled={!isModified}
+        disabled={!isModified} // Disable unless the form is modified
         className="mt-8"
       >
         Save Changes
