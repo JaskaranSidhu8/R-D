@@ -21,12 +21,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Get the current session after successful login
     // Get the current session after successful login
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      console.log("testing local storage");
+      //console.log("testing local storage");
       //console.log(localStorage.getItem('supabase.auth.token')); // Should not be null
-      console.log("Session after login:", data);
+      //console.log("Session after login:", data);
     }
 
-    console.log("just after calling the database to sign in");
+    //console.log("just after calling the database to sign in");
 
     if (error) {
       console.error("Error getting session:", error);

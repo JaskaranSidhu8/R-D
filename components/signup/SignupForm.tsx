@@ -1,5 +1,7 @@
 "use client"; // Mark this component as a Client Component
 
+//import cookie from 'cookie';
+//import { serialize } from 'cookie';
 import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -97,11 +99,38 @@ const SignupForm: React.FC<SignupFormProps> = ({ mode }) => {
         if (mode === "Signin") {
           if (result.access_token) {
             // Store the access token and refresh token in localStorage manually
-            localStorage.setItem('supabase.auth.token', result.access_token);
+            //localStorage.setItem('supabase.auth.token', result.access_token);
+            /*
+            document.cookie = serialize('supabase.auth.token', result.access_token, {
+              httpOnly: false, // Allow JS access for testing, set to true in production if necessary
+              secure: process.env.NODE_ENV === 'production', // Only secure cookies in production
+              maxAge: 60 * 60 * 24 * 7, // 1 week expiration
+              path: '/', // Make it accessible across the entire domain
+              sameSite: 'strict', // Restrict cross-site cookie sending
+            });
+            */
             if (result.refresh_token) {
-              localStorage.setItem('supabase.auth.refresh_token', result.refresh_token);
+              //localStorage.setItem('supabase.auth.refresh_token', result.refresh_token);
+              /*
+              document.cookie = serialize('supabase.auth.refresh_token', result.refresh_token, {
+                httpOnly: false, // Allow JS access
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 60 * 60 * 24 * 7, // 1 week expiration
+                path: '/',
+                sameSite: 'strict',
+              });
+              */
             }
-            localStorage.setItem("user_email", email);
+            //localStorage.setItem("user_email", email);
+            /*
+            document.cookie = serialize('user_email', email, {
+              httpOnly: false, // Allow JS access for testing
+              secure: process.env.NODE_ENV === 'production',
+              maxAge: 60 * 60 * 24 * 7, // 1 week expiration
+              path: '/',
+              sameSite: 'strict',
+            });
+            */
             console.log("Session saved in localStorage");
           } else {
           console.error("No access_token in response");

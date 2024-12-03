@@ -13,12 +13,12 @@ const Home = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const checkTokensAndFetchEmail = () => {
+    const checkTokensAndFetchEmail = async () => {
       // Retrieve the access token and refresh token from localStorage
       const accessToken = localStorage.getItem("supabase.auth.token");
       const refreshToken = localStorage.getItem("supabase.auth.refresh_token");
       const email = localStorage.getItem("user_email"); // Assuming the email is stored separately
-
+      
       // Check if both tokens exist
       if (!accessToken || !refreshToken) {
         router.push("/Signin"); // Redirect to Signin if tokens are missing
