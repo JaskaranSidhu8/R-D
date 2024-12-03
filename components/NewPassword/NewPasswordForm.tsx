@@ -6,7 +6,7 @@ import Password from "@/components/static/Password";
 
 const NewPasswordForm = () => {
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto px-6 pt-4">
+    <div className="flex flex-col w-full max-w-md mx-auto mt-[12vh]">
       <h2 className="montserrat text-2xl mb-8">Reset your password</h2>
 
       <div className="space-y-4">
@@ -32,7 +32,7 @@ const NewPasswordForm = () => {
         </div>
       </div>
 
-      <Button className="mt-10">Save Changes</Button>
+      <Button className="mt-12">Save Changes</Button>
     </div>
   );
 };

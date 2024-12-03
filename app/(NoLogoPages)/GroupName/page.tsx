@@ -3,17 +3,14 @@
 import React from "react";
 import GroupNameForm from "@/components/GroupName/GroupNameForm";
 import ReturnButton from "@/components/static/ReturnButton";
-import ScreenWrapper from "@/components/static/ScreenWrapper";
 
-const GroupNamePage = () => {
+const GroupName = () => {
   return (
     <div>
       <ReturnButton />
-      <ScreenWrapper>
-        <GroupNameForm />
-      </ScreenWrapper>
+      <GroupNameForm />
     </div>
   );
 };
 
-export default GroupNamePage;
+export default GroupName;
