@@ -8,12 +8,15 @@ import {
   // CarouselPrevious,
 } from "@/components/ui/carousel";
 import GroupItemCard from "./GroupItemCard";
+import { fetchUserGroups } from "@/actions/functions";
 
 type Props = {
   items: CarouselDataType[];
 };
 
-const PreviousGroupCarousel = (props: Props) => {
+const PreviousGroupCarousel = async (props: Props) => {
+  const user = await fetchUserGroups(1);
+  console.log("data", user);
   return (
     <Carousel
       opts={{

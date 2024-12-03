@@ -104,18 +104,19 @@ export async function fetchUserGroups(user_idd: number) {
       id,
       user_id,
       group_id,
-      groups (
+       groups (
         id,
         created_at,
         name,
         location,
         group_creator,
-        hardconstraints,
+        hard_constraints,
         isdeleted,
         size
 
 
       )
+     
     `,
     )
     .eq("user_id", user_idd); // Filter by the user_id

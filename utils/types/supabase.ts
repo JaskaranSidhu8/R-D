@@ -93,7 +93,7 @@ export type Database = {
         Row: {
           created_at: string | null;
           group_creator: number | null;
-          hardconstraints: string | null;
+          hard_constraints: string | null;
           id: number;
           isdeleted: boolean | null;
           location: string | null;
@@ -104,7 +104,7 @@ export type Database = {
         Insert: {
           created_at?: string | null;
           group_creator?: number | null;
-          hardconstraints?: string | null;
+          hard_constraints?: string | null;
           id?: number;
           isdeleted?: boolean | null;
           location?: string | null;
@@ -115,7 +115,7 @@ export type Database = {
         Update: {
           created_at?: string | null;
           group_creator?: number | null;
-          hardconstraints?: string | null;
+          hard_constraints?: string | null;
           id?: number;
           isdeleted?: boolean | null;
           location?: string | null;

@@ -67,7 +67,7 @@ export async function fetchGroupPreferences(group_id: number) {
   return data;
 }
 export async function fetchRestaurants() {
-  const { data, error } = await supabase.from("restaurants").select("");
+  const { data, error } = await supabase.from("restaurants").select("*");
   if (error) {
     throw new Error(`Error fetching restaurants: ${error.message}`);
   }
