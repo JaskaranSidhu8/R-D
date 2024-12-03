@@ -31,7 +31,7 @@ const AvatarForm = () => {
     <div className="flex flex-col w-full max-w-xl mx-auto py-4">
       {/* Profile Image Section */}
       <div className="flex justify-center mb-2">
-        <div className="relative">
+        <div className="relative bg-primary rounded-full">
           <img
             src={selectedAvatar || "/pfp.jpg"} // Dynamically update PFP
             alt="Profile"
@@ -41,7 +41,7 @@ const AvatarForm = () => {
       </div>
 
       {/* Section Title */}
-      <div className="flex flex-col items-center mb-8">
+      <div className="flex flex-col  mt-12 mb-8">
         <h2 className="montserrat text-2xl">Choose your avatar</h2>
       </div>
 
@@ -52,7 +52,7 @@ const AvatarForm = () => {
             key={index}
             className={`relative w-[100px] h-[100px] rounded-full flex items-center justify-center cursor-pointer transition-transform duration-300 ${
               selectedAvatar === avatar
-                ? "ring-4 ring-secondary bg-primary scale-100"
+                ? "ring-4 ring-red-800 bg-primary scale-90"
                 : "bg-primary hover:scale-105"
             }`}
             onClick={() => handleAvatarSelect(avatar)}
@@ -67,14 +67,26 @@ const AvatarForm = () => {
       </div>
 
       {/* Save Changes Button */}
-      <Button
-        onClick={handleSubmit} // Logic for saving
-        variant={isModified ? "default" : "secondary"}
-        disabled={!isModified} // Disable unless modified
-        className="mt-8"
-      >
-        Save Changes
-      </Button>
+      {isModified ? (
+        <Link href="/AccountDetails">
+          <Button
+            onClick={handleSubmit} // Logic for saving
+            variant="default"
+            className="mt-8"
+          >
+            Save Changes
+          </Button>
+        </Link>
+      ) : (
+        <Button
+          onClick={(e) => e.preventDefault()} // Prevent any action if not modified
+          variant="secondary"
+          disabled={!isModified} // Disabled when not modified
+          className="mt-8"
+        >
+          Save Changes
+        </Button>
+      )}
     </div>
   );
 };
