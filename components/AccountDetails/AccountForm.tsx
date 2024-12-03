@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import FormField from "./FormField";
+import Link from "next/link";
 
 interface FormData {
   fullName: string;
@@ -39,10 +40,6 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
     setIsModified(false); // Reset modified state after submission
   };
 
-  const handleEditProfilePicture = () => {
-    console.log("Edit profile picture"); // Simulated profile picture edit logic
-  };
-
   return (
     <div className="flex flex-col w-full max-w-xl mx-auto py-4">
       {/* Profile Image Section */}
@@ -53,12 +50,11 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
             alt="Profile"
             className="w-32 h-32 rounded-full object-cover border border-gray-200"
           />
-          <button
-            className="absolute bottom-0 right-0 p-1.5 bg-primary hover:bg-primary/90 rounded-full text-white"
-            onClick={handleEditProfilePicture} // Logic moved here
-          >
-            <Pencil className="w-3.5 h-3.5" />
-          </button>
+          <Link href="/Avatar">
+            <button className="absolute bottom-0 right-0 p-1.5 bg-primary hover:bg-primary/90 rounded-full text-white">
+              <Pencil className="w-3.5 h-3.5" />
+            </button>
+          </Link>
         </div>
       </div>
 
