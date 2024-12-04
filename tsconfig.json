@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-    // ".next/types/**/*.ts",
+, "pages/api/populateRestaurantsTable.js"    // ".next/types/**/*.ts",
     // ".next/types/app/page.tsx",
     // ".next/types/app/layout.tsx",
     // ".next/types/app/(main)/layout.tsx",
