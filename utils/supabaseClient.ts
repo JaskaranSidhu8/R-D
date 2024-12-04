@@ -1,9 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
-import { unstable_noStore as noStore} from "next/cache";
+import { unstable_noStore as noStore } from "next/cache";
 import { Database, Tables } from "./types/supabase";
 // Use environment variables for the Supabase URL and Key
 
-noStore()
+noStore();
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL_DEV!;
 const supabaseKey = process.env.NEXT_PUBLIC_ANON_KEY_DEV!;
@@ -19,9 +19,7 @@ if (
 }
 
 // Initialize Supabase
-const supabase = createClient<Database>(supabaseUrl, supabaseKey,
-  
-);
+const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
 export default supabase;
 
