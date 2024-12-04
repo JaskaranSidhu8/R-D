@@ -39,7 +39,7 @@ const BudgetSelectorForm = () => {
           </div>
         </div>
       </div>
-      <Link href="/StatusMgr">
+      <Link href="/StatusMbr">
         <Button>Next</Button>
       </Link>
     </div>
