@@ -40,4 +40,4 @@ const PreviousGroupCarousel = async (props: Props) => {
 export default PreviousGroupCarousel;
 
 //create a form , build in function called action, pass it as formdata
-//backkend receives formdata 
+//backkend receives formdata

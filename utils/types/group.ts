@@ -8,4 +8,3 @@
 //    pickedrestaurant: number | null; // Foreign key to `restaurants`, nullable
 //    isDeleted: boolean; // Soft delete indicator
 //  }
-  

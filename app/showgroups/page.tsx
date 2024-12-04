@@ -1,10 +1,10 @@
-//import { fetchUserGroups } from "@/actions/functions"; 
+//import { fetchUserGroups } from "@/actions/functions";
 //import { Database } from "@/utils/types/supabase";
 //import React from "react";
 //
 //export default async function TestGroupsPage() {
-//  const user_id = 1; 
-//  let groups 
+//  const user_id = 1;
+//  let groups
 //
 //  try {
 //    groups = await fetchUserGroups(user_id);

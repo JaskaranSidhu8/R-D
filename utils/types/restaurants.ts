@@ -6,4 +6,3 @@
 //    hardconstraints: string | null; // Binary preferences, nullable
 //    softconstraints: string | null; // Binary preferences, nullable
 //  }
-  
