@@ -1,11 +1,10 @@
-"use client";
 import { fetchUserGroups } from "@/actions/functions"; // Adjust the path
 import { Database } from "@/utils/types/supabase";
 import React from "react";
 
 export default async function TestGroupsPage() {
   const user_id = 1; // Replace with the user ID to test
-  let groups = [];
+  let groups = any;
 
   try {
     groups = await fetchUserGroups(user_id);

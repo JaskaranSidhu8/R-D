@@ -1,5 +1,3 @@
-
-
 import { algorithm } from "@/actions/functions";
 import React from "react";
 
