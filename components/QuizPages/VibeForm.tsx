@@ -13,7 +13,7 @@ const atmosphereOptions = [
   { name: "feeling social", image: "/socialVibe.jpg" },
 ];
 
-const AtmosphereForm = () => {
+const VibeForm = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
   const handleSelection = (index: number) => {
@@ -51,4 +51,4 @@ const AtmosphereForm = () => {
   );
 };
 
-export default AtmosphereForm;
+export default VibeForm;
