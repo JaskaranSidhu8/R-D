@@ -1,9 +1,7 @@
-"use client";
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Password from "@/components/static/Password";
-
+// this should be a form
 const NewPasswordForm = () => {
   return (
     <div className="flex flex-col w-full max-w-md mx-auto px-6 pt-4">
