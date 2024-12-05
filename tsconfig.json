@@ -8,7 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -31,7 +31,7 @@
     ".next/types/**/*.ts",
     "utils/backendApi.js",
     "utils/frontendApi.js" // ".next/types/**/*.ts",
-    // ".next/types/app/page.tsx",
+, "test.js"    // ".next/types/app/page.tsx",
     // ".next/types/app/layout.tsx",
     // ".next/types/app/(main)/layout.tsx",
     // ".next/types/app/(main)/Signup/page.tsx"
