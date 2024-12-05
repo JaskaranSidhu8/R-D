@@ -24,7 +24,7 @@ const EntertainmentForm = () => {
 
   return (
     <div>
-      <SectionTitle text="Looking for some entertainment?" />
+      <SectionTitle text="Looking for some entertainment?" classname="mt-2" />
       <div className="mt-6">
         <GridSelection
           options={entertainmentOptions}
@@ -35,11 +35,11 @@ const EntertainmentForm = () => {
 
       {selectedItems.length > 0 ? (
         <Link href="/Drinks">
-          <Button className="mt-8 mx-4 w-[343px] h-[48px]">Next</Button>
+          <Button className="mt-8 ">Next</Button>
         </Link>
       ) : (
         <Button
-          className="mt-8 mx-4 w-[343px] h-[48px]"
+          className="mt-8 "
           onClick={() => alert("Please select an entertainment option!")}
         >
           Next

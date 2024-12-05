@@ -24,7 +24,7 @@ const DessertForm = () => {
 
   return (
     <div>
-      <SectionTitle text="Got a sweet tooth craving?" />
+      <SectionTitle text="Got a sweet tooth craving?" classname="mt-2" />
       <div className="mt-6">
         <GridSelection
           options={dessertOptions}
@@ -35,11 +35,11 @@ const DessertForm = () => {
 
       {selectedItems.length > 0 ? (
         <Link href="/Budget">
-          <Button className="mt-8 mx-4 w-[343px] h-[48px]">Next</Button>
+          <Button className="mt-8 ">Next</Button>
         </Link>
       ) : (
         <Button
-          className="mt-8 mx-4 w-[343px] h-[48px]"
+          className="mt-8 "
           onClick={() => alert("Please select if you want dessert!")}
         >
           Next

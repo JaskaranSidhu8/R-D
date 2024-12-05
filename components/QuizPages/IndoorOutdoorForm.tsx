@@ -26,7 +26,7 @@ const IndoorOutdoorForm = () => {
 
   return (
     <div>
-      <SectionTitle text="Pick your ideal dining setting" />
+      <SectionTitle text="Pick your ideal dining setting" classname="mt-2" />
       <div className="mt-6">
         <GridSelection
           options={indoorOutdoorOptions}
@@ -37,11 +37,11 @@ const IndoorOutdoorForm = () => {
 
       {selectedItems.length > 0 ? (
         <Link href="/Vibe">
-          <Button className="mt-8 mx-4 w-[343px] h-[48px]">Next</Button>
+          <Button className="mt-8">Next</Button>
         </Link>
       ) : (
         <Button
-          className="mt-8 mx-4 w-[343px] h-[48px]"
+          className="mt-8 "
           onClick={() => alert("Please select a dining setting!")}
         >
           Next
