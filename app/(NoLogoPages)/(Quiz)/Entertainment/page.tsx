@@ -12,7 +12,7 @@ const Entertainment = () => {
       <QuizTransition>
         <div className="flex justify-center">
           <EntertainmentForm />
-        </div>{" "}
+        </div>
       </QuizTransition>
     </div>
   );

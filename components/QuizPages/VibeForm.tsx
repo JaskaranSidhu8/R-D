@@ -26,7 +26,7 @@ const VibeForm = () => {
 
   return (
     <div>
-      <SectionTitle text="Whats your vibe for this meal?" />
+      <SectionTitle text="Whats your vibe for this meal?" classname="mt-2" />
       <div className="mt-6">
         <GridSelection
           options={atmosphereOptions}
@@ -37,11 +37,11 @@ const VibeForm = () => {
 
       {selectedItems.length > 0 ? (
         <Link href="/Entertainment">
-          <Button className="mt-8 mx-4 w-[343px] h-[48px]">Next</Button>
+          <Button className="mt-8 ">Next</Button>
         </Link>
       ) : (
         <Button
-          className="mt-8 mx-4 w-[343px] h-[48px]"
+          className="mt-8 "
           onClick={() => alert("Please select an atmosphere!")}
         >
           Next

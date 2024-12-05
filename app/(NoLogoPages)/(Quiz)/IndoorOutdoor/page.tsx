@@ -8,13 +8,12 @@ import { QuizTransition } from "@/components/QuizPages/QuizTransition";
 const IndoorOutdoor = () => {
   return (
     <div>
-      <QuizHeader progress={20} />
-      <div className="flex justify-center">
-        <QuizTransition>
-          {" "}
+      <QuizHeader progress={25} />
+      <QuizTransition>
+        <div className="flex justify-center">
           <IndoorOutdoorForm />
-        </QuizTransition>
-      </div>
+        </div>
+      </QuizTransition>
     </div>
   );
 };

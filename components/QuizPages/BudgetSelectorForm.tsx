@@ -14,8 +14,8 @@ const BudgetSelectorForm = () => {
   };
 
   return (
-    <div className="flex flex-col w-full mx-auto  pt-4">
-      <SectionTitle text="What's your budget?" classname="mb-8" />
+    <div className="w-full">
+      <SectionTitle text="What's your budget?" classname=" mt-2 mb-8" />
 
       <div className="mb-12">
         <Slider
@@ -39,7 +39,7 @@ const BudgetSelectorForm = () => {
           </div>
         </div>
       </div>
-      <Link href="/StatusMbr/2">
+      <Link href="/Completed">
         <Button>Next</Button>
       </Link>
     </div>

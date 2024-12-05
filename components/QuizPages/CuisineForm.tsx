@@ -46,8 +46,11 @@ const CuisineForm = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <SectionTitle text="What type of cuisine are you craving?" />
+    <div>
+      <SectionTitle
+        text="What type of cuisine are you craving?"
+        classname="mt-2 "
+      />
       <div className="h-[50vh] mt-6">
         <VerticalCarousel
           options={cuisineOptions}

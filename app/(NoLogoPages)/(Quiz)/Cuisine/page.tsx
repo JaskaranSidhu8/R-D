@@ -8,10 +8,11 @@ import { QuizTransition } from "@/components/QuizPages/QuizTransition";
 const Cuisine = () => {
   return (
     <div>
-      <QuizHeader progress={10} />
+      <QuizHeader progress={13} />
       <QuizTransition>
-        {" "}
-        <CuisineForm></CuisineForm>{" "}
+        <div className="flex justify-center">
+          <CuisineForm />
+        </div>
       </QuizTransition>
     </div>
   );

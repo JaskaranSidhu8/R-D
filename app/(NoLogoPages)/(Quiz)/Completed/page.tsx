@@ -2,20 +2,20 @@
 
 import React from "react";
 import QuizHeader from "@/components/QuizPages/QuizHeader";
-import DrinksForm from "@/components/QuizPages/DrinksForm";
 import { QuizTransition } from "@/components/QuizPages/QuizTransition";
+import CompletedForm from "@/components/QuizPages/CompletedForm";
 
-const Drinks = () => {
+const Completed = () => {
   return (
     <div>
-      <QuizHeader progress={63} />
+      <QuizHeader progress={100} />
       <QuizTransition>
         <div className="flex justify-center">
-          <DrinksForm />
+          <CompletedForm />
         </div>
       </QuizTransition>
     </div>
   );
 };
 
-export default Drinks;
+export default Completed;
