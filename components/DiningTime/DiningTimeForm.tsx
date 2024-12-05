@@ -74,7 +74,7 @@ const DiningTimeForm = () => {
           </SelectContent>
         </Select>
         {isValid ? (
-          <Link href="/StatusMgr">
+          <Link href="/StatusMgr/1">
             <Button>Create group</Button>
           </Link>
         ) : (

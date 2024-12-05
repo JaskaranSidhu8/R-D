@@ -3,6 +3,7 @@ import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import MemberStatus from "./MemberStatus";
 import { Link2Icon } from "lucide-react";
+import Link from "next/link";
 
 type Props = {
   state: "Makeyourchoices" | "Changeyourchoices";
@@ -217,12 +218,14 @@ const GroupStatus: React.FC<Props> = ({ state, generate }) => {
           ))}
         </Card>
         {state === "Makeyourchoices" && (
-          <Button
-            className="font-bold shadow-none border-primary text-primary"
-            variant={"outline"}
-          >
-            Make your choices
-          </Button>
+          <Link href={"/Cuisine"} className="mt-4 block">
+            <Button
+              className="font-bold shadow-none border-primary text-primary"
+              variant={"outline"}
+            >
+              Make your choices
+            </Button>
+          </Link>
         )}
         {generate && <Button className="font-bold">Generate</Button>}
         {state === "Changeyourchoices" && (

@@ -9,11 +9,12 @@ const IndoorOutdoor = () => {
   return (
     <div>
       <QuizHeader progress={20} />
-      <QuizTransition>
-        {" "}
-        <IndoorOutdoorForm />
-      </QuizTransition>
-      {/* <div className="flex justify-center"></div> */}
+      <div className="flex justify-center">
+        <QuizTransition>
+          {" "}
+          <IndoorOutdoorForm />
+        </QuizTransition>
+      </div>
     </div>
   );
 };
