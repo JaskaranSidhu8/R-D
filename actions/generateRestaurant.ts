@@ -1,13 +1,16 @@
 "use server";
 
 import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
-import { fetchGroupPreferences, fetchRestaurants } from "@/utils/backendApi";
+import { checkHardConstraintsGroup, fetchGroupPreferences} from "@/utils/backendApi";
 import { Database, Tables } from "@/utils/types/supabase";
 import supabase from "@/utils/supabaseClient";
+import { filterRestaurantsByHardConstraint } from "@/utils/filterRestaurantsByHardConstraint";
 
-export async function algorithm(group_id: number) {
+export async function algorithm(group_id: number, filteredRestaurantsByTime: Tables<"restaurants">[]) {  //, filteredRestaurantsByTime: any[] I will need this parameter cuz the algorithm function is called when generate button is pressed by the manager, but the filtration based on time of the restaurants is done when the team was first created by the manager.
   const groupOfUsers = await fetchGroupPreferences(group_id);
-  const restaurants = await fetchRestaurants();
+  //const restaurants = await fetchRestaurants("true"); //true, meaning that it serves Vegan and Vegetarian FOOD, but we dint need it with the ne
+  const hasHardConstraints = await checkHardConstraintsGroup(group_id); //works properly
+  const filteredRestaurants = await filterRestaurantsByHardConstraint(filteredRestaurantsByTime, hasHardConstraints); //this function will filter if there is at least a user with hard_constraints set to true, or just return the unfiltered list again. had to write it this way cuz reasons with typescript
 
   const numUsers = groupOfUsers.length;
   const totalPreferences = Array(10).fill(0);
@@ -15,7 +18,8 @@ export async function algorithm(group_id: number) {
   groupOfUsers.forEach(({ soft_constraints }) => {
     if (!soft_constraints) {
       // Skip this user if softconstraints doesn't exist
-      console.warn("Skipping user with no softconstraints");
+     // i dont know how to fix this error, but it s not relevant now console.warn("Skipping user with  id number", `${soft_constraints.user_id} ` , " because it has no softconstraints");
+     console.warn("Skipping user with no softconstraints");
       return;
     }
 
@@ -29,11 +33,14 @@ export async function algorithm(group_id: number) {
   console.log(
     "Total preferences:",
     totalPreferences.map((total) => total / numUsers),
-  );
+  );  ///
+
+  //repete procesul de mai sus de inca 2 ori, pt users cuisineSoftConstraint si userBudgetConstraint
 
   // filter hardconstraints:
 
   // Step 3: Filter restaurants based on hard constraints
+  /*
   const glutenRequired = groupOfUsers.some((user) => {
     if (!user.users || !user.users.hard_constraints) {
       return false;
@@ -55,29 +62,33 @@ export async function algorithm(group_id: number) {
 
   console.log("Filtered Restaurants:", filteredRestaurants);
 
+  */
+
   // Step 4: Calculate cosine similarity and find the best restaurant
   let bestRestaurant: Tables<"restaurants"> = filteredRestaurants[0];
   let highestSimilarity = -1;
 
   filteredRestaurants.forEach((restaurant) => {
-    if (!restaurant.soft_constraints) {
+    if (!restaurant.soft_constraints) { //the soft constraints will always be set, but it is just for the typescript to not give errors
       console.warn(
         "Skipping restaurant with no softconstraints:",
         restaurant.name,
       );
       return;
-    }
+    } 
 
     const restaurantPreferences = restaurant.soft_constraints
       .split("")
       .map(Number);
-    const similarity = cosineSimilarity(
+    const softConstraintsSimilarity = cosineSimilarity(
       totalPreferences,
       restaurantPreferences,
     );
 
-    if (bestRestaurant === null || similarity > highestSimilarity) {
-      highestSimilarity = similarity;
+    //const similarity = softConstraintsSimilarity * weightSoft + cuisineSimilarity * weightCuisine + budgetSimilarity *weightBudget
+
+    if (bestRestaurant === null || softConstraintsSimilarity > highestSimilarity) { //aici pui similarity , lasa asa ca sa nu ti dea erori momentan
+      highestSimilarity = softConstraintsSimilarity;
       bestRestaurant = restaurant;
     }
   });
