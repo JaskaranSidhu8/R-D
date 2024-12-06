@@ -177,6 +177,7 @@ export async function fetchUserStatusInGroup(group_id: number) {
   user_id,
   group_id,
   isready,
+  budget,
   groups (
       id,
       created_at,
@@ -191,6 +192,7 @@ export async function fetchUserStatusInGroup(group_id: number) {
   `,
     )
     .eq("group_id", group_id);
+  console.log("Existing User Data:", data);
   if (error) {
     throw new Error(`Error fetching groups for user: ${error.message}`);
   }
