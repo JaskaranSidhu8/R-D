@@ -15,7 +15,7 @@ const page = (props: Props) => {
     <div>
       <SectionTitle classname="mt-20  mb-5" text="Verify your email " />
       <p>
-        we've sent a one time verification code to your email:{" "}
+        we have sent a one time verification code to your email:{" "}
         <span className=" text-primary">{decodeURIComponent(email)}</span>{" "}
         Please check your email
       </p>

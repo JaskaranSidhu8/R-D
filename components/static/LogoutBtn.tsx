@@ -5,9 +5,7 @@ import { LogOut } from "lucide-react";
 import { logOut } from "@/actions/auth";
 import { redirect } from "next/navigation";
 
-type Props = {};
-
-const LogoutBtn = (props: Props) => {
+const LogoutBtn = () => {
   const logoutHandler = async () => {
     await logOut().then(() => {
       redirect("/");
