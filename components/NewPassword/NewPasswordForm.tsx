@@ -1,7 +1,9 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Password from "@/components/static/Password";
+
 // this should be a form
+
 const NewPasswordForm = () => {
   return (
     <div className="flex flex-col w-full max-w-md mx-auto mt-[12vh]">
@@ -12,21 +14,21 @@ const NewPasswordForm = () => {
           <label className="text-sm font-medium text-black mb-2 block">
             Current password
           </label>
-          <Password />
+          <Password name="password" />
         </div>
 
         <div>
           <label className="text-sm font-medium text-black mb-2 block">
             New password
           </label>
-          <Password />
+          <Password name="password" />
         </div>
 
         <div>
           <label className="text-sm font-medium text-black mb-2 block">
             Confirm new password
           </label>
-          <Password />
+          <Password name="password" />
         </div>
       </div>
 
