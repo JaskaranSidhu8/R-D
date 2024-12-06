@@ -17,7 +17,7 @@ const Diagram = () => {
     setIsVisible(inView);
   }, [inView]);
   return (
-    <div ref={ref} className=" relative  aspect-square mt-10 w-5/6 mx-auto ">
+    <div ref={ref} className=" relative  aspect-square  mt-40 w-5/6 mx-auto ">
       <Image
         className={`absolute top-0 left-0 w-full duration-500 ${
           isVisible ? "opacity-100" : "opacity-0"
