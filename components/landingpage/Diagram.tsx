@@ -9,7 +9,8 @@ import { useInView } from "react-intersection-observer";
 const Diagram = () => {
   const { ref, inView } = useInView({
     triggerOnce: false,
-    threshold: 1,
+    threshold: 0.5,
+    rootMargin: "-50px 0px -50px 0px", // Add some buffer to avoid retriggering
   });
 
   const [isVisible, setIsVisible] = useState(false);
