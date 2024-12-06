@@ -1,9 +1,10 @@
-'use client';
+"use client";
 import Foter from "@/components/static/Foter";
 import React, { useEffect } from "react";
 import "./globals.css";
 import { AnimatePresence } from "framer-motion";
 import { initIntercom, shutdownIntercom } from "../utils/intercom"; // Adjust the path based on your utils location
+
 /*
 export const metadata = {
   title: "TieBreaker",
