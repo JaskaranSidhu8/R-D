@@ -1,14 +1,8 @@
-<<<<<<< HEAD
 import supabase from "./supabaseClient";
 import { unstable_noStore as noStore } from "next/cache";
 import { Database, Tables } from "./types/supabase";
 import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
-=======
-import { unstable_noStore as noStore } from "next/cache";
-import { Database, Tables } from "./types/supabase";
-import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
 import createSupabaseServerClient from "@/lib/supabase/server";
->>>>>>> a30be875eabeb8a1825bb2b68dd769a3e1a76d29
 
 //export async function fetchGroupPreferences2(group_id: number) {
 //   const preferencesUserMax =  supabase
@@ -58,7 +52,6 @@ export async function fetchGroupPreferences(group_id: number) {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("group_users")
-<<<<<<< HEAD
     .select(
       `
       id,
@@ -92,9 +85,6 @@ export async function checkHardConstraintsGroup(group_id: number) {
       )
     `,
     )
-=======
-    .select(`*`)
->>>>>>> a30be875eabeb8a1825bb2b68dd769a3e1a76d29
     .eq("group_id", group_id);
   if (error) {
     throw new Error(`Error fetching group users: ${error.message}`);
@@ -110,7 +100,6 @@ export async function checkHardConstraintsGroup(group_id: number) {
   //console.log("The hasHardConstraintValueIs:",  hasHardConstraints);
   return hasHardConstraints;
 }
-<<<<<<< HEAD
 
 {
   /*
@@ -119,12 +108,6 @@ export async function fetchRestaurants(hardConst: string) { //will not be used i
     .from('restaurants')
     .select('*')
     .eq("hard_constraints", hardConst);
-=======
-export async function fetchRestaurants() {
-  const supabase = await createSupabaseServerClient();
-
-  const { data, error } = await supabase.from("restaurants").select("*");
->>>>>>> a30be875eabeb8a1825bb2b68dd769a3e1a76d29
   if (error) {
     throw new Error(`Error fetching restaurants: ${error.message}`);
   }
