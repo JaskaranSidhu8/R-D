@@ -4,7 +4,6 @@ import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
 import { fetchGroupPreferences, fetchRestaurants } from "@/utils/backendApi";
 import { Database, Tables } from "@/utils/types/supabase";
 import supabase from "@/utils/supabaseClient";
-import { group } from "console";
 
 export async function algorithm(group_id: number) {
   const groupOfUsers = await fetchGroupPreferences(group_id);
@@ -208,4 +207,22 @@ export async function retrieveUserSettings(user_id: number) {
     throw new Error(`Error fetching user settings for user : ${error.message}`);
   }
   return data;
+}
+
+type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
+
+export async function importUserData(
+  formData: UserInsert,
+): Promise<{ success: boolean; error?: string }> {
+  const { id, ...dataWithoutId } = formData;
+
+  // Insert data into the `users` table
+  const { error } = await supabase.from("users").insert(dataWithoutId);
+
+  if (error) {
+    console.error("Error inserting user data:", error.message);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
 }
