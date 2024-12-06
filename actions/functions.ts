@@ -3,6 +3,7 @@ import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
 import { fetchGroupPreferences, fetchRestaurants } from "@/utils/backendApi";
 import { Database, Tables } from "@/utils/types/supabase";
 import createSupabaseServerClient from "@/lib/supabase/reader";
+import supabase from "@/utils/supabaseClient";
 
 export async function algorithm(group_id: number) {
   const groupOfUsers = await fetchGroupPreferences(group_id);
