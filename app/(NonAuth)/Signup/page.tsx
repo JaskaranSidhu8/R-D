@@ -19,7 +19,7 @@ const Signup = () => {
       <SectionTitle classname="mt-20  mb-5" text="Sign up, let's eat!" />
       <SignupForm mode="Signup" />
       <AuthLink
-        text="Don't have an account "
+        text="Already have an account? "
         href="/Signin"
         signinup="Sign in"
         classname=" mt-8"
