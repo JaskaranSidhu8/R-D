@@ -7,29 +7,35 @@ export async function filterRestaurantsByTime(day: number, hour: number, minute:
     .from("restaurants_times")
     .select("restaurant_id")
     .eq("day", day)
-    .lte("open_hour", hour)
-    .gte("close_hour", hour);
+     .lte("open_hour", hour)
+     .gte("close_hour", hour);
     //.or(
     //    `and(open_hour.lt.${hour},close_hour.gt.${hour}),
     //     and(open_hour.eq.${hour},open_minute.lte.${minute}),
     //     and(close_hour.eq.${hour},close_minute.gte.${minute})`
     //  );
 
-    // if (hour= ope hour || hour = close hour)
-    //     if (minute > open minitu of restaaurant)
-    //         return true
+//    if (userHour>openHour && userHour<closeHour)
+//         return true
+//     else
+//         if (userHour == openHour)
+//             if (userMinute>openMinute)
+//                 return true
+//             else
+//                 return false
+//         else
 
   if (timeError) {
     throw new Error(`Error fetching open restaurants: ${timeError.message}`);
   }
 
   if (!openRestaurants || openRestaurants.length === 0) {
-    console.warn("No restaurants are open at the specified time.");
+    //console.warn("No restaurants are open at the specified time.");
     return [];
   }
 
   if (openRestaurants.length < 10) {
-    console.warn("Less than 10 restaurants are open at this time.");
+    //console.warn("Less than 10 restaurants are open at this time.");
   }
 
   // Step 2: Extract restaurant IDs

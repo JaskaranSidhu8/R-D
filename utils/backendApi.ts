@@ -97,7 +97,7 @@ export async function checkHardConstraintsGroup(group_id: number) {
   const hardConstraints = user.users?.hard_constraints;
     return hardConstraints && Object.values(hardConstraints).some((value) => value === "1");
   });
-  console.log("The hasHardConstraintValueIs:",  hasHardConstraints);
+  //console.log("The hasHardConstraintValueIs:",  hasHardConstraints);
   return hasHardConstraints;
 }
 

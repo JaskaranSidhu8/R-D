@@ -1,11 +1,9 @@
-
-
 import { algorithm } from "@/actions/generateRestaurant";
 import React from "react";
 
 const BestRestaurantComponent = async () => {
-  const group_id = 1; // Assign a static value for testing
-  const day = 2;
+  const group_id = 3; // Assign a static value for testing
+  const day = 4;
   const hour = 18;
   const minute = 0;
   const { bestRestaurant, similarity } = await algorithm(group_id, day, hour, minute);

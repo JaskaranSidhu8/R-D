@@ -20,7 +20,7 @@ const RestaurantFilter = () => {
       const filteredRestaurantsByHardConstraints = await filterRestaurantsByHardConstraint(filteredRestaurants, hasHardConstraints); //filter by hard constraint works
       setRestaurants(filteredRestaurantsByHardConstraints.map(({ id, name }) => ({ id, name })));
       const mata = getCuisineSoftConstraint("asian_restaurant");
-      console.log("mata is", mata)
+      //console.log("mata is", mata)
     } catch (err) {
       //setError(err.message);
     }
