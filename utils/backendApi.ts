@@ -49,7 +49,7 @@ import createSupabaseServerClient from "@/lib/supabase/server";
 //}
 
 export async function fetchGroupPreferences(group_id: number) {
-  const supabase = await createSupabaseServerClient();
+  //const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("group_users")
     .select(
