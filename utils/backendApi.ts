@@ -61,6 +61,8 @@ export async function fetchGroupPreferences(group_id: number) {
       user_id,
       group_id,
       soft_constraints,
+      cuisine_preferences,
+      budget,
       users (
         hard_constraints
       )

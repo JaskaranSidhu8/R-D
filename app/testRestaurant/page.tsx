@@ -5,7 +5,10 @@ import React from "react";
 
 const BestRestaurantComponent = async () => {
   const group_id = 1; // Assign a static value for testing
-  const { bestRestaurant, similarity } = await algorithm(group_id);
+  const day = 2;
+  const hour = 18;
+  const minute = 0;
+  const { bestRestaurant, similarity } = await algorithm(group_id, day, hour, minute);
 
   return (
     <div>

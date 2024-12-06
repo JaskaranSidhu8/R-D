@@ -15,6 +15,10 @@ export async function filterRestaurantsByTime(day: number, hour: number, minute:
     //     and(close_hour.eq.${hour},close_minute.gte.${minute})`
     //  );
 
+    // if (hour= ope hour || hour = close hour)
+    //     if (minute > open minitu of restaaurant)
+    //         return true
+
   if (timeError) {
     throw new Error(`Error fetching open restaurants: ${timeError.message}`);
   }
