@@ -1,13 +1,13 @@
 "use server";
-
 import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
 import { fetchGroupPreferences, fetchRestaurants } from "@/utils/backendApi";
 import { Database, Tables } from "@/utils/types/supabase";
-import supabase from "@/utils/supabaseClient";
-import { group } from "console";
+import createSupabaseServerClient from "@/lib/supabase/reader";
+
 
 export async function algorithm(group_id: number) {
   const groupOfUsers = await fetchGroupPreferences(group_id);
+
   const restaurants = await fetchRestaurants();
 
   const numUsers = groupOfUsers.length;
@@ -19,10 +19,9 @@ export async function algorithm(group_id: number) {
       console.warn("Skipping user with no softconstraints");
       return;
     }
-
     console.log("softconstraints:", soft_constraints);
     const prefs = soft_constraints.split("").map(Number); // Split and convert to numbers
-    prefs.forEach((pref, index) => {
+    prefs.forEach((pref: any, index: number) => {
       totalPreferences[index] += pref * weights[index];
       totalPreferences.map((total) => total / numUsers);
     });
@@ -96,6 +95,8 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
 }
 
 export async function fetchUserGroups(user_idd: number) {
+  const supabase = await createSupabaseServerClient();
+
   const { data, error } = await supabase
     .from("group_users")
     .select(
@@ -112,10 +113,7 @@ export async function fetchUserGroups(user_idd: number) {
         hard_constraints,
         isdeleted,
         size
-
-
       )
-     
     `,
     )
     .eq("user_id", user_idd);

@@ -10,8 +10,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const isLogin = await checkLogin();
-  if (!isLogin) {
-    redirect("/");
+  if (isLogin) {
+    redirect("/Home");
   }
   return (
     <>

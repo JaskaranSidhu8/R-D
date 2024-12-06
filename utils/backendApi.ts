@@ -1,7 +1,7 @@
-import supabase from "./supabaseClient";
 import { unstable_noStore as noStore } from "next/cache";
 import { Database, Tables } from "./types/supabase";
 import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
+import createSupabaseServerClient from "@/lib/supabase/server";
 
 //export async function fetchGroupPreferences2(group_id: number) {
 //   const preferencesUserMax =  supabase
@@ -47,19 +47,10 @@ import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
 
 //}
 export async function fetchGroupPreferences(group_id: number) {
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("group_users")
-    .select(
-      `
-      id,
-      user_id,
-      group_id,
-      soft_constraints,
-      users (
-        hard_constraints
-      )
-    `,
-    )
+    .select(`*`)
     .eq("group_id", group_id);
   if (error) {
     throw new Error(`Error fetching group users: ${error.message}`);
@@ -67,6 +58,8 @@ export async function fetchGroupPreferences(group_id: number) {
   return data;
 }
 export async function fetchRestaurants() {
+  const supabase = await createSupabaseServerClient();
+
   const { data, error } = await supabase.from("restaurants").select("*");
   if (error) {
     throw new Error(`Error fetching restaurants: ${error.message}`);
