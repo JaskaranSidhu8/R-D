@@ -24,7 +24,7 @@ const DrinksForm = () => {
 
   return (
     <div>
-      <SectionTitle text="Fancy a drink with your meal?" />
+      <SectionTitle text="Fancy a drink with your meal?" classname="mt-2" />
       <div className="mt-6">
         <GridSelection
           options={drinkOptions}
@@ -35,11 +35,11 @@ const DrinksForm = () => {
 
       {selectedItems.length > 0 ? (
         <Link href="/Dessert">
-          <Button className="mt-8 mx-4 w-[343px] h-[48px]">Next</Button>
+          <Button className="mt-8 ">Next</Button>
         </Link>
       ) : (
         <Button
-          className="mt-8 mx-4 w-[343px] h-[48px]"
+          className="mt-8"
           onClick={() => alert("Please select a drink preference!")}
         >
           Next

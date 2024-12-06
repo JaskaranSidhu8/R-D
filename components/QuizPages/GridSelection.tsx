@@ -23,7 +23,7 @@ const GridSelection = ({
       case 1:
         return "grid-cols-1 max-w-md";
       case 2:
-        return "grid-cols-2 max-w-2xl";
+        return "grid-cols-2 max-w-4xl";
       case 3:
         return "grid-cols-2 max-w-4xl [&>*:last-child]:col-span-2 [&>*:last-child]:mx-auto [&>*:last-child]:w-1/2";
       case 4:
@@ -34,7 +34,7 @@ const GridSelection = ({
   };
 
   return (
-    <div className={`grid ${getGridLayout()} gap-6 px-4`}>
+    <div className={`grid ${getGridLayout()} gap-6 `}>
       {options.map((option, index) => (
         <button
           key={index}

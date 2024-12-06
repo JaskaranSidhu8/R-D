@@ -11,14 +11,17 @@ export type Database = {
     Tables: {
       cuisine_groups: {
         Row: {
+          cuisine_soft_constraints: string | null;
           group_name: string;
           id: number;
         };
         Insert: {
+          cuisine_soft_constraints?: string | null;
           group_name: string;
           id?: number;
         };
         Update: {
+          cuisine_soft_constraints?: string | null;
           group_name?: string;
           id?: number;
         };
@@ -52,23 +55,29 @@ export type Database = {
       };
       group_users: {
         Row: {
+          budget: string | null;
+          cuisine_preferences: string | null;
           group_id: number;
           id: number;
-          preferences: string | null;
+          isready: boolean | null;
           soft_constraints: string | null;
           user_id: number;
         };
         Insert: {
+          budget?: string | null;
+          cuisine_preferences?: string | null;
           group_id: number;
           id?: number;
-          preferences?: string | null;
+          isready?: boolean | null;
           soft_constraints?: string | null;
           user_id: number;
         };
         Update: {
+          budget?: string | null;
+          cuisine_preferences?: string | null;
           group_id?: number;
           id?: number;
-          preferences?: string | null;
+          isready?: boolean | null;
           soft_constraints?: string | null;
           user_id?: number;
         };
@@ -91,7 +100,10 @@ export type Database = {
       };
       groups: {
         Row: {
+          city: string | null;
+          country: string | null;
           created_at: string | null;
+          group_code: string | null;
           group_creator: number | null;
           hard_constraints: string | null;
           id: number;
@@ -99,10 +111,15 @@ export type Database = {
           location: string | null;
           name: string | null;
           pickedrestaurant: number | null;
+          profile_picture: string | null;
           size: number | null;
+          status: boolean | null;
         };
         Insert: {
+          city?: string | null;
+          country?: string | null;
           created_at?: string | null;
+          group_code?: string | null;
           group_creator?: number | null;
           hard_constraints?: string | null;
           id?: number;
@@ -110,10 +127,15 @@ export type Database = {
           location?: string | null;
           name?: string | null;
           pickedrestaurant?: number | null;
+          profile_picture?: string | null;
           size?: number | null;
+          status?: boolean | null;
         };
         Update: {
+          city?: string | null;
+          country?: string | null;
           created_at?: string | null;
+          group_code?: string | null;
           group_creator?: number | null;
           hard_constraints?: string | null;
           id?: number;
@@ -121,7 +143,9 @@ export type Database = {
           location?: string | null;
           name?: string | null;
           pickedrestaurant?: number | null;
+          profile_picture?: string | null;
           size?: number | null;
+          status?: boolean | null;
         };
         Relationships: [
           {
@@ -174,8 +198,6 @@ export type Database = {
           google_maps_URI: string | null;
           hard_constraints: string | null;
           id: number;
-          location_lat: number | null;
-          location_lng: number | null;
           name: string;
           national_phone_number: string | null;
           price_level: string | null;
@@ -191,8 +213,6 @@ export type Database = {
           google_maps_URI?: string | null;
           hard_constraints?: string | null;
           id?: number;
-          location_lat?: number | null;
-          location_lng?: number | null;
           name: string;
           national_phone_number?: string | null;
           price_level?: string | null;
@@ -208,8 +228,6 @@ export type Database = {
           google_maps_URI?: string | null;
           hard_constraints?: string | null;
           id?: number;
-          location_lat?: number | null;
-          location_lng?: number | null;
           name?: string;
           national_phone_number?: string | null;
           price_level?: string | null;
@@ -322,6 +340,41 @@ export type Database = {
           name?: string | null;
         };
         Relationships: [];
+      };
+      user_weights: {
+        Row: {
+          atmosphere_weight: number | null;
+          budget_weight: number | null;
+          cuisine_weight: number | null;
+          drink_weight: number | null;
+          id: number;
+          user_id: number | null;
+        };
+        Insert: {
+          atmosphere_weight?: number | null;
+          budget_weight?: number | null;
+          cuisine_weight?: number | null;
+          drink_weight?: number | null;
+          id?: number;
+          user_id?: number | null;
+        };
+        Update: {
+          atmosphere_weight?: number | null;
+          budget_weight?: number | null;
+          cuisine_weight?: number | null;
+          drink_weight?: number | null;
+          id?: number;
+          user_id?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "user_weights_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       users: {
         Row: {

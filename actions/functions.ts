@@ -4,6 +4,7 @@ import { fetchGroupPreferences, fetchRestaurants } from "@/utils/backendApi";
 import { Database, Tables } from "@/utils/types/supabase";
 import createSupabaseServerClient from "@/lib/supabase/reader";
 
+
 export async function algorithm(group_id: number) {
   const groupOfUsers = await fetchGroupPreferences(group_id);
 
@@ -84,11 +85,9 @@ export async function algorithm(group_id: number) {
 
   console.log("Best Restaurant:", bestRestaurant);
 
-  // Return or log the best restaurant
   return { bestRestaurant, similarity: highestSimilarity };
 }
 
-// Cosine similarity function
 function cosineSimilarity(vecA: number[], vecB: number[]): number {
   const dotProduct = vecA.reduce((acc, val, i) => acc + val * vecB[i], 0);
   const magA = Math.sqrt(vecA.reduce((acc, val) => acc + val * val, 0));
@@ -118,9 +117,94 @@ export async function fetchUserGroups(user_idd: number) {
       )
     `,
     )
-    .eq("user_id", user_idd); // Filter by the user_id
+    .eq("user_id", user_idd);
   if (error) {
     throw new Error(`Error fetching groups for user: ${error.message}`);
+  }
+  return data;
+}
+
+export async function checkCodeAndInsertUser(
+  groupCode: string,
+  userId: number,
+) {
+  const { data: groupData, error: groupError } = await supabase
+    .from("groups")
+    .select("id")
+    .eq("group_code", groupCode)
+    .single();
+
+  if (groupError) {
+    return { success: false, message: "Group code not found" };
+  }
+
+  const groupId = groupData?.id;
+
+  const { data: existingUserData, error: existingUserError } = await supabase
+    .from("group_users")
+    .select("id")
+    .eq("group_id", groupId)
+    .eq("user_id", userId)
+    .single();
+  console.log("Existing User Data:", existingUserData);
+  if (existingUserData) {
+    return { success: false, message: "User is already in the group" };
+  }
+
+  const { error: insertError } = await supabase.from("group_users").insert({
+    group_id: groupId,
+    user_id: userId,
+  });
+
+  if (insertError) {
+    return {
+      success: false,
+      error: insertError.message,
+      message: "Failed to add user",
+    };
+  }
+
+  return { success: true, message: "User added successfully" };
+}
+
+export async function fetchUserStatusInGroup(group_id: number) {
+  const { data, error } = await supabase
+    .from("group_users")
+    .select(
+      `
+    id,
+  user_id,
+  group_id,
+  isready,
+  budget,
+  groups (
+      id,
+      created_at,
+      name,
+      size
+  ),
+  users (
+      id,
+      firstName,
+      lastName
+  )
+  `,
+    )
+    .eq("group_id", group_id);
+  console.log("Existing User Data:", data);
+  if (error) {
+    throw new Error(`Error fetching groups for user: ${error.message}`);
+  }
+  return data;
+}
+
+export async function retrieveUserSettings(user_id: number) {
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", user_id);
+  if (error) {
+    throw new Error(`Error fetching user settings for user : ${error.message}`);
   }
   return data;
 }
