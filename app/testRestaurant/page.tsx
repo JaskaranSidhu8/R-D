@@ -1,4 +1,4 @@
-import { algorithm } from "@/actions/generateRestaurant";
+import { algorithm } from "@/actions/functions";
 import React from "react";
 
 const BestRestaurantComponent = async () => {

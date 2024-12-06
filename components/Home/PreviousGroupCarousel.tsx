@@ -8,7 +8,7 @@ import {
   // CarouselPrevious,
 } from "@/components/ui/carousel";
 import GroupItemCard from "./GroupItemCard";
-import { fetchUserGroups } from "@/actions/generateRestaurant";
+import { fetchUserGroups } from "@/actions/functions";
 
 type Props = {
   items: CarouselDataType[];
