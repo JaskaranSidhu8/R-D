@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "../ui/button";
 import { verifyEmailUsingOTP } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 
 type Props = {
   email: string;
@@ -14,10 +15,12 @@ type Props = {
 
 const VerificationForm = (props: Props) => {
   const { email } = props;
+  const router = useRouter();
 
-  const onSubmit = (e: FormData) => {
+  const onSubmit = async (e: FormData) => {
     e.append("email", email);
-    verifyEmailUsingOTP(e);
+    const { success } = await verifyEmailUsingOTP(e);
+    if (success) router.push("/Setup");
   };
   return (
     <form

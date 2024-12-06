@@ -5,7 +5,10 @@ import Password from "../static/Password";
 import { Button } from "../ui/button";
 import { redirect, useRouter } from "next/navigation";
 import PasswordValidator from "../static/PasswordValidator";
-import { signUpWithEmailAndPassword } from "@/actions/auth";
+import {
+  signInWithEmailAndPassword,
+  signUpWithEmailAndPassword,
+} from "@/actions/auth";
 
 type Props = {
   mode: "Signup" | "Signin";
@@ -22,7 +25,10 @@ const SignupForm = (props: Props) => {
         );
       }
     } else {
-      //redirect("/Home");
+      const { success } = await signInWithEmailAndPassword(e);
+      if (success) {
+        router.push(`/Home`);
+      }
     }
   };
   return (
