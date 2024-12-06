@@ -1,5 +1,4 @@
 import React from "react";
-import { CarouselDataType } from "./PreviousGroups";
 import {
   Carousel,
   CarouselContent,
@@ -10,10 +9,10 @@ import {
 import GroupItemCard from "./GroupItemCard";
 
 type Props = {
-  items: CarouselDataType[];
+  items: any[];
 };
 
-const PreviousGroupCarousel = (props: Props) => {
+const PreviousGroupCarousel = async (props: Props) => {
   return (
     <Carousel
       opts={{
@@ -35,3 +34,6 @@ const PreviousGroupCarousel = (props: Props) => {
 };
 
 export default PreviousGroupCarousel;
+
+//create a form , build in function called action, pass it as formdata
+//backkend receives formdata

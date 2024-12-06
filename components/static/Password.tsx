@@ -5,7 +5,11 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import React from "react";
 
-export default function Password() {
+type Props = {
+  name: string;
+};
+
+export default function Password(props: Props) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
@@ -14,6 +18,7 @@ export default function Password() {
     <div className="space-y-2">
       <div className="relative">
         <Input
+          name={props.name}
           id="input-23"
           className="pe-9"
           placeholder="Password"
