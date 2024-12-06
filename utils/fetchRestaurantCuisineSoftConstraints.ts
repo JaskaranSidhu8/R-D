@@ -83,9 +83,17 @@ const cuisineGroups: CuisineGroup[] = [
   { id: 1, group_name: "Asian", cuisine_soft_constraints: "1000000000000" },
   { id: 2, group_name: "American", cuisine_soft_constraints: "0100000000000" },
   { id: 3, group_name: "Italian", cuisine_soft_constraints: "0010000000000" },
-  { id: 4, group_name: "Mexican_Latin", cuisine_soft_constraints: "0001000000000" },
+  {
+    id: 4,
+    group_name: "Mexican_Latin",
+    cuisine_soft_constraints: "0001000000000",
+  },
   { id: 5, group_name: "Indian", cuisine_soft_constraints: "0000100000000" },
-  { id: 6, group_name: "Mediterranean", cuisine_soft_constraints: "0000010000000" },
+  {
+    id: 6,
+    group_name: "Mediterranean",
+    cuisine_soft_constraints: "0000010000000",
+  },
   { id: 7, group_name: "European", cuisine_soft_constraints: "0000001000000" },
   { id: 8, group_name: "Seafood", cuisine_soft_constraints: "0000000100000" },
   { id: 9, group_name: "Vegan", cuisine_soft_constraints: "0000000010000" },
@@ -96,9 +104,9 @@ const cuisineGroups: CuisineGroup[] = [
 ];
 
 // Function to retrieve cuisine soft constraints
-export function getCuisineSoftConstraint(primaryType: string){
+export function getCuisineSoftConstraint(primaryType: string) {
   const mapping = cuisineMappings.find(
-    (item) => item.google_cuisine === primaryType
+    (item) => item.google_cuisine === primaryType,
   );
 
   if (!mapping) {

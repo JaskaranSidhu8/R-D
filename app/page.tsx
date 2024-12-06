@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import CallToAction from "@/components/landingpage/CallToAction";
 import ConversationSection from "@/components/landingpage/ConversationSection";
 import Diagram from "@/components/landingpage/Diagram";
@@ -8,9 +8,10 @@ import React from "react";
 const Home: React.FC = () => {
   return (
     <main>
-      { //<Header /> <ConversationSection /> <Diagram /> <CallToAction /> 
+      {
+        //<Header /> <ConversationSection /> <Diagram /> <CallToAction />
       }
-      <RestaurantFilter/>
+      <RestaurantFilter />
     </main>
   );
 };
