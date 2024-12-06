@@ -1,9 +1,11 @@
+"use client";
 import React from "react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import MemberStatus from "./MemberStatus";
 import { Link2Icon } from "lucide-react";
 import Link from "next/link";
+import * as amplitude from "@amplitude/analytics-node";
 
 type Props = {
   state: "Makeyourchoices" | "Changeyourchoices";
@@ -199,6 +201,14 @@ export const profileCardDummyData: MemberCardProps[] = [
   },
 ];
 
+// For Monitoring (Amplitude)
+const handleRestaurantGenerationButtonClick = () => {
+  // Track the event
+  amplitude.track("Restaurant Generated Button Clicked", undefined, {
+    user_id: "user@amplitude.com",
+  });
+};
+
 const GroupStatus: React.FC<Props> = ({ state, generate }) => {
   return (
     <div>
@@ -227,7 +237,16 @@ const GroupStatus: React.FC<Props> = ({ state, generate }) => {
             </Button>
           </Link>
         )}
-        {generate && <Button className="font-bold">Generate</Button>}
+        {generate && (
+          <Button
+            className="font-bold"
+            onClick={() => {
+              handleRestaurantGenerationButtonClick();
+            }}
+          >
+            Generate
+          </Button>
+        )}
         {state === "Changeyourchoices" && (
           <Button className="font-bold shadow-none" variant={"link"}>
             Change your choices

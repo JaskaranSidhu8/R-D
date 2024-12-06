@@ -12,6 +12,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import * as amplitude from "@amplitude/analytics-node";
+
+const handleGroupCreationButtonClick = () => {
+  // Track the event
+  amplitude.track("Group Create Button Clicked", undefined, {
+    user_id: "user@amplitude.com",
+  });
+};
 
 const DiningTimeForm = () => {
   const [day, setDay] = useState("");
@@ -74,7 +82,13 @@ const DiningTimeForm = () => {
         </Select>
         {isValid ? (
           <Link href="/StatusMgr/1">
-            <Button>Create group</Button>
+            <Button
+              onClick={() => {
+                handleGroupCreationButtonClick();
+              }}
+            >
+              Create group
+            </Button>
           </Link>
         ) : (
           <Button
