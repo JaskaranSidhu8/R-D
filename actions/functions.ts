@@ -4,7 +4,6 @@ import { fetchGroupPreferences, fetchRestaurants } from "@/utils/backendApi";
 import { Database, Tables } from "@/utils/types/supabase";
 import createSupabaseServerClient from "@/lib/supabase/reader";
 
-
 export async function algorithm(group_id: number) {
   const groupOfUsers = await fetchGroupPreferences(group_id);
 
