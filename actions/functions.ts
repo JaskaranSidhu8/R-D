@@ -19,7 +19,6 @@ export async function algorithm(group_id: number) {
       console.warn("Skipping user with no softconstraints");
       return;
     }
-
     console.log("softconstraints:", soft_constraints);
     const prefs = soft_constraints.split("").map(Number); // Split and convert to numbers
     prefs.forEach((pref: any, index: number) => {
