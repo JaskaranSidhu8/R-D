@@ -13,7 +13,7 @@ const GroupNameForm = () => {
 
       <div className=" mt-1 flex flex-col gap-4">
         <Input type="text" placeholder="Group Name" className="bg-white" />
-        <Link href={"/Location"}>
+        <Link href={"/DiningTime"}>
           <Button className="mt-4">Next</Button>
         </Link>
       </div>
