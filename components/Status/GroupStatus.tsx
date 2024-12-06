@@ -1,10 +1,16 @@
+"use client";
 import React from "react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import MemberStatus from "./MemberStatus";
 import { Link2Icon } from "lucide-react";
+import Link from "next/link";
+import * as amplitude from "@amplitude/analytics-node";
 
-// type Props = {};
+type Props = {
+  state: "Makeyourchoices" | "Changeyourchoices";
+  generate?: boolean;
+};
 export type MemberCardProps = {
   fullname: string;
   email: string;
@@ -195,7 +201,15 @@ export const profileCardDummyData: MemberCardProps[] = [
   },
 ];
 
-const GroupStatus = () => {
+// For Monitoring (Amplitude)
+const handleRestaurantGenerationButtonClick = () => {
+  // Track the event
+  amplitude.track("Restaurant Generated Button Clicked", undefined, {
+    user_id: "user@amplitude.com",
+  });
+};
+
+const GroupStatus: React.FC<Props> = ({ state, generate }) => {
   return (
     <div>
       {" "}
@@ -213,10 +227,31 @@ const GroupStatus = () => {
             <MemberStatus member={item} key={`member_status_${index}`} />
           ))}
         </Card>
-        <Button className="font-bold">Generate</Button>
-        <Button className="font-bold shadow-none" variant={"link"}>
-          Change your choices
-        </Button>
+        {state === "Makeyourchoices" && (
+          <Link href={"/Cuisine"} className="mt-4 block">
+            <Button
+              className="font-bold shadow-none border-primary text-primary"
+              variant={"outline"}
+            >
+              Make your choices
+            </Button>
+          </Link>
+        )}
+        {generate && (
+          <Button
+            className="font-bold"
+            onClick={() => {
+              handleRestaurantGenerationButtonClick();
+            }}
+          >
+            Generate
+          </Button>
+        )}
+        {state === "Changeyourchoices" && (
+          <Button className="font-bold shadow-none" variant={"link"}>
+            Change your choices
+          </Button>
+        )}
       </div>
     </div>
   );

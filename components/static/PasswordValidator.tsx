@@ -5,7 +5,11 @@ import { Check, Eye, EyeOff, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import React from "react";
 
-export default function PasswordValidator() {
+type Props = {
+  name: string;
+};
+
+export default function PasswordValidator(props: Props) {
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -52,6 +56,7 @@ export default function PasswordValidator() {
       <div className="space-y-2">
         <div className="relative">
           <Input
+            name={props.name}
             id="input-51"
             className="pe-9"
             placeholder="Password"

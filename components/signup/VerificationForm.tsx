@@ -1,5 +1,6 @@
-import React from "react";
+"use client";
 
+import React from "react";
 import {
   InputOTP,
   InputOTPGroup,
@@ -7,13 +8,28 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Button } from "../ui/button";
+import { verifyEmailUsingOTP } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 
-// type Props = {};
+type Props = {
+  email: string;
+};
 
-const VerificationForm = () => {
+const VerificationForm = (props: Props) => {
+  const { email } = props;
+  const router = useRouter();
+
+  const onSubmit = async (e: FormData) => {
+    e.append("email", email);
+    const { success } = await verifyEmailUsingOTP(e);
+    if (success) router.push("/Setup");
+  };
   return (
-    <form className=" flex flex-col gap-10 mt-10 items-center justify-center">
-      <InputOTP maxLength={6}>
+    <form
+      action={(e) => onSubmit(e)}
+      className=" flex flex-col gap-10 mt-10 items-center justify-center"
+    >
+      <InputOTP name="code" maxLength={6}>
         <InputOTPGroup>
           <InputOTPSlot index={0} />
           <InputOTPSlot index={1} />

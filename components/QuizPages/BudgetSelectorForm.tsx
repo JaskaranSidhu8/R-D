@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "../ui/slider";
 import SectionTitle from "../static/SectionTitle";
+import Link from "next/link";
 
 const BudgetSelectorForm = () => {
   const [range, setRange] = useState([20, 40]);
@@ -13,8 +14,8 @@ const BudgetSelectorForm = () => {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto px-6 pt-4">
-      <SectionTitle text="What's your budget?" classname="mb-8" />
+    <div className="w-full">
+      <SectionTitle text="What's your budget?" classname=" mt-2 mb-8" />
 
       <div className="mb-12">
         <Slider
@@ -38,8 +39,9 @@ const BudgetSelectorForm = () => {
           </div>
         </div>
       </div>
-
-      <Button>Next</Button>
+      <Link href="/Completed">
+        <Button>Next</Button>
+      </Link>
     </div>
   );
 };

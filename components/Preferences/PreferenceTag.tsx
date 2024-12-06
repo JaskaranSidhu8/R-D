@@ -1,4 +1,3 @@
-// components/static/PreferenceTag.tsx
 import React from "react";
 
 interface PreferenceTagProps {
