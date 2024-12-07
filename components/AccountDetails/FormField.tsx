@@ -7,7 +7,7 @@ interface FormFieldProps {
   label: string;
   name: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const FormField = ({ label, name, value, onChange }: FormFieldProps) => {
@@ -20,7 +20,7 @@ const FormField = ({ label, name, value, onChange }: FormFieldProps) => {
         name={name}
         value={value}
         onChange={onChange}
-        className="text-gray-500 placeholder:text-gray-400"
+        className="text-gray-500 placeholder:text-gray-400 bg-white border-[0.1px]"
       />
     </div>
   );

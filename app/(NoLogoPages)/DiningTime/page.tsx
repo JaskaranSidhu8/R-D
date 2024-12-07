@@ -1,17 +1,14 @@
 import React from "react";
 import DiningTimeForm from "@/components/DiningTime/DiningTimeForm";
 import ReturnButton from "@/components/static/ReturnButton";
-import ScreenWrapper from "@/components/static/ScreenWrapper";
 
-const DiningTimePage = () => {
+const DiningTime = () => {
   return (
     <div>
       <ReturnButton />
-      <ScreenWrapper>
-        <DiningTimeForm />
-      </ScreenWrapper>
+      <DiningTimeForm />
     </div>
   );
 };
 
-export default DiningTimePage;
+export default DiningTime;

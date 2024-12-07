@@ -1,48 +1,104 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SectionTitle from "@/components/static/SectionTitle";
-import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Link from "next/link";
+import * as amplitude from "@amplitude/analytics-node";
+
+const handleGroupCreationButtonClick = () => {
+  // Track the event
+  amplitude.track("Group Create Button Clicked", undefined, {
+    user_id: "user@amplitude.com",
+  });
+};
 
 const DiningTimeForm = () => {
-  const router = useRouter(); // Using router for navigation so page doesn't reload
-  const [date, setDate] = useState("");
+  const [day, setDay] = useState("");
   const [time, setTime] = useState("");
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission
+  const daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
-    // Check if date and time are filled in
-    if (!date || !time) {
-      alert("Please fill in both the date and time fields.");
-      return; // If fields are empty, stop here
-    }
+  // Generate hours in 24-hour format
+  const hours = Array.from({ length: 24 }, (_, i) => {
+    const hour = i.toString().padStart(2, "0");
+    return `${hour}:00`;
+  });
 
-    // Redirect to StatusMgr page if validation passes
-    router.push("StatusMgr");
-  };
+  const isValid = day && time;
 
   return (
-    <div className="flex flex-col gap-4 max-w-md mx-auto px-6">
-      <SectionTitle text="Dining time" classname="mt-8" />
+    <div className="flex flex-col gap-4 max-w-md mx-auto mt-20 ">
+      <SectionTitle text="Dining time" classname="mt-14" />
 
-      <form onSubmit={onSubmit} className="mt-4 flex flex-col gap-4">
-        <Input
-          type="date"
-          placeholder="Date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-        <Input
-          type="time"
-          placeholder="Time"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-        />
-        <Button type="submit">Create group</Button>
-      </form>
+      <div className="mt-1 flex flex-col gap-4">
+        <Select value={day} onValueChange={setDay}>
+          <SelectTrigger
+            className={`bg-white ${!day && "[&>span]:text-gray-500"}`}
+          >
+            <SelectValue placeholder="On which day of the week?" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {daysOfWeek.map((weekDay) => (
+                <SelectItem key={weekDay} value={weekDay.toLowerCase()}>
+                  {weekDay}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Select value={time} onValueChange={setTime}>
+          <SelectTrigger
+            className={`bg-white ${!time && "[&>span]:text-gray-500"}`}
+          >
+            <SelectValue placeholder="Select time" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {hours.map((hour) => (
+                <SelectItem key={hour} value={hour}>
+                  {hour}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        {isValid ? (
+          <Link href="/StatusMgr/1">
+            <Button
+              onClick={() => {
+                handleGroupCreationButtonClick();
+              }}
+            >
+              Create group
+            </Button>
+          </Link>
+        ) : (
+          <Button
+            onClick={() => alert("Please fill in both fields")}
+            className="mt-5"
+          >
+            Create group
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
