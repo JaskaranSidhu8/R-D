@@ -2,9 +2,7 @@ import React from "react";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import Image from "next/image";
 
-type Props = {};
-
-export const RestaurantImagesCarousel = (props: Props) => {
+export const RestaurantImagesCarousel = () => {
   return (
     <div>
       <Carousel

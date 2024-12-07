@@ -11,9 +11,7 @@ import {
 import { Carousel, CarouselContent } from "../ui/carousel";
 import RestaurantImagesCarousel from "./RestaurantImagesCarousel";
 
-type Props = {};
-
-const ResultInfo = (props: Props) => {
+const ResultInfo = () => {
   return (
     <div className=" text-center items-center p-10 ">
       {" "}

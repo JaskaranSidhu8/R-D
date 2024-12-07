@@ -3,9 +3,7 @@ import RestaurantImagesCarousel from "@/components/Result/RestaurantImagesCarous
 import ResultInfo from "@/components/Result/ResultInfo";
 import React from "react";
 
-type Props = {};
-
-const page = (props: Props) => {
+const page = () => {
   return (
     <div>
       <Banner />

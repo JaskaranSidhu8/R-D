@@ -3,9 +3,7 @@ import React from "react";
 import SvgWave from "../landingpage/SvgWave";
 import ResultLogo from "./ResultLogo";
 
-type Props = {};
-
-const Banner = (props: Props) => {
+const Banner = () => {
   return (
     <div className=" relative h-[50dvh] overflow-hidden ">
       <Image
