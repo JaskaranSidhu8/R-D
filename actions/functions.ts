@@ -94,7 +94,8 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
   return dotProduct / (magA * magB);
 }
 
-export async function fetchUserGroups(user_idd: number) { // fetches the groups that the loggin in user is a part of
+export async function fetchUserGroups(user_idd: number) {
+  // fetches the groups that the loggin in user is a part of
   const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
@@ -124,7 +125,6 @@ export async function fetchUserGroups(user_idd: number) { // fetches the groups 
 }
 
 export async function checkCodeAndInsertUser( // checks the inputted group code if it exists, if it exists it checks if the current logged in user is already in the group, if this is not the case the user will be added to the group by adding a row into group_users table
-  
   groupCode: string,
   userId: number,
 ) {
@@ -168,7 +168,8 @@ export async function checkCodeAndInsertUser( // checks the inputted group code 
   return { success: true, message: "User added successfully" };
 }
 
-export async function fetchUserStatusInGroup(group_id: number) { // fetch the ready status along with some other information about the group and users within that group
+export async function fetchUserStatusInGroup(group_id: number) {
+  // fetch the ready status along with some other information about the group and users within that group
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("group_users")
@@ -217,6 +218,7 @@ type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
 export async function importUserData(
   formData: UserInsert,
 ): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createSupabaseServerClient();
   const { id, ...dataWithoutId } = formData;
 
   // Insert data into the `users` table
