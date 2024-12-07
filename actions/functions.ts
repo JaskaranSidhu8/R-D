@@ -94,7 +94,7 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
   return dotProduct / (magA * magB);
 }
 
-export async function fetchUserGroups(user_idd: number) {
+export async function fetchUserGroups(user_idd: number) { // fetches the groups that the loggin in user is a part of
   const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
@@ -123,10 +123,12 @@ export async function fetchUserGroups(user_idd: number) {
   return data;
 }
 
-export async function checkCodeAndInsertUser(
+export async function checkCodeAndInsertUser( // checks the inputted group code if it exists, if it exists it checks if the current logged in user is already in the group, if this is not the case the user will be added to the group by adding a row into group_users table
+  
   groupCode: string,
   userId: number,
 ) {
+  const supabase = await createSupabaseServerClient();
   const { data: groupData, error: groupError } = await supabase
     .from("groups")
     .select("id")
@@ -166,7 +168,8 @@ export async function checkCodeAndInsertUser(
   return { success: true, message: "User added successfully" };
 }
 
-export async function fetchUserStatusInGroup(group_id: number) {
+export async function fetchUserStatusInGroup(group_id: number) { // fetch the ready status along with some other information about the group and users within that group
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("group_users")
     .select(
@@ -198,6 +201,7 @@ export async function fetchUserStatusInGroup(group_id: number) {
 }
 
 export async function retrieveUserSettings(user_id: number) {
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("users")
     .select("*")
@@ -206,4 +210,22 @@ export async function retrieveUserSettings(user_id: number) {
     throw new Error(`Error fetching user settings for user : ${error.message}`);
   }
   return data;
+}
+
+type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
+
+export async function importUserData(
+  formData: UserInsert,
+): Promise<{ success: boolean; error?: string }> {
+  const { id, ...dataWithoutId } = formData;
+
+  // Insert data into the `users` table
+  const { error } = await supabase.from("users").insert(dataWithoutId);
+
+  if (error) {
+    console.error("Error inserting user data:", error.message);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
 }
