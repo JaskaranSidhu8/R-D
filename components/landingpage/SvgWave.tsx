@@ -3,7 +3,7 @@ import React from "react";
 const SvgWave = () => {
   return (
     <svg
-      className=" absolute bottom-0 "
+      className=" absolute -bottom-1 left-1/2 -translate-x-1/2 "
       width="581"
       height="150"
       viewBox="0 0 581 150"
