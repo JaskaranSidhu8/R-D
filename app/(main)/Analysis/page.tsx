@@ -1,4 +1,4 @@
-import PulsingPicture from "@/components/landingpage/PulsingPicture";
+import PulsingPicture from "@/components/Analysis/PulsingPicture";
 import React from "react";
 
 //type Props = {};
