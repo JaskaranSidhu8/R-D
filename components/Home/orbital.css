@@ -5,20 +5,21 @@
   offset-path: path(
     "M553.922 122.5C549.146 93.1713 521.507 65.3712 475.913 43.9869C426.084 20.6171 356.825 6 280 6C203.175 6 133.916 20.6171 84.0876 43.9869C38.4926 65.3712 10.8541 93.1713 6.07779 122.5H0C10.001 54.0617 131.539 0 280 0C428.461 0 549.999 54.0617 560 122.5H553.922Z"
   );
-  animation: move-along-path 20s linear infinite;
-  animation-delay: calc(var(--n) * 4s); /* Staggered start */
+  animation: move-along-path 12s linear infinite;
+  animation-delay: calc(var(--n) * 1.5s); /* Staggered start */
+}
+.ball img {
+  transform: rotate(180deg);
 }
 
 @keyframes move-along-path {
   0% {
     offset-distance: 0%;
   }
-  100% {
+  50% {
     offset-distance: 50%; /* Always move forward along the path */
   }
-}
-
-/* Dynamic element sequencing */
-.container .ball:nth-child(n) {
-  --n: calc((n - 1)); /* Assign unique delays for each */
+  100% {
+    offset-distance: 50%;
+  }
 }
