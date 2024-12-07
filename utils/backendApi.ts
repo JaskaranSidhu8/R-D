@@ -1,7 +1,7 @@
 import { unstable_noStore as noStore } from "next/cache";
 import { Database, Tables } from "./types/supabase";
 import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
-import createSupabaseServerClient from "@/lib/supabase/server";
+import createSupabaseServerClient from "@/lib/supabase/reader";
 
 //export async function fetchGroupPreferences2(group_id: number) {
 //   const preferencesUserMax =  supabase
@@ -48,23 +48,57 @@ import createSupabaseServerClient from "@/lib/supabase/server";
 //}
 export async function fetchGroupPreferences(group_id: number) {
   const supabase = await createSupabaseServerClient();
+
   const { data, error } = await supabase
     .from("group_users")
-    .select(`*`)
+    .select(
+      `
+      id,
+      user_id,
+      group_id,
+      soft_constraints,
+      cuisine_preferences,
+      budget,
+      users (
+        hard_constraints
+      )
+    `,
+    )
     .eq("group_id", group_id);
   if (error) {
     throw new Error(`Error fetching group users: ${error.message}`);
   }
   return data;
 }
-export async function fetchRestaurants() {
+export async function checkHardConstraintsGroup(group_id: number) {
   const supabase = await createSupabaseServerClient();
-
-  const { data, error } = await supabase.from("restaurants").select("*");
+  const { data, error } = await supabase
+    .from("group_users")
+    .select(
+      `
+      id,
+      user_id,
+      group_id,
+      soft_constraints,
+      users (
+        hard_constraints
+      )
+    `,
+    )
+    .eq("group_id", group_id);
   if (error) {
-    throw new Error(`Error fetching restaurants: ${error.message}`);
+    throw new Error(`Error fetching group users: ${error.message}`);
   }
-  return data;
+
+  const hasHardConstraints = data.some((user) => {
+    const hardConstraints = user.users?.hard_constraints;
+    return (
+      hardConstraints &&
+      Object.values(hardConstraints).some((value) => value === "1")
+    );
+  });
+  //console.log("The hasHardConstraintValueIs:",  hasHardConstraints);
+  return hasHardConstraints;
 }
 //export function combinePreferences(groupUsers: prefe  , weights = Array(10).fill(1)) {
 //  const numUsers = groupUsers.length;
