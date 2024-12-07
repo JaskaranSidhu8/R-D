@@ -31,7 +31,7 @@ const PulsingPicture: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center ">
       <div className="relative w-60 h-60 rounded-full flex items-center justify-center">
         <p className="montserrat text-2xl font-medium flex flex-col items-center">
           <span>Analysis</span>

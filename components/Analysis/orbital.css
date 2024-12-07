@@ -1,0 +1,25 @@
+.ball {
+  motion-path: path(
+    "M580 149C580 66.7096 450.163 0 290 0C129.837 0 0 66.7096 0 149H580Z"
+  );
+  offset-path: path(
+    "M580 149C580 66.7096 450.163 0 290 0C129.837 0 0 66.7096 0 149H580Z"
+  );
+  animation: move-along-path 12s linear infinite;
+  animation-delay: calc(var(--n) * 1.5s); /* Staggered start */
+}
+.ball img {
+  transform: rotate(180deg);
+}
+
+@keyframes move-along-path {
+  0% {
+    offset-distance: 0%;
+  }
+  50% {
+    offset-distance: 50%; /* Always move forward along the path */
+  }
+  100% {
+    offset-distance: 50%;
+  }
+}
