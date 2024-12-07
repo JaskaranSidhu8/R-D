@@ -25,7 +25,7 @@ const PulsingPicture: React.FC = () => {
       }
     };
 
-    updatePercentage(); // Start the percentage updates
+    updatePercentage();
 
     return () => {}; // No interval to clean up since we use timeouts
   }, []);

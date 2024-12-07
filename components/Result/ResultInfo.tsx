@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Carousel, CarouselContent } from "../ui/carousel";
 import RestaurantImagesCarousel from "./RestaurantImagesCarousel";
+import RefuseButton from "./RefuseButton";
 
 const ResultInfo = () => {
   return (
@@ -60,14 +61,7 @@ const ResultInfo = () => {
             <ArrowLeft /> Back Home{" "}
           </Button>
 
-          <Button
-            variant={"outline"}
-            className=" text-primary border-primary shadow-none border-2"
-          >
-            {" "}
-            <X className=" text-primary" />
-            Refuse
-          </Button>
+          <RefuseButton></RefuseButton>
         </div>
       </div>
     </div>

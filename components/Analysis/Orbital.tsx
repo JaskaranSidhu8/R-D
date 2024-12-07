@@ -7,7 +7,7 @@ const Orbital = () => {
     <div className=" absolute -bottom-1 left-1/2  -translate-x-1/2">
       <div
         style={{ "--n": 0 } as React.CSSProperties}
-        className="  w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center"
+        className=" w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary"
       >
         <Image
           className=" w-full h-full object-cover "
@@ -19,7 +19,7 @@ const Orbital = () => {
       </div>
       <div
         style={{ "--n": 1 } as React.CSSProperties}
-        className="w-24 h-24 rounded-full absolute overflow-hidden  bg-white border-2 border-primary ball origin-center"
+        className="w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary"
       >
         <Image
           className=" w-full h-full object-cover "
@@ -31,7 +31,7 @@ const Orbital = () => {
       </div>
       <div
         style={{ "--n": 2 } as React.CSSProperties}
-        className=" w-24 h-24 rounded-full absolute overflow-hidden  ball origin-center  bg-white border-2 border-primary "
+        className="w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary "
       >
         {" "}
         <Image
@@ -44,7 +44,7 @@ const Orbital = () => {
       </div>
       <div
         style={{ "--n": 3 } as React.CSSProperties}
-        className=" w-24 h-24 rounded-full absolute overflow-hidden ball origin-center bg-white border-2 border-primary "
+        className="w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary "
       >
         <Image
           src={"/McDo.png"}
@@ -56,7 +56,7 @@ const Orbital = () => {
       </div>
       <div
         style={{ "--n": 4 } as React.CSSProperties}
-        className=" w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary"
+        className="w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary"
       >
         <Image
           className=" w-full h-full object-cover "
@@ -68,7 +68,7 @@ const Orbital = () => {
       </div>
       <div
         style={{ "--n": 5 } as React.CSSProperties}
-        className=" w-24 h-24 rounded-full absolute overflow-hidden  ball origin-center  bg-white border-2 border-primary "
+        className="w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary "
       >
         <Image
           className=" w-full h-full object-cover "
@@ -80,7 +80,7 @@ const Orbital = () => {
       </div>
       <div
         style={{ "--n": 6 } as React.CSSProperties}
-        className=" w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary"
+        className="w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary"
       >
         <Image
           className=" w-full h-full object-cover "
@@ -92,7 +92,7 @@ const Orbital = () => {
       </div>
       <div
         style={{ "--n": 7 } as React.CSSProperties}
-        className=" w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary"
+        className="w-24 h-24 rounded-full absolute overflow-hidden bg-white ball origin-center border-2 border-primary"
       >
         <Image
           className=" w-full h-full object-cover "

@@ -13,6 +13,7 @@ const Banner = () => {
         width={800}
         height={800}
       />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#EE4D2A] via-[#EE4D2A]/2 to-transparent opacity-70"></div>
 
       <SvgWave />
       <ResultLogo logo="https://picsum.photos/200/300?random=1" />
