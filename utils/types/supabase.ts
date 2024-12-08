@@ -59,6 +59,7 @@ export type Database = {
           cuisine_preferences: string | null;
           group_id: number;
           id: number;
+          is_deleted: boolean | null;
           isready: boolean | null;
           soft_constraints: string | null;
           user_id: number;
@@ -68,6 +69,7 @@ export type Database = {
           cuisine_preferences?: string | null;
           group_id: number;
           id?: number;
+          is_deleted?: boolean | null;
           isready?: boolean | null;
           soft_constraints?: string | null;
           user_id: number;
@@ -77,6 +79,7 @@ export type Database = {
           cuisine_preferences?: string | null;
           group_id?: number;
           id?: number;
+          is_deleted?: boolean | null;
           isready?: boolean | null;
           soft_constraints?: string | null;
           user_id?: number;
@@ -100,50 +103,38 @@ export type Database = {
       };
       groups: {
         Row: {
-          city: string | null;
-          country: string | null;
           created_at: string | null;
           group_code: string | null;
           group_creator: number | null;
           hard_constraints: string | null;
           id: number;
           isdeleted: boolean | null;
-          location: string | null;
           name: string | null;
           pickedrestaurant: number | null;
-          profile_picture: string | null;
           size: number | null;
           status: boolean | null;
         };
         Insert: {
-          city?: string | null;
-          country?: string | null;
           created_at?: string | null;
           group_code?: string | null;
           group_creator?: number | null;
           hard_constraints?: string | null;
           id?: number;
           isdeleted?: boolean | null;
-          location?: string | null;
           name?: string | null;
           pickedrestaurant?: number | null;
-          profile_picture?: string | null;
           size?: number | null;
           status?: boolean | null;
         };
         Update: {
-          city?: string | null;
-          country?: string | null;
           created_at?: string | null;
           group_code?: string | null;
           group_creator?: number | null;
           hard_constraints?: string | null;
           id?: number;
           isdeleted?: boolean | null;
-          location?: string | null;
           name?: string | null;
           pickedrestaurant?: number | null;
-          profile_picture?: string | null;
           size?: number | null;
           status?: boolean | null;
         };
@@ -240,6 +231,86 @@ export type Database = {
           website_URI?: string | null;
         };
         Relationships: [];
+      };
+      restaurants_duplicate: {
+        Row: {
+          business_status: string | null;
+          formatted_address: string | null;
+          google_id: string;
+          google_maps_URI: string | null;
+          hard_constraints: string | null;
+          id: number;
+          logos: string | null;
+          name: string;
+          national_phone_number: string | null;
+          price_level: string | null;
+          primary_type: string | null;
+          primary_type_display_name: string | null;
+          soft_constraints: string | null;
+          website_URI: string | null;
+        };
+        Insert: {
+          business_status?: string | null;
+          formatted_address?: string | null;
+          google_id: string;
+          google_maps_URI?: string | null;
+          hard_constraints?: string | null;
+          id?: number;
+          logos?: string | null;
+          name: string;
+          national_phone_number?: string | null;
+          price_level?: string | null;
+          primary_type?: string | null;
+          primary_type_display_name?: string | null;
+          soft_constraints?: string | null;
+          website_URI?: string | null;
+        };
+        Update: {
+          business_status?: string | null;
+          formatted_address?: string | null;
+          google_id?: string;
+          google_maps_URI?: string | null;
+          hard_constraints?: string | null;
+          id?: number;
+          logos?: string | null;
+          name?: string;
+          national_phone_number?: string | null;
+          price_level?: string | null;
+          primary_type?: string | null;
+          primary_type_display_name?: string | null;
+          soft_constraints?: string | null;
+          website_URI?: string | null;
+        };
+        Relationships: [];
+      };
+      restaurants_logos: {
+        Row: {
+          id: number;
+          logo: string | null;
+          name: string | null;
+          restaurant_id: number | null;
+        };
+        Insert: {
+          id?: never;
+          logo?: string | null;
+          name?: string | null;
+          restaurant_id?: number | null;
+        };
+        Update: {
+          id?: never;
+          logo?: string | null;
+          name?: string | null;
+          restaurant_id?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "restaurants_logos_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants_duplicate";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       restaurants_photos: {
         Row: {
@@ -387,7 +458,7 @@ export type Database = {
           firstName: string | null;
           hard_constraints: string | null;
           id: number;
-          isDeleted: boolean;
+          is_deleted: boolean;
           lastName: string | null;
         };
         Insert: {
@@ -397,7 +468,7 @@ export type Database = {
           firstName?: string | null;
           hard_constraints?: string | null;
           id?: number;
-          isDeleted: boolean;
+          is_deleted?: boolean;
           lastName?: string | null;
         };
         Update: {
@@ -407,7 +478,7 @@ export type Database = {
           firstName?: string | null;
           hard_constraints?: string | null;
           id?: number;
-          isDeleted?: boolean;
+          is_deleted?: boolean;
           lastName?: string | null;
         };
         Relationships: [];
@@ -417,7 +488,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      generate_logos_urls: {
+        Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;

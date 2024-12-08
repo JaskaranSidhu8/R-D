@@ -11,6 +11,7 @@ import { filterRestaurantsByHardConstraint } from "@/utils/filterRestaurantsByHa
 import { getCuisineSoftConstraint } from "@/utils/fetchRestaurantCuisineSoftConstraints";
 import { getBudgetRestaurant } from "@/utils/convertRestaurantBudgetToSoftConstraint";
 import { filterRestaurantsByTime } from "@/utils/filterRestaurantsBasedOnTime";
+import { FormData } from "formdata-node";
 
 export async function algorithm(
   group_id: number,
@@ -299,16 +300,26 @@ export async function retrieveUserSettings(user_id: number) {
   return data;
 }
 
-type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
-
-export async function importUserData(
-  formData: UserInsert,
+export async function importUserData( //inserting a user with some information into the db
+  formData: FormData,
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createSupabaseServerClient();
-  const { id, ...dataWithoutId } = formData;
 
-  // Insert data into the `users` table
-  const { error } = await supabase.from("users").insert(dataWithoutId);
+  const firstName = formData.get("firstName") as string | null; // its always a string, if its supposed to be a number, we need to add some more logic in converting it
+  const lastName = formData.get("lastName") as string | null;
+  const country = formData.get("country") as string | null;
+  const city = formData.get("city") as string | null;
+
+  type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
+
+  const newUser: UserInsert = {
+    firstName,
+    lastName,
+    country,
+    city,
+  };
+
+  const { error } = await supabase.from("users").insert(newUser);
 
   if (error) {
     console.error("Error inserting user data:", error.message);
@@ -316,4 +327,77 @@ export async function importUserData(
   }
 
   return { success: true };
+}
+
+export async function createGroup(formData: FormData) {
+  // creating a group, where a group_code gets generated, and other information gets pushed to the db
+
+  const name = formData.get("name") as string | null;
+  const rawGroupCreator = formData.get("group_creator");
+  // Convert the string value to a number
+  const group_creator = rawGroupCreator ? Number(rawGroupCreator) : null;
+
+  if (group_creator === null || isNaN(group_creator)) {
+    throw new Error("Invalid group_creator: must be a valid number.");
+  }
+
+  const { data: recentGroups, error: recentError } = await supabase
+    .from("groups")
+    .select("*")
+    .eq("group_creator", group_creator)
+    .gte(
+      "created_at",
+      new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    );
+
+  if (recentError) {
+    console.error("Error fetching recent groups:", recentError);
+    throw new Error("Internal error. Please try again later.");
+  }
+
+  if (recentGroups && recentGroups.length > 0) {
+    throw new Error("You can only create one group every 24 hours.");
+  }
+
+  function generateRandomGroupCode(): string {
+    const randomNumber = Math.floor(Math.random() * 1_000_000_000);
+    return String(randomNumber).padStart(9, "0");
+  }
+
+  const attempts = 0;
+  const maxAttempts = 5;
+  let lastError: Error | null = null;
+
+  while (attempts < maxAttempts) {
+    const group_code = generateRandomGroupCode();
+
+    type GroupInsert = Database["public"]["Tables"]["groups"]["Insert"];
+    const newGroup: GroupInsert = {
+      name,
+      group_creator,
+      group_code,
+    };
+
+    const { data, error } = await supabase
+      .from("groups")
+      .insert(newGroup)
+      .select("*");
+
+    if (error) {
+      if (error.code === "23505") {
+        attempts++;
+        lastError = error;
+      } else {
+        console.error(error);
+        throw new Error("Failed to create group due to an unexpected error.");
+      }
+    } else {
+      return data;
+    }
+  }
+
+  console.error(lastError);
+  throw new Error(
+    "Failed to create group after multiple attempts at generating a unique group code.",
+  );
 }
