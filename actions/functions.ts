@@ -11,7 +11,6 @@ import { filterRestaurantsByHardConstraint } from "@/utils/filterRestaurantsByHa
 import { getCuisineSoftConstraint } from "@/utils/fetchRestaurantCuisineSoftConstraints";
 import { getBudgetRestaurant } from "@/utils/convertRestaurantBudgetToSoftConstraint";
 import { filterRestaurantsByTime } from "@/utils/filterRestaurantsBasedOnTime";
-import { FormData } from "formdata-node";
 
 export async function algorithm(
   group_id: number,
@@ -299,15 +298,16 @@ export async function retrieveUserSettings(user_id: number) {
   return data;
 }
 
-export async function importUserData( //inserting a user with some information into the db
+export async function importUserData(
   formData: FormData,
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createSupabaseServerClient();
 
-  const firstName = formData.get("firstName") as string | null; // its always a string, if its supposed to be a number, we need to add some more logic in converting it
+  const firstName = formData.get("firstName") as string | null;
   const lastName = formData.get("lastName") as string | null;
   const country = formData.get("country") as string | null;
   const city = formData.get("city") as string | null;
+  const uid = (await supabase.auth.getSession()).data.session?.user.id;
 
   type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
 
@@ -316,6 +316,7 @@ export async function importUserData( //inserting a user with some information i
     lastName,
     country,
     city,
+    uid,
   };
 
   const { error } = await supabase.from("users").insert(newUser);
