@@ -108,7 +108,6 @@ export async function fetchUserGroups(user_idd: number) {
         id,
         created_at,
         name,
-        location,
         group_creator,
         hard_constraints,
         isdeleted,

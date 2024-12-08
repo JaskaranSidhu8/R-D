@@ -20,6 +20,10 @@ const Header = () => {
           backgroundPosition: "top center",
         }}
       >
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/5 to-transparent opacity-90"></div>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/5 to-transparent opacity-90"></div>
+
         <div className="relative z-10 flex flex-col justify-center items-center">
           <Logo big={true} showText={false} />
           <h1 className="montserrat text-4xl text-title text-white ">

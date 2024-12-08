@@ -4,8 +4,6 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
-// type Props = {};
-
 const HeaderContent = () => {
   return (
     <div className="absolute bottom-28 w-full items-center">

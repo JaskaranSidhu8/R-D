@@ -13,6 +13,7 @@ const Banner = () => {
         width={800}
         height={800}
       />
+      <div className="absolute inset-0 bg-gradient-to-b  from-primary via-primary/60 to-transparent opacity-30"></div>
 
       <Orbital />
       <Button className="absolute bottom-0 w-4/5 left-1/2  -translate-x-1/2 shadow-md z-50 ">
