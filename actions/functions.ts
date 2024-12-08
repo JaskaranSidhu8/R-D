@@ -364,7 +364,7 @@ export async function createGroup(formData: FormData) {
     return String(randomNumber).padStart(9, "0");
   }
 
-  const attempts = 0;
+  let attempts = 0;
   const maxAttempts = 5;
   let lastError: Error | null = null;
 
