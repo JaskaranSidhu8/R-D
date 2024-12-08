@@ -1,6 +1,7 @@
 // Dependencies: pnpm install lucide-react
 
 "use client";
+import React from "react";
 
 import { Label } from "@/components/ui/label";
 import { Check, ChevronDown } from "lucide-react";
