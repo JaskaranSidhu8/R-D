@@ -44,7 +44,7 @@ const DiningTimeForm = () => {
   const isValid = day && time;
 
   return (
-    <div className="flex flex-col gap-4 max-w-md mx-auto mt-20 ">
+    <div className="flex flex-col gap-4 max-w-md">
       <SectionTitle text="Dining time" classname="mt-14" />
 
       <div className="mt-1 flex flex-col gap-4">

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import PreferenceTag from "./PreferenceTag";
+import SectionTitle from "../static/SectionTitle";
 
 const PreferencesForm = () => {
   const [selectedRestrictions, setSelectedRestrictions] = useState<string[]>(
@@ -43,9 +44,9 @@ const PreferencesForm = () => {
 
   return (
     <div className="flex flex-col w-full max-w-md mx-auto mt-[10vh]">
-      <h2 className="montserrat text-2xl mb-8">Preferences</h2>
+      <SectionTitle classname=" mb-5" text="Preferences " />
 
-      <div className="mt-4">
+      <div className="">
         <p className="text-sm mb-2">Dietary Restrictions</p>
         <Select onValueChange={handleSelect}>
           <SelectTrigger className="w-full h-12 rounded-full">
@@ -75,10 +76,6 @@ const PreferencesForm = () => {
             />
           ))}
         </div>
-      </div>
-
-      <div className="mt-[15vh]">
-        <Button className="w-full">Save Changes</Button>
       </div>
     </div>
   );
