@@ -286,21 +286,21 @@ export type Database = {
       restaurants_logos: {
         Row: {
           id: number;
-          logo: string | null;
           name: string | null;
           restaurant_id: number | null;
+          url: string | null;
         };
         Insert: {
           id?: never;
-          logo?: string | null;
           name?: string | null;
           restaurant_id?: number | null;
+          url?: string | null;
         };
         Update: {
           id?: never;
-          logo?: string | null;
           name?: string | null;
           restaurant_id?: number | null;
+          url?: string | null;
         };
         Relationships: [
           {
@@ -460,6 +460,7 @@ export type Database = {
           id: number;
           is_deleted: boolean;
           lastName: string | null;
+          uid: string | null;
         };
         Insert: {
           city?: string | null;
@@ -470,6 +471,7 @@ export type Database = {
           id?: number;
           is_deleted?: boolean;
           lastName?: string | null;
+          uid?: string | null;
         };
         Update: {
           city?: string | null;
@@ -480,6 +482,7 @@ export type Database = {
           id?: number;
           is_deleted?: boolean;
           lastName?: string | null;
+          uid?: string | null;
         };
         Relationships: [];
       };

@@ -61,6 +61,5 @@ export async function logOut() {
 
 export async function checkLogin() {
   const { data } = await readUserSession();
-  console.log("id", data.session?.user.id);
   return data.session ? true : false;
 }

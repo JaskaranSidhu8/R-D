@@ -9,6 +9,7 @@ import {
   signInWithEmailAndPassword,
   signUpWithEmailAndPassword,
 } from "@/actions/auth";
+import createSupabaseServerClient from "@/lib/supabase/server";
 
 type Props = {
   mode: "Signup" | "Signin";
