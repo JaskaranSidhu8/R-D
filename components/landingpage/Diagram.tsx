@@ -9,7 +9,8 @@ import { useInView } from "react-intersection-observer";
 const Diagram = () => {
   const { ref, inView } = useInView({
     triggerOnce: false,
-    threshold: 1,
+    threshold: 0.5,
+    rootMargin: "-50px 0px -50px 0px", // Add some buffer to avoid retriggering
   });
 
   const [isVisible, setIsVisible] = useState(false);
@@ -17,7 +18,7 @@ const Diagram = () => {
     setIsVisible(inView);
   }, [inView]);
   return (
-    <div ref={ref} className=" relative  aspect-square mt-10 w-5/6 mx-auto ">
+    <div ref={ref} className=" relative  aspect-square  mt-40 w-5/6 mx-auto ">
       <Image
         className={`absolute top-0 left-0 w-full duration-500 ${
           isVisible ? "opacity-100" : "opacity-0"
