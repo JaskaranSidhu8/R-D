@@ -25,6 +25,17 @@ export async function algorithm(
     minute,
   );
   const groupOfUsers = await fetchGroupPreferences(group_id);
+  const numUsers = groupOfUsers.length;
+  const { cuisine_weight, budget_weight, drink_weight, atmosphere_weight } =
+    await fetchGroupWeightSums(group_id);
+  const cuisineWeight = cuisine_weight! / numUsers;
+  const budgetWeight = budget_weight! / numUsers;
+  const drinkWeight = drink_weight! / numUsers;
+
+  console.log("THE group cuisine weihjt is:", cuisineWeight);
+  console.log("THE group budget weihjt is:", budgetWeight);
+  console.log("THE group cuisine weihjt is:", drinkWeight);
+  //const atmosphereWeight = atmosphere_weight! /numUsers;
   //const restaurants = await fetchRestaurants("true"); //true, meaning that it serves Vegan and Vegetarian FOOD, but we dint need it with the ne
   const hasHardConstraints = await checkHardConstraintsGroup(group_id); //works properly
   const filteredRestaurants = await filterRestaurantsByHardConstraint(
@@ -32,10 +43,10 @@ export async function algorithm(
     hasHardConstraints,
   ); //this function will filter if there is at least a user with hard_constraints set to true, or just return the unfiltered list again. had to write it this way cuz reasons with typescript
   //console.log("The number of restaurants after filtration is:", filteredRestaurants.length);
-  const numUsers = groupOfUsers.length;
+
   console.log("Number of users is:", numUsers);
   const softPreferences = Array(9).fill(0);
-  const weightsSoft = Array(9).fill(1); //this one I can update to be the value from users_weights value:
+  const weightsSoft = Array(9).fill(drinkWeight); //this one I can update to be the value from users_weights value:
   groupOfUsers.forEach(({ soft_constraints }) => {
     if (!soft_constraints) {
       // Skip this user if softconstraints doesn't exist
@@ -56,7 +67,7 @@ export async function algorithm(
   ); ///
 
   const cuisinePreferences = Array(13).fill(0);
-  const weightsCuisine = Array(13).fill(2);
+  const weightsCuisine = Array(13).fill(cuisineWeight);
   groupOfUsers.forEach(({ cuisine_preferences }) => {
     if (!cuisine_preferences) {
       // Skip this user if softconstraints doesn't exist
@@ -78,7 +89,7 @@ export async function algorithm(
   //);
 
   const budgetPreferences = Array(6).fill(0);
-  const weightsBudget = Array(6).fill(1.5);
+  const weightsBudget = Array(6).fill(budgetWeight);
   groupOfUsers.forEach(({ budget }) => {
     if (!budget) {
       // Skip this user if softconstraints doesn't exist
@@ -316,4 +327,77 @@ export async function importUserData(
   }
 
   return { success: true };
+}
+
+export async function updateUserConstraints(
+  userId: number,
+  groupId: number,
+  softConstraints: string,
+  cuisineConstraints: string,
+  budgetConstraints: string,
+) {
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
+    .from("group_users")
+    .update({
+      soft_constraints: softConstraints,
+      cuisine_preferences: cuisineConstraints,
+      budget: budgetConstraints,
+    })
+    .eq("user_id", userId)
+    .eq("group_id", groupId);
+
+  if (error) console.error("Error updating user constraints:", error.message);
+}
+
+export async function fetchGroupWeightSums(group_id: number) {
+  // Step 1: Fetch user IDs from the group
+  const { data: groupData, error: groupError } = await supabase
+    .from("group_users")
+    .select("user_id")
+    .eq("group_id", group_id);
+
+  if (groupError) {
+    throw new Error(`Error fetching group users: ${groupError.message}`);
+  }
+
+  if (!groupData || groupData.length === 0) {
+    throw new Error(`No users found for group_id: ${group_id}`);
+  }
+
+  // Extract user IDs
+  const userIds = groupData.map((row) => row.user_id);
+
+  // Step 2: Fetch weights for all users in the group
+  const { data: weightData, error: weightError } = await supabase
+    .from("user_weights")
+    .select("cuisine_weight, budget_weight, drink_weight, atmosphere_weight")
+    .in("user_id", userIds);
+
+  if (weightError) {
+    throw new Error(`Error fetching user weights: ${weightError.message}`);
+  }
+
+  if (!weightData || weightData.length === 0) {
+    throw new Error(`No weights found for the users in group_id: ${group_id}`);
+  }
+
+  // Step 3: Calculate sums
+  const sums = weightData.reduce(
+    (acc, weights) => {
+      acc.cuisine_weight! += weights.cuisine_weight || 0;
+      acc.budget_weight! += weights.budget_weight || 0;
+      acc.drink_weight! += weights.drink_weight || 0;
+      acc.atmosphere_weight! += weights.atmosphere_weight || 0;
+      return acc;
+    },
+    {
+      cuisine_weight: 0,
+      budget_weight: 0,
+      drink_weight: 0,
+      atmosphere_weight: 0,
+    },
+  );
+
+  return sums;
 }
