@@ -13,6 +13,14 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import { filterRestaurantsByTime } from "@/utils/filterRestaurantsByTime";
+import * as amplitude from "@amplitude/analytics-node";
+
+const handleGroupCreationButtonClick = () => {
+  // Track the event
+  amplitude.track("Group Create Button Clicked", undefined, {
+    user_id: "user@amplitude.com",
+  });
+};
 
 const DiningTimeForm = () => {
   const [day, setDay] = useState("");

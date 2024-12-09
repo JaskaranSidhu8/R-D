@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -7,7 +8,7 @@ import Link from "next/link";
 
 const HeaderContent = () => {
   return (
-    <div className="absolute bottom-20 w-full items-center">
+    <div className="absolute bottom-28 w-full items-center">
       <div className="relative z-10 text-center w-full px-6 mt-10">
         <p className="montserrat text-2xl font-bold  text-white">
           Don&apos;t know where to eat?
