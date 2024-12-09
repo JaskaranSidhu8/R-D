@@ -11,6 +11,7 @@ import { filterRestaurantsByHardConstraint } from "@/utils/filterRestaurantsByHa
 import { getCuisineSoftConstraint } from "@/utils/fetchRestaurantCuisineSoftConstraints";
 import { getBudgetRestaurant } from "@/utils/convertRestaurantBudgetToSoftConstraint";
 import { filterRestaurantsByTime } from "@/utils/filterRestaurantsBasedOnTime";
+import { UUID } from "crypto";
 
 export async function algorithm(
   group_id: number,
@@ -206,7 +207,6 @@ export async function fetchUserGroups(user_idd: number) {
         id,
         created_at,
         name,
-        location,
         group_creator,
         hard_constraints,
         isdeleted,
@@ -400,4 +400,164 @@ export async function fetchGroupWeightSums(group_id: number) {
   );
 
   return sums;
+}
+
+export async function updateUserDetails(
+  formData: FormData,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Extract data from the form
+  const fullName = formData.get("fullName") as string | null;
+  const country = formData.get("country") as string | null;
+  const city = formData.get("city") as string | null;
+  const uid = (await supabase.auth.getSession()).data.session?.user.id as UUID;
+
+  if (!fullName || !uid) {
+    //uid = "cec45498-f601-4ed1-816b-63ea769411ac" as UUID;
+    return { success: false, error: "Full Name or user ID is missing." };
+  }
+
+  // Split the full name into first name and last name
+  const nameParts = fullName.split(" ");
+  const firstName = nameParts[0];
+  const lastName = nameParts.slice(1).join(" ") || null; // Handle cases with no last name
+  console.log("The first name is", firstName);
+  console.log("The Last name is:", lastName);
+  console.log("Country is", country);
+  console.log("City is", city);
+  console.log("The uid is:", uid);
+
+  // Update the user in the database
+  const { error } = await supabase
+    .from("users")
+    .update({
+      firstName: firstName,
+      lastName: lastName,
+      country: country,
+      city: city,
+    })
+    .eq("uid", uid); // Use uid as the identifier
+
+  if (error) {
+    console.error("Error updating user details:", error.message);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
+
+export async function getPendingRatings(
+  userId: number,
+): Promise<number[] | null> {
+  const supabase = await createSupabaseServerClient();
+  // Step 1: Check if the user is in any group with a picked restaurant
+  const { data: groupsData, error: groupsError } = await supabase
+    .from("groups")
+    .select("id")
+    .not("pickedrestaurant", "is", null);
+
+  console.log("first query data:", groupsData);
+
+  if (groupsError || !groupsData || groupsData.length === 0) {
+    console.log("All groups have no restaurant generated");
+    return null; // No relevant groups found or an error occurred
+  }
+
+  // Extract group IDs
+  const groupIds = groupsData.map((group) => group.id);
+
+  // Step 2: Find rows in group_users table with review_rating = -1
+  const { data: pendingRatingsData, error: pendingRatingsError } =
+    await supabase
+      .from("group_users")
+      .select("id")
+      .in("group_id", groupIds)
+      .eq("user_id", userId)
+      .eq("review_rating", -1);
+
+  if (
+    pendingRatingsError ||
+    !pendingRatingsData ||
+    pendingRatingsData.length === 0
+  ) {
+    console.log("The user has rated all restaurants.");
+    return null; // All restaurants rated or an error occurred
+  }
+
+  // Return IDs of rows where review_rating = -1
+  return pendingRatingsData.map((row) => row.id);
+}
+
+export async function getRestaurantDetails(
+  groupUsersId: string,
+): Promise<{ name: string | null; logo: string | null } | null> {
+  const supabase = await createSupabaseServerClient();
+
+  // Step 1: Fetch the group ID where the user still has pending reviews (-1)
+  const { data: groupUser, error: groupUserError } = await supabase
+    .from("group_users")
+    .select("group_id")
+    .eq("id", groupUsersId) // The ID from the previous function
+    .single();
+
+  if (groupUserError || !groupUser?.group_id) {
+    console.error("Error fetching group ID:", groupUserError?.message);
+    return null;
+  }
+
+  const groupId = groupUser.group_id;
+
+  // Step 2: Fetch the restaurant ID (pickedRestaurant) for the group
+  const { data: group, error: groupError } = await supabase
+    .from("groups")
+    .select("pickedrestaurant")
+    .eq("id", groupId)
+    .single();
+
+  if (groupError || !group?.pickedrestaurant) {
+    console.error("Error fetching picked restaurant:", groupError?.message);
+    return null;
+  }
+
+  const restaurantId = group.pickedrestaurant;
+
+  // Step 3: Fetch the restaurant name and logo
+  const { data: restaurant, error: restaurantError } = await supabase
+    .from("restaurants_logos")
+    .select("name, url")
+    .eq("restaurant_id", restaurantId)
+    .single();
+
+  if (restaurantError || !restaurant) {
+    console.error(
+      "Error fetching restaurant details:",
+      restaurantError?.message,
+    );
+    return null;
+  }
+
+  return {
+    name: restaurant.name,
+    logo: restaurant.url,
+  };
+}
+
+export async function updateReviewRating(
+  groupUserId: number,
+  starRating: number,
+): Promise<boolean> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("group_users")
+    .update({ review_rating: starRating })
+    .eq("id", groupUserId);
+
+  if (error) {
+    console.error("Error updating review rating:", error.message);
+    return false;
+  }
+
+  console.log("Review rating updated successfully:", data);
+  return true;
 }
