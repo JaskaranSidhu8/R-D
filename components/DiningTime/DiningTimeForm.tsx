@@ -55,13 +55,13 @@ const DiningTimeForm = () => {
     try {
       const dayNumber = weekdayToNumber(day);
       const hour = timeToHour(time);
-      console.log("Day input:", day);
-      console.log("Converted day number:", dayNumber);
-      console.log("Time input:", time);
-      console.log("Converted hour:", hour);
+      // console.log("Day input:", day);
+      // console.log("Converted day number:", dayNumber);
+      // console.log("Time input:", time);
+      // console.log("Converted hour:", hour);
 
       const restaurants = await filterRestaurantsByTime(dayNumber, hour, 0);
-      console.log("Returned restaurants:", restaurants);
+      //console.log("Returned restaurants:", restaurants);
 
       if (restaurants.length < 10) {
         const proceed = window.confirm(

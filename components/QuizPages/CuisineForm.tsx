@@ -7,22 +7,6 @@ import VerticalCarousel from "./VerticalCarousel";
 import Link from "next/link";
 import { useQuiz } from "@/context/QuizContext";
 
-// Define the interface for the props
-// interface CuisineFormProps {
-//   bitStrings: {
-//     cuisine_preferences: string;
-//     soft_constraints: string;
-//     budget: string;
-//   };
-//   setBitStrings: React.Dispatch<
-//     React.SetStateAction<{
-//       cuisine_preferences: string;
-//       soft_constraints: string;
-//       budget: string;
-//     }>
-//   >;
-// }
-
 interface CarouselOption {
   id: number;
   name: string;
@@ -62,10 +46,6 @@ const CUISINE_BIT_MAPPINGS: Record<number, string> = {
   13: "000000000000100", // African
 };
 
-// const CuisineForm: React.FC<CuisineFormProps> = ({
-//   bitStrings,
-//   setBitStrings,
-// }) => {
 const CuisineForm = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const { bitStrings, updateBitStrings } = useQuiz();
