@@ -6,6 +6,7 @@ import { Slider } from "../ui/slider";
 import SectionTitle from "../static/SectionTitle";
 import Link from "next/link";
 import { useQuiz } from "@/context/QuizContext";
+import { updateUserConstraints } from "@/utils/updateUserConstraints";
 
 const BudgetSelectorForm = () => {
   const [range, setRange] = useState([20, 40]);
@@ -37,6 +38,25 @@ const BudgetSelectorForm = () => {
     setRange(values);
   };
 
+  const handleSubmit = async () => {
+    const userId = 6; // testing wiht hard coded values for now
+    const groupId = 3;
+    const { soft_constraints, cuisine_preferences, budget } = bitStrings;
+
+    try {
+      await updateUserConstraints(
+        userId,
+        groupId,
+        soft_constraints,
+        cuisine_preferences,
+        budget,
+      );
+      console.log("User constraints updated successfully");
+    } catch (error) {
+      console.error("Failed to update user constraints:", error);
+    }
+  };
+
   return (
     <div className="w-full">
       <SectionTitle text="What's your budget?" classname=" mt-2 mb-8" />
@@ -64,7 +84,7 @@ const BudgetSelectorForm = () => {
         </div>
       </div>
       <Link href="/Completed">
-        <Button>Next</Button>
+        <Button onClick={handleSubmit}>Next</Button>
       </Link>
     </div>
   );
