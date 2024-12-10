@@ -764,116 +764,116 @@ export async function getUserBadges(
   }
   console.log("Badges to be displayed are:", badges);
   return { badges, error: undefined };
+}
 
-  export async function createGroup(formData: FormData) {
-    // creating a group, where a group_code gets generated, and other information gets pushed to the db
-    const supabase = await createSupabaseServerClient();
+export async function createGroup(formData: FormData) {
+  // creating a group, where a group_code gets generated, and other information gets pushed to the db
+  const supabase = await createSupabaseServerClient();
 
-    const name = formData.get("group_name") as string | null;
-    const date = formData.get("date") as string | null;
-    const time = formData.get("time") as string | null;
-    // isStringDate which should be in the dining_date column saved and the day extracted as a string from the iso string
-    const dining_date = new Date(`${date}T${time}:00`).toISOString();
-    const day = new Date(dining_date).toLocaleDateString("en-US", {
-      weekday: "long",
-    });
-    const uid = (await supabase.auth.getSession()).data.session?.user.id;
+  const name = formData.get("group_name") as string | null;
+  const date = formData.get("date") as string | null;
+  const time = formData.get("time") as string | null;
+  // isStringDate which should be in the dining_date column saved and the day extracted as a string from the iso string
+  const dining_date = new Date(`${date}T${time}:00`).toISOString();
+  const day = new Date(dining_date).toLocaleDateString("en-US", {
+    weekday: "long",
+  });
+  const uid = (await supabase.auth.getSession()).data.session?.user.id;
 
-    if (!uid) {
-      throw new Error("User not authenticated.");
-    }
-
-    const { data: recentGroups, error: recentError } = await supabase
-      .from("groups")
-      .select("*")
-      .eq("group_creator", uid)
-      .gte(
-        "created_at",
-        new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-      );
-
-    if (recentError) {
-      console.error("Error fetching recent groups:", recentError);
-      throw new Error("Internal error. Please try again later.");
-    }
-
-    if (recentGroups && recentGroups.length > 0) {
-      throw new Error("You can only create one group every 24 hours.");
-    }
-
-    function generateRandomGroupCode(): string {
-      const randomNumber = Math.floor(Math.random() * 1_000_000_000);
-      return String(randomNumber).padStart(9, "0");
-    }
-
-    let attempts = 0;
-    const maxAttempts = 5;
-    let lastError: Error | null = null;
-
-    while (attempts < maxAttempts) {
-      const group_code = generateRandomGroupCode();
-
-      type GroupInsert = Database["public"]["Tables"]["groups"]["Insert"];
-      const newGroup: GroupInsert = {
-        name,
-        group_creator: uid,
-        group_code,
-        dining_date,
-        day,
-      };
-
-      const { data, error } = await supabase
-        .from("groups")
-        .insert(newGroup)
-        .select("*");
-
-      if (error) {
-        if (error.code === "23505") {
-          // Unique violation error code in Postgres
-          attempts++;
-          lastError = error;
-        } else {
-          console.error(error);
-          throw new Error("Failed to create group due to an unexpected error.");
-        }
-      } else {
-        // Group created successfully, now retrieve custom user id
-        const groupId = data[0].id; // Assuming the groups table has an id field
-
-        // Retrieve custom user id from users table
-        const { data: userData, error: userError } = await supabase
-          .from("users")
-          .select("id")
-          .eq("uid", uid)
-          .single();
-
-        if (userError || !userData) {
-          console.error("Error retrieving user ID:", userError);
-          throw new Error("Failed to retrieve user data.");
-        }
-
-        const userId = userData.id;
-
-        // Insert into group_users using custom user id
-        const { error: groupUserError } = await supabase
-          .from("group_users")
-          .insert({
-            user_id: userId,
-            group_id: groupId,
-          });
-
-        if (groupUserError) {
-          console.error("Error inserting into group_users:", groupUserError);
-          throw new Error("Failed to associate group creator with the group.");
-        }
-
-        return data;
-      }
-    }
-
-    console.error(lastError);
-    throw new Error(
-      "Failed to create group after multiple attempts at generating a unique group code.",
-    );
+  if (!uid) {
+    throw new Error("User not authenticated.");
   }
+
+  const { data: recentGroups, error: recentError } = await supabase
+    .from("groups")
+    .select("*")
+    .eq("group_creator", uid)
+    .gte(
+      "created_at",
+      new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    );
+
+  if (recentError) {
+    console.error("Error fetching recent groups:", recentError);
+    throw new Error("Internal error. Please try again later.");
+  }
+
+  if (recentGroups && recentGroups.length > 0) {
+    throw new Error("You can only create one group every 24 hours.");
+  }
+
+  function generateRandomGroupCode(): string {
+    const randomNumber = Math.floor(Math.random() * 1_000_000_000);
+    return String(randomNumber).padStart(9, "0");
+  }
+
+  let attempts = 0;
+  const maxAttempts = 5;
+  let lastError: Error | null = null;
+
+  while (attempts < maxAttempts) {
+    const group_code = generateRandomGroupCode();
+
+    type GroupInsert = Database["public"]["Tables"]["groups"]["Insert"];
+    const newGroup: GroupInsert = {
+      name,
+      group_creator: uid,
+      group_code,
+      dining_date,
+      day,
+    };
+
+    const { data, error } = await supabase
+      .from("groups")
+      .insert(newGroup)
+      .select("*");
+
+    if (error) {
+      if (error.code === "23505") {
+        // Unique violation error code in Postgres
+        attempts++;
+        lastError = error;
+      } else {
+        console.error(error);
+        throw new Error("Failed to create group due to an unexpected error.");
+      }
+    } else {
+      // Group created successfully, now retrieve custom user id
+      const groupId = data[0].id; // Assuming the groups table has an id field
+
+      // Retrieve custom user id from users table
+      const { data: userData, error: userError } = await supabase
+        .from("users")
+        .select("id")
+        .eq("uid", uid)
+        .single();
+
+      if (userError || !userData) {
+        console.error("Error retrieving user ID:", userError);
+        throw new Error("Failed to retrieve user data.");
+      }
+
+      const userId = userData.id;
+
+      // Insert into group_users using custom user id
+      const { error: groupUserError } = await supabase
+        .from("group_users")
+        .insert({
+          user_id: userId,
+          group_id: groupId,
+        });
+
+      if (groupUserError) {
+        console.error("Error inserting into group_users:", groupUserError);
+        throw new Error("Failed to associate group creator with the group.");
+      }
+
+      return data;
+    }
+  }
+
+  console.error(lastError);
+  throw new Error(
+    "Failed to create group after multiple attempts at generating a unique group code.",
+  );
 }
