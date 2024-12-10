@@ -39,7 +39,7 @@ const BudgetSelectorForm = () => {
   };
 
   const handleSubmit = async () => {
-    const userId = 6; // testing wiht hard coded values for now
+    const userId = 6; // testing wiht hard coded values for now, replace later
     const groupId = 3;
     const { soft_constraints, cuisine_preferences, budget } = bitStrings;
 
