@@ -247,15 +247,19 @@ export async function fetchUserGroups(user_idd: number) {
   return data;
 }
 
-export async function checkCodeAndInsertUser( // checks the inputted group code if it exists, if it exists it checks if the current logged in user is already in the group, if this is not the case the user will be added to the group by adding a row into group_users table
-  groupCode: string,
-  userId: number,
-) {
+export async function checkCodeAndInsertUser(formData: FormData) {
   const supabase = await createSupabaseServerClient();
+  const user_uuid =
+    (await supabase.auth.getSession()).data.session?.user.id || "";
+  const { data: User, error } = await supabase
+    .from("users")
+    .select("id")
+    .eq("uid", user_uuid)
+    .single();
   const { data: groupData, error: groupError } = await supabase
     .from("groups")
     .select("id")
-    .eq("group_code", groupCode)
+    .eq("group_code", formData.get("code") as string)
     .single();
 
   if (groupError) {
@@ -268,7 +272,7 @@ export async function checkCodeAndInsertUser( // checks the inputted group code 
     .from("group_users")
     .select("id")
     .eq("group_id", groupId)
-    .eq("user_id", userId)
+    .eq("user_id", User?.id || "")
     .single();
   console.log("Existing User Data:", existingUserData);
   if (existingUserData) {
@@ -277,7 +281,7 @@ export async function checkCodeAndInsertUser( // checks the inputted group code 
 
   const { error: insertError } = await supabase.from("group_users").insert({
     group_id: groupId,
-    user_id: userId,
+    user_id: User?.id || 0,
   });
 
   if (insertError) {

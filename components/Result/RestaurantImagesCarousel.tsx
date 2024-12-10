@@ -6,6 +6,16 @@ import { Tables } from "@/utils/types/supabase";
 type Props = {
   images: Tables<"restaurants_photos">[];
 };
+const constructImageUrl = (inputUrl: string) => {
+  const match = inputUrl.match(/image_key=!1e10!2s([^&]+)/);
+  if (!match || !match[1]) {
+    throw new Error("invalid url");
+  }
+  const imageKey = match[1];
+  const newUrl = `https://lh5.googleusercontent.com/p/${imageKey}=w400-h400-k-no`;
+  return newUrl;
+};
+
 export const RestaurantImagesCarousel = (props: Props) => {
   const { images } = props;
   return (
@@ -23,10 +33,10 @@ export const RestaurantImagesCarousel = (props: Props) => {
               key={`restaurant_image_${index}`}
             >
               <Image
-                className=" w-full"
+                className=" w-full h-full object-cover"
                 width={400}
                 height={400}
-                src={img.photo || ""}
+                src={constructImageUrl(img.photo as string)}
                 alt="restaurant image"
               />
             </CarouselItem>
