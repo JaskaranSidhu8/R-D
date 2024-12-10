@@ -51,7 +51,7 @@ const DiningTimeForm = () => {
     return weekdayMap[day.toLowerCase()];
   };
   // Generate hours in 24-hour format
-  
+
   // This code should be added to the create group page
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i.toString().padStart(2, "0");
