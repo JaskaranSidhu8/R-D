@@ -408,20 +408,19 @@ export async function updateUserDetails(
   const supabase = await createSupabaseServerClient();
 
   // Extract data from the form
-  const fullName = formData.get("fullName") as string | null;
+  //const fullName = formData.get("fullName") as string | null;
+  const firstName = formData.get("firstName") as string | null;
+  const lastName = formData.get("lastName") as string | null;
   const country = formData.get("country") as string | null;
   const city = formData.get("city") as string | null;
   const uid = (await supabase.auth.getSession()).data.session?.user.id as UUID;
 
-  if (!fullName || !uid) {
+  if (!uid) {
     //uid = "cec45498-f601-4ed1-816b-63ea769411ac" as UUID;
     return { success: false, error: "Full Name or user ID is missing." };
   }
 
   // Split the full name into first name and last name
-  const nameParts = fullName.split(" ");
-  const firstName = nameParts[0];
-  const lastName = nameParts.slice(1).join(" ") || null; // Handle cases with no last name
   console.log("The first name is", firstName);
   console.log("The Last name is:", lastName);
   console.log("Country is", country);
