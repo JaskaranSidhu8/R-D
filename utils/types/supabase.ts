@@ -9,6 +9,45 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      avatars: {
+        Row: {
+          id: number;
+          url: string | null;
+        };
+        Insert: {
+          id?: number;
+          url?: string | null;
+        };
+        Update: {
+          id?: number;
+          url?: string | null;
+        };
+        Relationships: [];
+      };
+      badges: {
+        Row: {
+          description: string | null;
+          id: number;
+          name: string | null;
+          url_display: string | null;
+          url_gray: string | null;
+        };
+        Insert: {
+          description?: string | null;
+          id?: number;
+          name?: string | null;
+          url_display?: string | null;
+          url_gray?: string | null;
+        };
+        Update: {
+          description?: string | null;
+          id?: number;
+          name?: string | null;
+          url_display?: string | null;
+          url_gray?: string | null;
+        };
+        Relationships: [];
+      };
       cuisine_groups: {
         Row: {
           cuisine_soft_constraints: string | null;
@@ -61,6 +100,7 @@ export type Database = {
           id: number;
           is_deleted: boolean | null;
           isready: boolean | null;
+          review_rating: number;
           soft_constraints: string | null;
           user_id: number;
         };
@@ -71,6 +111,7 @@ export type Database = {
           id?: number;
           is_deleted?: boolean | null;
           isready?: boolean | null;
+          review_rating?: number;
           soft_constraints?: string | null;
           user_id: number;
         };
@@ -81,6 +122,7 @@ export type Database = {
           id?: number;
           is_deleted?: boolean | null;
           isready?: boolean | null;
+          review_rating?: number;
           soft_constraints?: string | null;
           user_id?: number;
         };
@@ -104,8 +146,10 @@ export type Database = {
       groups: {
         Row: {
           created_at: string | null;
+          day: string | null;
+          dining_date: string | null;
           group_code: string | null;
-          group_creator: number | null;
+          group_creator: string | null;
           hard_constraints: string | null;
           id: number;
           isdeleted: boolean | null;
@@ -116,8 +160,10 @@ export type Database = {
         };
         Insert: {
           created_at?: string | null;
+          day?: string | null;
+          dining_date?: string | null;
           group_code?: string | null;
-          group_creator?: number | null;
+          group_creator?: string | null;
           hard_constraints?: string | null;
           id?: number;
           isdeleted?: boolean | null;
@@ -128,8 +174,10 @@ export type Database = {
         };
         Update: {
           created_at?: string | null;
+          day?: string | null;
+          dining_date?: string | null;
           group_code?: string | null;
-          group_creator?: number | null;
+          group_creator?: string | null;
           hard_constraints?: string | null;
           id?: number;
           isdeleted?: boolean | null;
@@ -139,13 +187,6 @@ export type Database = {
           status?: boolean | null;
         };
         Relationships: [
-          {
-            foreignKeyName: "groups_group_creator_fkey";
-            columns: ["group_creator"];
-            isOneToOne: false;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "groups_pickedrestaurant_fkey";
             columns: ["pickedrestaurant"];
@@ -415,6 +456,39 @@ export type Database = {
         };
         Relationships: [];
       };
+      "user avatar": {
+        Row: {
+          avatar_id: number | null;
+          id: number;
+          user_id: number;
+        };
+        Insert: {
+          avatar_id?: number | null;
+          id?: number;
+          user_id: number;
+        };
+        Update: {
+          avatar_id?: number | null;
+          id?: number;
+          user_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "user avatar_avatar_id_fkey";
+            columns: ["avatar_id"];
+            isOneToOne: false;
+            referencedRelation: "avatars";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "user avatar_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       user_weights: {
         Row: {
           atmosphere_weight: number | null;
@@ -452,6 +526,7 @@ export type Database = {
       };
       users: {
         Row: {
+          avatar_id: number | null;
           city: string | null;
           country: string | null;
           created_at: string;
@@ -463,6 +538,7 @@ export type Database = {
           uid: string | null;
         };
         Insert: {
+          avatar_id?: number | null;
           city?: string | null;
           country?: string | null;
           created_at?: string;
@@ -474,6 +550,7 @@ export type Database = {
           uid?: string | null;
         };
         Update: {
+          avatar_id?: number | null;
           city?: string | null;
           country?: string | null;
           created_at?: string;
@@ -484,7 +561,15 @@ export type Database = {
           lastName?: string | null;
           uid?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "users_avatar_id_fkey";
+            columns: ["avatar_id"];
+            isOneToOne: false;
+            referencedRelation: "avatars";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {

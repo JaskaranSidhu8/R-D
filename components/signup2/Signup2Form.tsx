@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import CountrySelectList from "../static/CountrySelectList";
 import { importUserData } from "@/actions/functions";
 import { useRouter } from "next/navigation";
+import PreferencesForm from "../Preferences/PreferenceForm";
 
 // type Props = {};
 
@@ -28,6 +29,9 @@ const Signup2Form = () => {
       <Input name="lastName" type="text" placeholder="Last Name" />
       <CountrySelectList name="country" />
       <Input name="city" type="text" placeholder=" City " />
+
+      <PreferencesForm name="preferences" />
+
       <Button type="submit" className=" w-full">
         {" "}
         Create your account

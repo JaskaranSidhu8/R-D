@@ -307,7 +307,11 @@ export async function importUserData(
   const lastName = formData.get("lastName") as string | null;
   const country = formData.get("country") as string | null;
   const city = formData.get("city") as string | null;
+  const preferences_str = formData.get("preferences") as string | null;
   const uid = (await supabase.auth.getSession()).data.session?.user.id;
+
+  const hard_constraints =
+    preferences_str && preferences_str.length > 0 ? "1" : "0";
 
   type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
 
@@ -317,6 +321,7 @@ export async function importUserData(
     country,
     city,
     uid,
+    hard_constraints,
   };
 
   const { error } = await supabase.from("users").insert(newUser);
@@ -331,20 +336,26 @@ export async function importUserData(
 
 export async function createGroup(formData: FormData) {
   // creating a group, where a group_code gets generated, and other information gets pushed to the db
+  const supabase = await createSupabaseServerClient();
 
-  const name = formData.get("name") as string | null;
-  const rawGroupCreator = formData.get("group_creator");
-  // Convert the string value to a number
-  const group_creator = rawGroupCreator ? Number(rawGroupCreator) : null;
+  const name = formData.get("group_name") as string | null;
+  const date = formData.get("date") as string | null;
+  const time = formData.get("time") as string | null;
+  // isStringDate which should be in the dining_date column saved and the day extracted as a string from the iso string
+  const dining_date = new Date(`${date}T${time}:00`).toISOString();
+  const day = new Date(dining_date).toLocaleDateString("en-US", {
+    weekday: "long",
+  });
+  const uid = (await supabase.auth.getSession()).data.session?.user.id;
 
-  if (group_creator === null || isNaN(group_creator)) {
-    throw new Error("Invalid group_creator: must be a valid number.");
+  if (!uid) {
+    throw new Error("User not authenticated.");
   }
 
   const { data: recentGroups, error: recentError } = await supabase
     .from("groups")
     .select("*")
-    .eq("group_creator", group_creator)
+    .eq("group_creator", uid)
     .gte(
       "created_at",
       new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
@@ -374,8 +385,10 @@ export async function createGroup(formData: FormData) {
     type GroupInsert = Database["public"]["Tables"]["groups"]["Insert"];
     const newGroup: GroupInsert = {
       name,
-      group_creator,
+      group_creator: uid,
       group_code,
+      dining_date,
+      day,
     };
 
     const { data, error } = await supabase
@@ -385,6 +398,7 @@ export async function createGroup(formData: FormData) {
 
     if (error) {
       if (error.code === "23505") {
+        // Unique violation error code in Postgres
         attempts++;
         lastError = error;
       } else {
@@ -392,12 +406,42 @@ export async function createGroup(formData: FormData) {
         throw new Error("Failed to create group due to an unexpected error.");
       }
     } else {
+      // Group created successfully, now retrieve custom user id
+      const groupId = data[0].id; // Assuming the groups table has an id field
+
+      // Retrieve custom user id from users table
+      const { data: userData, error: userError } = await supabase
+        .from("users")
+        .select("id")
+        .eq("uid", uid)
+        .single();
+
+      if (userError || !userData) {
+        console.error("Error retrieving user ID:", userError);
+        throw new Error("Failed to retrieve user data.");
+      }
+
+      const userId = userData.id;
+
+      // Insert into group_users using custom user id
+      const { error: groupUserError } = await supabase
+        .from("group_users")
+        .insert({
+          user_id: userId,
+          group_id: groupId,
+        });
+
+      if (groupUserError) {
+        console.error("Error inserting into group_users:", groupUserError);
+        throw new Error("Failed to associate group creator with the group.");
+      }
+
       return data;
     }
   }
 
   console.error(lastError);
   throw new Error(
-    "Failed to create group after multiple attempts at generating a unique group code.",
+    "Failed to create group after multiple attempts at generating a unique group code.",
   );
 }

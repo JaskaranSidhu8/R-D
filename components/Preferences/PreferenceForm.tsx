@@ -9,23 +9,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import PreferenceTag from "./PreferenceTag";
+import SectionTitle from "../static/SectionTitle";
 
-const PreferencesForm = () => {
+type Props = {
+  name: string;
+};
+const PreferencesForm = (props: Props) => {
   const [selectedRestrictions, setSelectedRestrictions] = useState<string[]>(
     [],
   );
 
-  const restrictions = [
-    "Vegan",
-    "Vegetarian",
-    "Halal",
-    "Gluten",
-    "Peanuts",
-    "Lactose",
-    "Lupin",
-  ];
+  const restrictions = ["Vegan", "Vegetarian"];
 
   const handleSelect = (value: string) => {
     if (!selectedRestrictions.includes(value)) {
@@ -42,10 +37,14 @@ const PreferencesForm = () => {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto mt-[10vh]">
-      <h2 className="montserrat text-2xl mb-8">Preferences</h2>
-
-      <div className="mt-4">
+    <div className="flex flex-col w-full  max-w-md mx-auto">
+      <SectionTitle classname="mb-5" text="Preferences" />
+      <input
+        value={selectedRestrictions.join("-")}
+        name={props.name}
+        className="hidden"
+      />
+      <div className="">
         <p className="text-sm mb-2">Dietary Restrictions</p>
         <Select onValueChange={handleSelect}>
           <SelectTrigger className="w-full h-12 rounded-full">
@@ -75,10 +74,6 @@ const PreferencesForm = () => {
             />
           ))}
         </div>
-      </div>
-
-      <div className="mt-[15vh]">
-        <Button className="w-full">Save Changes</Button>
       </div>
     </div>
   );
