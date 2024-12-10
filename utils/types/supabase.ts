@@ -489,6 +489,42 @@ export type Database = {
           },
         ];
       };
+      user_badges: {
+        Row: {
+          badge_id: number | null;
+          display: boolean | null;
+          id: number;
+          user_id: number | null;
+        };
+        Insert: {
+          badge_id?: number | null;
+          display?: boolean | null;
+          id?: number;
+          user_id?: number | null;
+        };
+        Update: {
+          badge_id?: number | null;
+          display?: boolean | null;
+          id?: number;
+          user_id?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_badge_id_fkey";
+            columns: ["badge_id"];
+            isOneToOne: false;
+            referencedRelation: "badges";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "user_badges_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       user_weights: {
         Row: {
           atmosphere_weight: number | null;
@@ -531,6 +567,8 @@ export type Database = {
           country: string | null;
           created_at: string;
           firstName: string | null;
+          groups_created: number;
+          groups_joined: number;
           hard_constraints: string | null;
           id: number;
           is_deleted: boolean;
@@ -543,6 +581,8 @@ export type Database = {
           country?: string | null;
           created_at?: string;
           firstName?: string | null;
+          groups_created?: number;
+          groups_joined?: number;
           hard_constraints?: string | null;
           id?: number;
           is_deleted?: boolean;
@@ -555,6 +595,8 @@ export type Database = {
           country?: string | null;
           created_at?: string;
           firstName?: string | null;
+          groups_created?: number;
+          groups_joined?: number;
           hard_constraints?: string | null;
           id?: number;
           is_deleted?: boolean;
