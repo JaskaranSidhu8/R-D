@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import * as amplitude from "@amplitude/analytics-node";
+import { Input } from "../ui/input";
 
 const handleGroupCreationButtonClick = () => {
   // Track the event
@@ -36,50 +37,13 @@ const DiningTimeForm = () => {
   ];
 
   // Generate hours in 24-hour format
-  const hours = Array.from({ length: 24 }, (_, i) => {
-    const hour = i.toString().padStart(2, "0");
-    return `${hour}:00`;
-  });
-
   const isValid = day && time;
 
   return (
-    <div className="flex flex-col gap-4 max-w-md mx-auto mt-20 ">
-      <SectionTitle text="Dining time" classname="mt-14" />
+    <div className="flex flex-col gap-4 max-w-md mx-auto ">
+      <SectionTitle text="Dining time" classname="" />
 
       <div className="mt-1 flex flex-col gap-4">
-        <Select value={day} onValueChange={setDay}>
-          <SelectTrigger
-            className={`bg-white ${!day && "[&>span]:text-gray-500"}`}
-          >
-            <SelectValue placeholder="On which day of the week?" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {daysOfWeek.map((weekDay) => (
-                <SelectItem key={weekDay} value={weekDay.toLowerCase()}>
-                  {weekDay}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <Select value={time} onValueChange={setTime}>
-          <SelectTrigger
-            className={`bg-white ${!time && "[&>span]:text-gray-500"}`}
-          >
-            <SelectValue placeholder="Select time" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {hours.map((hour) => (
-                <SelectItem key={hour} value={hour}>
-                  {hour}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
         {isValid ? (
           <Link href="/StatusMgr/1">
             <Button

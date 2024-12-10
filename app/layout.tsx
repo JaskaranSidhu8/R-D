@@ -7,6 +7,7 @@ import "./globals.css";
 import { AnimatePresence } from "framer-motion";
 import { initIntercom, shutdownIntercom } from "../utils/intercom"; // Adjust the path based on your utils location
 import * as amplitude from "@amplitude/analytics-node";
+import { Toaster } from "@/components/ui/toaster";
 
 /*
 export const metadata = {
@@ -41,6 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Toaster />
         <AnimatePresence mode="wait">{children}</AnimatePresence>
         <Foter />
       </body>
