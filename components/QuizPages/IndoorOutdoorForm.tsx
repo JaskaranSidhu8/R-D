@@ -5,6 +5,22 @@ import { Button } from "@/components/ui/button";
 import GridSelection from "./GridSelection";
 import Link from "next/link";
 import SectionTitle from "../static/SectionTitle";
+import { useQuiz } from "@/context/QuizContext";
+
+// interface IndoorOutdoorFormProps {
+//   bitStrings: {
+//     cuisine_preferences: string;
+//     soft_constraints: string;
+//     budget: string;
+//   };
+//   setBitStrings: React.Dispatch<
+//     React.SetStateAction<{
+//       cuisine_preferences: string;
+//       soft_constraints: string;
+//       budget: string;
+//     }>
+//   >;
+// }
 
 const indoorOutdoorOptions = [
   { name: "Rooftop Terrace", image: "/rooftopTerrace.jpg" },
@@ -13,15 +29,47 @@ const indoorOutdoorOptions = [
   { name: "Themed Restuarant", image: "/themedRestaurant.jpg" },
 ];
 
+// const IndoorOutdoorForm: React.FC<IndoorOutdoorFormProps> = ({
+//   bitStrings,
+//   setBitStrings,
+// }) => {
+
 const IndoorOutdoorForm = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const { bitStrings, updateBitStrings } = useQuiz();
+
+  // React.useEffect(() => {
+  //   console.log("Received bit strings in IndoorOutdoor:", bitStrings);
+  //   console.log("Cuisine preferences:", bitStrings.cuisine_preferences);
+  // }, [bitStrings]);
+  console.log("Current context bitStrings:", bitStrings);
+  console.log("Current cuisine_preferences:", bitStrings.cuisine_preferences);
+  console.log("Current soft_constraints:", bitStrings.soft_constraints);
+  console.log("Current budget:", bitStrings.budget);
 
   const handleSelection = (index: number) => {
-    if (selectedItems.includes(index)) {
-      setSelectedItems([]);
-    } else {
-      setSelectedItems([index]);
-    }
+    setSelectedItems((prev) => {
+      let newSelection: number[];
+      if (prev.includes(index)) {
+        newSelection = [];
+      } else {
+        newSelection = [index];
+      }
+
+      // Update soft_constraints
+      const isOutdoorOption = index === 0 || index === 2; // Rooftop or Street Café
+      const softConstraintsArray = "000000000".split("");
+      softConstraintsArray[5] = isOutdoorOption ? "1" : "0"; // 6th position (index 5) is hasOutdoorSeating
+
+      console.log("Selected setting:", indoorOutdoorOptions[index].name);
+      console.log("Is outdoor:", isOutdoorOption);
+      console.log("Updated soft_constraints:", softConstraintsArray.join(""));
+
+      // Update the bit string through context
+      updateBitStrings("soft_constraints", softConstraintsArray.join(""));
+
+      return newSelection;
+    });
   };
 
   return (
