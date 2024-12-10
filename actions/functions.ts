@@ -221,9 +221,28 @@ export async function fetchUserGroups(user_idd: number) {
   return data;
 }
 
-export async function checkCodeAndInsertUser(groupCode: string) { // checks the inputted group code if it exists, if it exists it checks if the current logged in user is already in the group, if this is not the case the user will be added to the group by adding a row into group_users table
+export async function checkCodeAndInsertUser(groupCode: string) {
+  // checks the inputted group code if it exists, if it exists it checks if the current logged in user is already in the group, if this is not the case the user will be added to the group by adding a row into group_users table
   const supabase = await createSupabaseServerClient();
   const uid = (await supabase.auth.getSession()).data.session?.user.id;
+
+  if (!uid) {
+    return { success: false, message: "User not authenticated" };
+  }
+
+  // 2. Map uid to custom users.id
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("uid", uid)
+    .single();
+
+  if (userError || !userData) {
+    console.error("Error retrieving user ID:", userError);
+    return { success: false, message: "User not found in the database" };
+  }
+
+  const userId = userData.id;
 
   const { data: groupData, error: groupError } = await supabase
     .from("groups")
