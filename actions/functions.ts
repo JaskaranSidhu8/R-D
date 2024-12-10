@@ -223,9 +223,12 @@ export async function fetchUserGroups(user_idd: number) {
 
 export async function checkCodeAndInsertUser( // checks the inputted group code if it exists, if it exists it checks if the current logged in user is already in the group, if this is not the case the user will be added to the group by adding a row into group_users table
   groupCode: string,
-  userId: number,
 ) {
   const supabase = await createSupabaseServerClient();
+  const uid = (await supabase.auth.getSession()).data.session?.user.id;
+
+
+
   const { data: groupData, error: groupError } = await supabase
     .from("groups")
     .select("id")
