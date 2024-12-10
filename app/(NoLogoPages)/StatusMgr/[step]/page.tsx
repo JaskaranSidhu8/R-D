@@ -6,15 +6,18 @@ import React from "react";
 type Props = {
   params: { step: string };
   searchParams: {
-    day: string; //convert them to number later on
-    hour: string;
+    //day: string; //convert them to number later on
+    //our: string;
     groupId: string;
   };
 };
 
 const StatusMgr: React.FC<Props> = ({ params, searchParams }) => {
   const { step } = params;
-  const { day, hour, groupId } = searchParams;
+  //const { day, hour, groupId } = searchParams;
+  const { groupId } = searchParams;
+  console.log("Search params received in StatusMgr:", searchParams); //debug line
+
   return (
     <div>
       <ReturnButton />

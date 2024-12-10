@@ -7,6 +7,7 @@ import SectionTitle from "../static/SectionTitle";
 import Link from "next/link";
 import { useQuiz } from "@/context/QuizContext";
 import { updateUserConstraints } from "@/utils/updateUserConstraints";
+//import createSupabaseServerClient from "@/utils/supabaseClient";
 
 const BudgetSelectorForm = () => {
   const [range, setRange] = useState([20, 40]);
@@ -39,7 +40,7 @@ const BudgetSelectorForm = () => {
   };
 
   const handleSubmit = async () => {
-    const userId = 6; // testing wiht hard coded values for now, replace later
+    //const userId = 6; // testing wiht hard coded values for now, replace later
     //const groupId = 3;
     const { soft_constraints, cuisine_preferences, budget } = bitStrings;
 
@@ -49,8 +50,15 @@ const BudgetSelectorForm = () => {
     }
 
     try {
+      console.log(
+        "Attempting to update user constraints with the following values:",
+      );
+      console.log("Group ID:", groupId); // Log the group ID
+      console.log("Soft Constraints:", soft_constraints); // Log soft constraints
+      console.log("Cuisine Preferences:", cuisine_preferences); // Log cuisine preferences
+      console.log("Budget:", budget); // Log budget constraints
       await updateUserConstraints(
-        userId,
+        //userId,
         //parseInt(groupId),
         groupId, //gotten from context now
         soft_constraints,

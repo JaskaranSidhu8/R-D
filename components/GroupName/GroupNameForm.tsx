@@ -38,8 +38,11 @@ const GroupNameForm = () => {
   const onSubmit = async (e: FormData) => {
     const data = await createGroup(e);
     console.log(data);
-    if (data) {
-      router.push("/StatusMgr/1");
+    if (data && data[0]) {
+      // Check if we have data and the group
+      const groupId = data[0].id; // Get the group ID from the created group
+      router.push(`/StatusMgr/1?groupId=${groupId}`); // Add groupId as a URL parameter
+      console.log(groupId);
     }
   };
   return (
