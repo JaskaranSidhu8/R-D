@@ -149,7 +149,7 @@ export type Database = {
           day: string | null
           dining_date: string | null
           group_code: string | null
-          group_creator: number | null
+          group_creator: string | null
           hard_constraints: string | null
           id: number
           isdeleted: boolean | null
@@ -163,7 +163,7 @@ export type Database = {
           day?: string | null
           dining_date?: string | null
           group_code?: string | null
-          group_creator?: number | null
+          group_creator?: string | null
           hard_constraints?: string | null
           id?: number
           isdeleted?: boolean | null
@@ -177,7 +177,7 @@ export type Database = {
           day?: string | null
           dining_date?: string | null
           group_code?: string | null
-          group_creator?: number | null
+          group_creator?: string | null
           hard_constraints?: string | null
           id?: number
           isdeleted?: boolean | null
@@ -187,13 +187,6 @@ export type Database = {
           status?: boolean | null
         }
         Relationships: [
-          {
-            foreignKeyName: "groups_group_creator_fkey"
-            columns: ["group_creator"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "groups_pickedrestaurant_fkey"
             columns: ["pickedrestaurant"]
@@ -496,6 +489,42 @@ export type Database = {
           },
         ]
       }
+      user_badges: {
+        Row: {
+          badge_id: number | null
+          display: boolean | null
+          id: number
+          user_id: number | null
+        }
+        Insert: {
+          badge_id?: number | null
+          display?: boolean | null
+          id?: number
+          user_id?: number | null
+        }
+        Update: {
+          badge_id?: number | null
+          display?: boolean | null
+          id?: number
+          user_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "badges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_badges_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_weights: {
         Row: {
           atmosphere_weight: number | null
@@ -538,6 +567,8 @@ export type Database = {
           country: string | null
           created_at: string
           firstName: string | null
+          groups_created: number
+          groups_joined: number
           hard_constraints: string | null
           id: number
           is_deleted: boolean
@@ -550,6 +581,8 @@ export type Database = {
           country?: string | null
           created_at?: string
           firstName?: string | null
+          groups_created?: number
+          groups_joined?: number
           hard_constraints?: string | null
           id?: number
           is_deleted?: boolean
@@ -562,6 +595,8 @@ export type Database = {
           country?: string | null
           created_at?: string
           firstName?: string | null
+          groups_created?: number
+          groups_joined?: number
           hard_constraints?: string | null
           id?: number
           is_deleted?: boolean

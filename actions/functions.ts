@@ -33,9 +33,9 @@ export async function algorithm(
   const budgetWeight = budget_weight! / numUsers;
   const drinkWeight = drink_weight! / numUsers;
 
-  console.log("THE group cuisine weihjt is:", cuisineWeight);
-  console.log("THE group budget weihjt is:", budgetWeight);
-  console.log("THE group cuisine weihjt is:", drinkWeight);
+  //console.log("THE group cuisine weihjt is:", cuisineWeight);
+  //console.log("THE group budget weihjt is:", budgetWeight);
+  //console.log("THE group cuisine weihjt is:", drinkWeight);
   //const atmosphereWeight = atmosphere_weight! /numUsers;
   //const restaurants = await fetchRestaurants("true"); //true, meaning that it serves Vegan and Vegetarian FOOD, but we dint need it with the ne
   const hasHardConstraints = await checkHardConstraintsGroup(group_id); //works properly
@@ -560,4 +560,192 @@ export async function updateReviewRating(
 
   console.log("Review rating updated successfully:", data);
   return true;
+}
+
+export async function incrementGroupCreated(
+  uid: number,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Get the user ID from the session
+  //const uid = (await supabase.auth.getSession()).data.session?.user.id;
+
+  if (!uid) {
+    return { success: false, error: "User ID is missing from session." };
+  }
+
+  const { data: userValue, error: fetchError } = await supabase
+    .from("users")
+    .select("groups_created")
+    //.eq("uid", uid)
+    .eq("id", uid)
+    .single();
+
+  if (fetchError || !userValue) {
+    console.error("Error fetching user data:", fetchError?.message);
+    return { success: false, error: fetchError?.message };
+  }
+
+  const currentValue = userValue.groups_created;
+
+  // Step 2: Increment the column value
+  const newValue = currentValue + 1;
+  // Increment the selected column
+  const { error } = await supabase
+    .from("users")
+    .update({ groups_created: newValue })
+    //.eq("uid", uid);
+    .eq("id", uid);
+
+  if (error) {
+    console.error("Error updating group count:", error.message);
+    return { success: false, error: error.message };
+  }
+
+  // Get the updated user data
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("groups_created, groups_joined")
+    //.eq("uid", uid)
+    .eq("id", uid)
+    .single();
+
+  if (userError || !userData) {
+    console.error("Error fetching user data:", userError?.message);
+    return { success: false, error: userError?.message };
+  }
+
+  // Check and update badges
+  const badgeUpdateResult = await checkAndUpdateBadges(
+    uid,
+    userData.groups_created,
+    userData.groups_joined,
+  );
+
+  return badgeUpdateResult;
+}
+
+export async function incrementGroupJoined(
+  uid: number,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Get the user ID from the session
+  //const uid = (await supabase.auth.getSession()).data.session?.user.id;
+
+  if (!uid) {
+    return { success: false, error: "User ID is missing from session." };
+  }
+
+  const { data: userValue, error: fetchError } = await supabase
+    .from("users")
+    .select("groups_joined")
+    //.eq("uid", uid)
+    .eq("id", uid)
+    .single();
+
+  if (fetchError || !userValue) {
+    console.error("Error fetching user data:", fetchError?.message);
+    return { success: false, error: fetchError?.message };
+  }
+
+  const currentValue = userValue.groups_joined;
+
+  // Step 2: Increment the column value
+  const newValue = currentValue + 1;
+  // Increment the selected column
+  const { error } = await supabase
+    .from("users")
+    .update({ groups_joined: newValue })
+    //.eq("uid", uid);
+    .eq("id", uid);
+
+  if (error) {
+    console.error("Error updating group count:", error.message);
+    return { success: false, error: error.message };
+  }
+
+  // Get the updated user data
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("groups_created, groups_joined")
+    //.eq("uid", uid)
+    .eq("id", uid)
+    .single();
+
+  if (userError || !userData) {
+    console.error("Error fetching user data:", userError?.message);
+    return { success: false, error: userError?.message };
+  }
+
+  // Check and update badges
+  const badgeUpdateResult = await checkAndUpdateBadges(
+    uid,
+    userData.groups_created,
+    userData.groups_joined,
+  );
+
+  return badgeUpdateResult;
+}
+
+export async function checkAndUpdateBadges(
+  userId: number, // userId: string
+  groupsCreated: number,
+  groupsJoined: number,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Define badges and their conditions
+  const badgeConditions = [
+    { badge_id: 1, condition: groupsCreated + groupsJoined >= 1 }, // "First Timer"
+    { badge_id: 3, condition: groupsJoined >= 10 }, // "Social Butterfly"
+    { badge_id: 4, condition: groupsCreated >= 5 }, // "Group Leader"
+  ];
+
+  console.log("Badge conditions to evaluate:", badgeConditions);
+
+  for (const { badge_id, condition } of badgeConditions) {
+    console.log(`Updating badge ${badge_id} with condition:`, condition);
+
+    // Update the `display` field based on the condition
+    const { error } = await supabase
+      .from("user_badges")
+      .update({ display: condition }) // Only update the `display` field
+      .eq("user_id", userId) // Match the user ID
+      .eq("badge_id", badge_id); // Match the badge ID
+
+    if (error) {
+      console.error(`Error updating badge ${badge_id}:`, error.message);
+      return { success: false, error: error.message };
+    }
+  }
+
+  return { success: true };
+}
+
+export async function getUserBadges(
+  userId: number,
+): Promise<{ badges: any[]; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Uncomment these lines when you can retrieve the uid from the session
+  // const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  // const userId = sessionData?.session?.user.id;
+  // if (!userId) {
+  //   return { badges: [], error: "User ID is missing from session." };
+  // }
+
+  // Query the `user_badges` table for badges with `display` set to true
+  const { data: badges, error } = await supabase
+    .from("user_badges")
+    .select("badge_id") // Adjust the columns if you need more data (e.g., badge names or descriptions)
+    .eq("user_id", userId)
+    .eq("display", true);
+
+  if (error) {
+    console.error("Error fetching badges:", error.message);
+    return { badges: [], error: error.message };
+  }
+  console.log("Badges to be displayed are:", badges);
+  return { badges, error: undefined };
 }
