@@ -1,3 +1,4 @@
+import Banner from "@/components/Home/Banner";
 import GroupJoinForm from "@/components/Home/GroupJoinForm";
 import PreviousGroups from "@/components/Home/PreviousGroups";
 import LogoutBtn from "@/components/static/LogoutBtn";
@@ -8,11 +9,11 @@ import React from "react";
 const Home = () => {
   return (
     <div>
-      <GroupJoinForm />
-      <PreviousGroups />
-      <br />
-      <br />
-      <LogoutBtn />
+      <Banner />
+      <div className=" p-10">
+        <GroupJoinForm />
+        <PreviousGroups />
+      </div>
     </div>
   );
 };
