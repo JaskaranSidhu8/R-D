@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import GridSelection from "./GridSelection";
 import Link from "next/link";
 import SectionTitle from "../static/SectionTitle";
+import { useQuiz } from "@/context/QuizContext";
 
 const dessertOptions = [
   { name: "Yes please!", image: "/dessert.webp" },
@@ -13,13 +14,37 @@ const dessertOptions = [
 
 const DessertForm = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const { bitStrings, updateBitStrings } = useQuiz();
 
   const handleSelection = (index: number) => {
-    if (selectedItems.includes(index)) {
-      setSelectedItems([]);
-    } else {
-      setSelectedItems([index]);
-    }
+    setSelectedItems((prev) => {
+      let newSelection: number[];
+      if (prev.includes(index)) {
+        newSelection = [];
+      } else {
+        newSelection = [index];
+      }
+
+      // Update the soft_constraints field based on dessert selection
+      const softConstraintsArray = bitStrings.soft_constraints.split("");
+
+      // Reset dessert-related bit
+      softConstraintsArray[4] = "0";
+
+      // Switch on the correct bit based on selection
+      if (index === 0) {
+        softConstraintsArray[4] = "1"; // `restaurant.servesDessert`
+      }
+      // "No thanks" (index 1) doesn't affect the soft_constraints field.
+
+      console.log("Selected dessert option:", dessertOptions[index].name);
+      console.log("Updated soft_constraints:", softConstraintsArray.join(""));
+
+      // Update the bitStrings in context
+      updateBitStrings("soft_constraints", softConstraintsArray.join(""));
+
+      return newSelection;
+    });
   };
 
   return (

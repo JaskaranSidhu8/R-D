@@ -5,10 +5,15 @@ import React from "react";
 
 type Props = {
   params: { step: string };
+  searchParams: {
+    day: string; //convert them to number later on
+    hour: string;
+  };
 };
 
-const StatusMgr: React.FC<Props> = ({ params }) => {
+const StatusMgr: React.FC<Props> = ({ params, searchParams }) => {
   const { step } = params;
+  const { day, hour } = searchParams;
   return (
     <div>
       <ReturnButton />

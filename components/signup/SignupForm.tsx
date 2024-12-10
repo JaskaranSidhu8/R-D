@@ -9,6 +9,8 @@ import {
   signInWithEmailAndPassword,
   signUpWithEmailAndPassword,
 } from "@/actions/auth";
+import createSupabaseServerClient from "@/lib/supabase/server";
+import { useToast } from "@/hooks/use-toast";
 
 type Props = {
   mode: "Signup" | "Signin";
@@ -16,18 +18,31 @@ type Props = {
 
 const SignupForm = (props: Props) => {
   const router = useRouter();
+  const { toast } = useToast();
   const onSubmit = async (e: FormData) => {
     if (props.mode === "Signup") {
-      const { success } = await signUpWithEmailAndPassword(e);
+      const { success, error } = await signUpWithEmailAndPassword(e);
       if (success) {
         router.push(
           `/Signup/Verify/${encodeURIComponent(e.get("email") as string)}`,
         );
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error,
+        });
       }
     } else {
-      const { success } = await signInWithEmailAndPassword(e);
+      const { success, error } = await signInWithEmailAndPassword(e);
       if (success) {
         router.push(`/Home`);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error,
+        });
       }
     }
   };
