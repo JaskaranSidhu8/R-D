@@ -1,30 +1,61 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-const avatars = [
-  "/avatarpinkwoman.png",
-  "/avatargreywoman.png",
-  "/avatarpinkman.png",
-  "/avatarasianman.png",
-  "/avatarwhiteman.png",
-  "/avatarindianwoman.png",
-];
+import {
+  getUserAvatarUrl,
+  fetchAllAvatars,
+  updateUserAvatar,
+} from "@/actions/avatarfunctions"; // Import the necessary backend functions
 
 const AvatarForm = () => {
-  const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
-  const [isModified, setIsModified] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null); // Store the selected avatar URL
+  const [isModified, setIsModified] = useState(false); // Track if the avatar selection is modified
+  const [userAvatar, setUserAvatar] = useState<string | null>(null); // Store the current user's avatar URL
+  const [avatars, setAvatars] = useState<string[]>([]); // Store the list of avatar URLs
 
+  // Fetch user avatar and list of avatars when the component mounts
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const avatarUrl = await getUserAvatarUrl(); // Fetch the current user's avatar URL
+        if (avatarUrl) {
+          setUserAvatar(avatarUrl); // Set the user's current avatar URL
+        }
+
+        const avatarUrls = await fetchAllAvatars(); // Fetch all avatar URLs from the database
+        setAvatars(avatarUrls); // Populate the avatars state with fetched URLs
+      } catch (error) {
+        console.error("Error fetching initial data:", error);
+      }
+    };
+
+    fetchInitialData();
+  }, []);
+
+  // Handle avatar selection
   const handleAvatarSelect = (avatar: string) => {
-    setSelectedAvatar(avatar);
-    setIsModified(true); // Enable Save Changes button when an avatar is selected
+    setSelectedAvatar(avatar); // Update the selected avatar
+    setIsModified(true); // Enable "Save Changes" button
   };
 
-  const handleSubmit = () => {
-    console.log("Saving selected avatar:", selectedAvatar); // Simulate saving
-    setIsModified(false); // Reset modified state
+  // Handle form submission to save the selected avatar
+  const handleSubmit = async () => {
+    if (!selectedAvatar) return; // Ensure an avatar is selected before proceeding
+
+    try {
+      const success = await updateUserAvatar(selectedAvatar); // Call the backend function to update the avatar
+      if (success) {
+        console.log("Avatar updated successfully");
+        setUserAvatar(selectedAvatar); // Update the current avatar to the newly selected one
+      } else {
+        console.error("Failed to update avatar");
+      }
+      setIsModified(false); // Reset the modified state
+    } catch (error) {
+      console.error("Error updating avatar:", error);
+    }
   };
 
   return (
@@ -33,7 +64,7 @@ const AvatarForm = () => {
       <div className="flex justify-center mb-2">
         <div className="relative bg-primary rounded-full">
           <img
-            src={selectedAvatar || "/pfp.jpg"} // Dynamically update PFP
+            src={selectedAvatar || userAvatar || "/pfp.jpg"} // Dynamically update the profile picture based on selection or fetched data
             alt="Profile"
             className="w-32 h-32 rounded-full object-cover border border-gray-200"
           />
@@ -41,7 +72,7 @@ const AvatarForm = () => {
       </div>
 
       {/* Section Title */}
-      <div className="flex flex-col  mt-12 mb-8">
+      <div className="flex flex-col mt-12 mb-8">
         <h2 className="montserrat text-2xl">Choose your avatar</h2>
       </div>
 
@@ -55,7 +86,7 @@ const AvatarForm = () => {
                 ? "ring-4 ring-red-800 bg-primary scale-90"
                 : "bg-primary hover:scale-105"
             }`}
-            onClick={() => handleAvatarSelect(avatar)}
+            onClick={() => handleAvatarSelect(avatar)} // Handle avatar selection
           >
             <img
               src={avatar}
@@ -70,7 +101,7 @@ const AvatarForm = () => {
       {isModified ? (
         <Link href="/AccountDetails">
           <Button
-            onClick={handleSubmit} // Logic for saving
+            onClick={handleSubmit} // Trigger save logic
             variant="default"
             className="mt-8"
           >
@@ -81,7 +112,7 @@ const AvatarForm = () => {
         <Button
           onClick={(e) => e.preventDefault()} // Prevent any action if not modified
           variant="secondary"
-          disabled={!isModified} // Disabled when not modified
+          disabled={!isModified} // Disable button when not modified
           className="mt-8"
         >
           Save Changes
