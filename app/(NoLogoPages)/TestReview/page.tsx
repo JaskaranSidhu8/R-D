@@ -6,7 +6,7 @@ import ReviewForm from "@/components/Home/ReviewForm";
 const TestReview = () => {
   return (
     <div className="flex justify-center">
-      <ReviewForm userId={4} />
+      <ReviewForm userId={1} />
     </div>
   );
 };
