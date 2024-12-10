@@ -1,16 +1,41 @@
+"use client";
 import React from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import CountrySelectList from "../static/CountrySelectList";
+import { importUserData } from "@/actions/functions";
+import { useRouter } from "next/navigation";
+import PreferencesForm from "../Preferences/PreferenceForm";
 
 // type Props = {};
 
 const Signup2Form = () => {
+  const router = useRouter();
+  const onSubmit = async (e: FormData) => {
+    const { success, error } = await importUserData(e);
+    if (success) {
+      router.push("/Home");
+    }
+  };
+
   return (
-    <form className=" space-y-5">
-      <Input type="text" placeholder=" Full Name " />{" "}
-      <Input type="text" placeholder=" Country " />{" "}
-      <Input type="text" placeholder=" City " />
-      <Button className=" w-full"> Create your account</Button>
+    <form
+      action={(e) => {
+        onSubmit(e);
+      }}
+      className=" space-y-5"
+    >
+      <Input name="firstName" type="text" placeholder="First Name" />
+      <Input name="lastName" type="text" placeholder="Last Name" />
+      <CountrySelectList name="country" />
+      <Input name="city" type="text" placeholder=" City " />
+
+      <PreferencesForm name="preferences" />
+
+      <Button type="submit" className=" w-full">
+        {" "}
+        Create your account
+      </Button>
     </form>
   );
 };

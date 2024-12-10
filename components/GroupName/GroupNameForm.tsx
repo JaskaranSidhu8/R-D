@@ -5,38 +5,58 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SectionTitle from "@/components/static/SectionTitle";
 import Link from "next/link";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { createGroup } from "@/actions/functions";
 
 const GroupNameForm = () => {
-  const [groupName, setGroupName] = useState(""); // Track the group name input
+  const hours = Array.from({ length: 24 }, (_, i) => {
+    const hour = i.toString().padStart(2, "0");
+    return `${hour}:00`;
+  });
 
-  const handleNextClick = () => {
-    if (!groupName.trim()) {
-      alert("Please provide a group name before proceeding.");
-    }
+  const onSubmit = async (e: FormData) => {
+    const data = await createGroup(e);
+    console.log(data);
   };
-
-  const isValid = groupName.trim().length > 0;
-
   return (
-    <div className="flex flex-col gap-4 max-w-md mx-auto  mt-20">
+    <form
+      action={(e) => onSubmit(e)}
+      className="flex flex-col gap-4 max-w-md mx-auto  mt-20"
+    >
       <SectionTitle text="Give your group a name!" classname="mt-14" />
 
       <div className=" mt-1 flex flex-col gap-4">
         <Input
           type="text"
+          name="group_name"
           placeholder="Group Name"
           className="bg-white"
-          onChange={(e) => setGroupName(e.target.value)}
         />
-        {isValid ? (
-          <Link href={"/DiningTime"}>
-            <Button className="mt-4">Next</Button>
-          </Link>
-        ) : (
-          <Button className="mt-4">Next</Button>
-        )}
+        <Input type="date" name="date" />
+        <Select name="time">
+          <SelectTrigger>
+            <SelectValue placeholder="Select time" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {hours.map((hour) => (
+                <SelectItem key={hour} value={hour}>
+                  {hour}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button className="mt-5">Create group</Button>
       </div>
-    </div>
+    </form>
   );
 };
 

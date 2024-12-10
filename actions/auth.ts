@@ -3,20 +3,33 @@
 import readUserSession from "@/lib/actions";
 import createSupabaseServerClient from "@/lib/supabase/server";
 
-export async function signUpWithEmailAndPassword(data: FormData) {
+export async function signUpWithEmailAndPassword(
+  data: FormData,
+): Promise<{ success: boolean; error?: string }> {
   const supabase = await createSupabaseServerClient();
   try {
-    const result = await supabase.auth.signUp({
+    const { data: FetchedUser, error } = await supabase.auth.signUp({
       email: data.get("email") as string,
       password: data.get("password") as string,
     });
-    if (result) {
-      return { success: true };
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    if (FetchedUser.user) {
+      const { role } = FetchedUser.user;
+      if (role === "authenticated") {
+        return { success: true };
+      } else {
+        return {
+          success: false,
+          error: "Email already exist, Please sign in ",
+        };
+      }
     } else {
-      return { success: false };
+      return { success: false, error: "Unexpected error" };
     }
   } catch (err) {
-    return { success: false };
+    return { success: false, error: "Unexpected error" };
   }
 }
 export async function verifyEmailUsingOTP(data: FormData) {
@@ -37,17 +50,24 @@ export async function verifyEmailUsingOTP(data: FormData) {
     return { success: false };
   }
 }
-export async function signInWithEmailAndPassword(data: FormData) {
+export async function signInWithEmailAndPassword(
+  data: FormData,
+): Promise<{ success: boolean; error?: string }> {
   const supabase = await createSupabaseServerClient();
   try {
-    const result = await supabase.auth.signInWithPassword({
-      email: data.get("email") as string,
-      password: data.get("password") as string,
-    });
-    if (result) {
+    const { data: FetchedUser, error } = await supabase.auth.signInWithPassword(
+      {
+        email: data.get("email") as string,
+        password: data.get("password") as string,
+      },
+    );
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    if (FetchedUser.user) {
       return { success: true };
     } else {
-      return { success: false };
+      return { success: false, error: "Unexpected error" };
     }
   } catch (err) {
     return { success: false };
@@ -61,6 +81,5 @@ export async function logOut() {
 
 export async function checkLogin() {
   const { data } = await readUserSession();
-  console.log("id", data.session?.user.id);
   return data.session ? true : false;
 }
