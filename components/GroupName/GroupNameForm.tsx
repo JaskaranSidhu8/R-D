@@ -16,6 +16,17 @@ import {
 import { createGroup } from "@/actions/functions";
 
 const GroupNameForm = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Get the form element, we need this to check validation
+    const form = e.currentTarget.closest("form");
+
+    // If form exists and isn't valid, prevent going to next page and show validation messages
+    if (form && !form.checkValidity()) {
+      e.preventDefault();
+      form.reportValidity();
+    }
+  };
+
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i.toString().padStart(2, "0");
     return `${hour}:00`;
@@ -38,9 +49,10 @@ const GroupNameForm = () => {
           name="group_name"
           placeholder="Group Name"
           className="bg-white"
+          required
         />
-        <Input type="date" name="date" />
-        <Select name="time">
+        <Input type="date" name="date" required />
+        <Select name="time" required>
           <SelectTrigger>
             <SelectValue placeholder="Select time" />
           </SelectTrigger>
@@ -54,7 +66,11 @@ const GroupNameForm = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Button className="mt-5">Create group</Button>
+        <Link href="/StatusMgr/1" className="mt-5 w-full">
+          <Button className="w-full" onClick={handleClick}>
+            Create group
+          </Button>
+        </Link>
       </div>
     </form>
   );

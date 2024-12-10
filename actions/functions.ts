@@ -784,23 +784,23 @@ export async function createGroup(formData: FormData) {
     throw new Error("User not authenticated.");
   }
 
-  const { data: recentGroups, error: recentError } = await supabase
-    .from("groups")
-    .select("*")
-    .eq("group_creator", uid)
-    .gte(
-      "created_at",
-      new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-    );
+  // const { data: recentGroups, error: recentError } = await supabase
+  //   .from("groups")
+  //   .select("*")
+  //   .eq("group_creator", uid)
+  //   .gte(
+  //     "created_at",
+  //     new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+  //   );
 
-  if (recentError) {
-    console.error("Error fetching recent groups:", recentError);
-    throw new Error("Internal error. Please try again later.");
-  }
+  // if (recentError) {
+  //   console.error("Error fetching recent groups:", recentError);
+  //   throw new Error("Internal error. Please try again later.");
+  // }
 
-  if (recentGroups && recentGroups.length > 0) {
-    throw new Error("You can only create one group every 24 hours.");
-  }
+  // if (recentGroups && recentGroups.length > 0) {
+  //   throw new Error("You can only create one group every 24 hours.");
+  // }
 
   function generateRandomGroupCode(): string {
     const randomNumber = Math.floor(Math.random() * 1_000_000_000);
