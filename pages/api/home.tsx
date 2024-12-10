@@ -1,7 +1,12 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import { Map, useMap, useMapsLibrary, useApiIsLoaded } from '@vis.gl/react-google-maps';
-import { populateRestaurantsTable } from './populateRestaurantsTable';
+"use client";
+import React, { useEffect, useState } from "react";
+import {
+  Map,
+  useMap,
+  useMapsLibrary,
+  useApiIsLoaded,
+} from "@vis.gl/react-google-maps";
+import { populateRestaurantsTable } from "./populateRestaurantsTable";
 
 const Home: React.FC = () => {
   const [restaurants, setRestaurants] = useState<any[]>([]);
@@ -9,9 +14,9 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const map = useMap();
-  const placesLib = useMapsLibrary('places');
+  const placesLib = useMapsLibrary("places");
   const apiIsLoaded = useApiIsLoaded();
-   
+
   const coordinatesList = [
     { lat: 50.879135, lng: 4.701937 },
     { lat: 50.879584660802955, lng: 4.701937 },
@@ -113,102 +118,100 @@ const Home: React.FC = () => {
     { lat: 50.88134010348358, lng: 4.701241831549848 },
     { lat: 50.881832964817754, lng: 4.701937 },
     { lat: 50.881796168094176, lng: 4.702640803028544 },
-  
+
     // Add more points as needed to cover the area
   ];
 
-    useEffect(() => {
-      if(restaurants.length > 0)
-        return;
+  useEffect(() => {
+    if (restaurants.length > 0) return;
 
-      console.log(restaurants);
+    console.log(restaurants);
 
-      if (!apiIsLoaded) {
-        console.log('Google Maps API is still loading...');
-        return;
-      }
+    if (!apiIsLoaded) {
+      console.log("Google Maps API is still loading...");
+      return;
+    }
 
-      if (!map || !placesLib) {
-        console.error('Map or Places library is not initialized.');
-        return;
-      }
+    if (!map || !placesLib) {
+      console.error("Map or Places library is not initialized.");
+      return;
+    }
 
-      const fetchPlaces = async () => {
-        //const service = new placesLib.PlacesService(map);
-        const allRestaurants: any[] = [];
+    const fetchPlaces = async () => {
+      //const service = new placesLib.PlacesService(map);
+      const allRestaurants: any[] = [];
 
-        for (const coord of coordinatesList) {
-          //console.log(coord);
-          const request = {
-            fields: [
-              'id', //string
-              'displayName', //object (LocalizedText) The localized name of the place, suitable as a short human-readable description. For example, "Google Sydney", "Starbucks", "Pyrmont", etc.
-              //'location', //position of this place lat lng
-              'businessStatus', //enum (BusinessStatus) The business status for the place.
-              'primaryType', //string The primary type of the given result. This type must one of the Places API supported types. For example, "restaurant", "cafe", "airport", etc. A place can only have a single primary type. For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types
-              'primaryTypeDisplayName', //object (LocalizedText) The display name of the primary type, localized to the request language if applicable. For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types             
-              'regularOpeningHours', //object (OpeningHours) The regular hours of operation. Note that if a place is always open (24 hours), the close field will not be set. Clients can rely on always open (24 hours) being represented as an [open][google.foo.OpeningHours.Period.open] period containing [day][google.foo.Point.day] with value 0, [hour][google.foo.Point.hour] with value 0, and [minute][google.foo.Point.minute] with value 0.
-              'formattedAddress', // string A full, human-readable address for this place.
-              //'viewport', //if we want a google map to be displayed for the restaurant
-              'websiteURI', //string The authoritative website for this place, e.g. a business' homepage. Note that for places that are part of a chain (e.g. an IKEA store), this will usually be the website for the individual store, not the overall chain.
-              'nationalPhoneNumber', //string A human-readable phone number for the place, in national format.
-              'priceLevel', //enum (PriceLevel) Price level of the place.
-              'photos', //Information (including references) about photos of this place. A maximum of 10 photos can be returned.
-              'isReservable', //boolean  Specifies if the place supports reservations.
-              'servesBeer', //boolean
-              'servesWine', //boolean
-              'servesVegetarianFood', //boolean
-              'hasDineIn', //boolean
-              'hasOutdoorSeating', //boolean
-              'hasLiveMusic', //boolean
-              'servesCocktails', //boolean
-              'servesDessert', //boolean
-              'servesCoffee', //boolean
-              'isGoodForGroups', //boolean
-              'isGoodForWatchingSports', //boolean 
-              'googleMapsURI',   //string link to google maps for directions
-            ],
-            locationRestriction: {
-              center: new google.maps.LatLng(coord.lat, coord.lng),
-              radius: 50,
-            },
-            includedPrimaryTypes: ['restaurant'],
-            maxResultCount: 20,
-          };
+      for (const coord of coordinatesList) {
+        //console.log(coord);
+        const request = {
+          fields: [
+            "id", //string
+            "displayName", //object (LocalizedText) The localized name of the place, suitable as a short human-readable description. For example, "Google Sydney", "Starbucks", "Pyrmont", etc.
+            //'location', //position of this place lat lng
+            "businessStatus", //enum (BusinessStatus) The business status for the place.
+            "primaryType", //string The primary type of the given result. This type must one of the Places API supported types. For example, "restaurant", "cafe", "airport", etc. A place can only have a single primary type. For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types
+            "primaryTypeDisplayName", //object (LocalizedText) The display name of the primary type, localized to the request language if applicable. For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types
+            "regularOpeningHours", //object (OpeningHours) The regular hours of operation. Note that if a place is always open (24 hours), the close field will not be set. Clients can rely on always open (24 hours) being represented as an [open][google.foo.OpeningHours.Period.open] period containing [day][google.foo.Point.day] with value 0, [hour][google.foo.Point.hour] with value 0, and [minute][google.foo.Point.minute] with value 0.
+            "formattedAddress", // string A full, human-readable address for this place.
+            //'viewport', //if we want a google map to be displayed for the restaurant
+            "websiteURI", //string The authoritative website for this place, e.g. a business' homepage. Note that for places that are part of a chain (e.g. an IKEA store), this will usually be the website for the individual store, not the overall chain.
+            "nationalPhoneNumber", //string A human-readable phone number for the place, in national format.
+            "priceLevel", //enum (PriceLevel) Price level of the place.
+            "photos", //Information (including references) about photos of this place. A maximum of 10 photos can be returned.
+            "isReservable", //boolean  Specifies if the place supports reservations.
+            "servesBeer", //boolean
+            "servesWine", //boolean
+            "servesVegetarianFood", //boolean
+            "hasDineIn", //boolean
+            "hasOutdoorSeating", //boolean
+            "hasLiveMusic", //boolean
+            "servesCocktails", //boolean
+            "servesDessert", //boolean
+            "servesCoffee", //boolean
+            "isGoodForGroups", //boolean
+            "isGoodForWatchingSports", //boolean
+            "googleMapsURI", //string link to google maps for directions
+          ],
+          locationRestriction: {
+            center: new google.maps.LatLng(coord.lat, coord.lng),
+            radius: 50,
+          },
+          includedPrimaryTypes: ["restaurant"],
+          maxResultCount: 20,
+        };
 
-          try {
-            const { places } = await placesLib.Place.searchNearby(request);
-            if (places.length) {
-              places.forEach((place) => {
-                if (!allRestaurants.some((r) => r.id === place.id)) {
-                  allRestaurants.push(place);
-                }
-              });
-            } else {
-              console.log('no results');
-            }
-          } catch (error) {
-            console.error('Error fetching places:', error);
+        try {
+          const { places } = await placesLib.Place.searchNearby(request);
+          if (places.length) {
+            places.forEach((place) => {
+              if (!allRestaurants.some((r) => r.id === place.id)) {
+                allRestaurants.push(place);
+              }
+            });
+          } else {
+            console.log("no results");
           }
-
-          await setTimeout(() => {}, 1000)
+        } catch (error) {
+          console.error("Error fetching places:", error);
         }
 
-        console.log(allRestaurants);
-        setRestaurants(allRestaurants); // this is just to do a front end to verify the fetched values from the api.
-        console.log("THE RESTAURANTS LENGHT DELE", allRestaurants.length);
-        populateRestaurantsTable(allRestaurants);
-        setLoading(false);
-      };
+        await setTimeout(() => {}, 1000);
+      }
 
-      fetchPlaces().catch((err) => {
-        console.error('Error fetching restaurants:', err);
-        setError('Failed to fetch restaurants. Please try again later.');
-        setLoading(false);
-      });
-    }, [apiIsLoaded, placesLib]);
+      console.log(allRestaurants);
+      setRestaurants(allRestaurants); // this is just to do a front end to verify the fetched values from the api.
+      console.log("THE RESTAURANTS LENGHT DELE", allRestaurants.length);
+      //populateRestaurantsTable(allRestaurants);
+      deleteRestaurantsWithHighId();
+      setLoading(false);
+    };
 
-  
+    fetchPlaces().catch((err) => {
+      console.error("Error fetching restaurants:", err);
+      setError("Failed to fetch restaurants. Please try again later.");
+      setLoading(false);
+    });
+  }, [apiIsLoaded, placesLib]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -232,12 +235,27 @@ const Home: React.FC = () => {
                 key={restaurant.id}
                 className="p-4 border rounded shadow-md bg-white hover:shadow-lg"
               >
-                <h3 className="font-semibold text-xl mb-2">{restaurant.displayName}</h3>
-                <p><strong>Business Status:</strong> {restaurant.businessStatus}</p>
-                <p><strong>Primary Type:</strong> {restaurant.primaryType}</p>
-                <p><strong>Primary Type Display Name:</strong> {restaurant.primaryTypeDisplayName}</p>
-                <p><strong>Formatted Address:</strong> {restaurant.formattedAddress}</p>
-                <p><strong>Phone Number:</strong> {restaurant.nationalPhoneNumber}</p>
+                <h3 className="font-semibold text-xl mb-2">
+                  {restaurant.displayName}
+                </h3>
+                <p>
+                  <strong>Business Status:</strong> {restaurant.businessStatus}
+                </p>
+                <p>
+                  <strong>Primary Type:</strong> {restaurant.primaryType}
+                </p>
+                <p>
+                  <strong>Primary Type Display Name:</strong>{" "}
+                  {restaurant.primaryTypeDisplayName}
+                </p>
+                <p>
+                  <strong>Formatted Address:</strong>{" "}
+                  {restaurant.formattedAddress}
+                </p>
+                <p>
+                  <strong>Phone Number:</strong>{" "}
+                  {restaurant.nationalPhoneNumber}
+                </p>
               </li>
             ))}
           </ul>
@@ -250,3 +268,6 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+function deleteRestaurantsWithHighId() {
+  throw new Error("Function not implemented.");
+}
