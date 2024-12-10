@@ -15,7 +15,7 @@ export default async function RootLayout({
   }
   return (
     <>
-      <div className="p-10">
+      <div className="p-10 lg:max-w-sm lg:mx-auto">
         <div className="gradient h-[25vh] absolute top-0 left-0 w-full -z-10"></div>
         <div>
           <Link href="/">

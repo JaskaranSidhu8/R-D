@@ -1,5 +1,4 @@
 "use server";
-import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
 import {
   fetchGroupPreferences,
   checkHardConstraintsGroup,
@@ -13,6 +12,33 @@ import { getBudgetRestaurant } from "@/utils/convertRestaurantBudgetToSoftConstr
 import { filterRestaurantsByTime } from "@/utils/filterRestaurantsBasedOnTime";
 import { UUID } from "crypto";
 
+export async function getRestaurantImages(restaurant_id: number) {
+  const supabase = await createSupabaseServerClient();
+  const { data: images, error } = await supabase
+    .from("restaurants_photos")
+    .select("*")
+    .eq("restaurant_id", restaurant_id);
+  if (error || !images) {
+    console.error("Error fetching restaurant details:", error?.message);
+  }
+  return images;
+}
+export async function retrieveLogo(restaurant_id: number) {
+  const supabase = await createSupabaseServerClient();
+  const { data: restaurant, error: restaurantError } = await supabase
+    .from("restaurants_logos")
+    .select("url")
+    .eq("restaurant_id", restaurant_id)
+    .single();
+
+  if (restaurantError || !restaurant) {
+    console.error(
+      "Error fetching restaurant details:",
+      restaurantError?.message,
+    );
+  }
+  return restaurant;
+}
 export async function algorithm(
   group_id: number,
   day: number,
@@ -876,4 +902,146 @@ export async function createGroup(formData: FormData) {
   throw new Error(
     "Failed to create group after multiple attempts at generating a unique group code.",
   );
+}
+
+export async function fetchAvatars() {
+  try {
+    // Query the `avatars` table for all rows with `id` and `url`
+    const { data, error } = await supabase.from("avatars").select("id, url");
+
+    // Handle query errors
+    if (error) {
+      console.error("Error fetching avatars:", error);
+      throw new Error("Failed to fetch avatars.");
+    }
+
+    // Return the fetched avatar data
+    return data;
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    throw error; // Re-throw error for further handling
+  }
+}
+
+export async function fetchUserAvatar(
+  userId: number,
+): Promise<{ avatarUrl: string | null }> {
+  try {
+    // Perform a join query to fetch the user's avatar URL
+    const { data, error } = await supabase
+      .from("users")
+      .select(
+        `
+        avatar_id,
+        avatars (url)
+      `,
+      )
+      .eq("id", userId)
+      .single(); // Ensure we only fetch one user's data
+
+    // Handle query errors
+    if (error) {
+      console.error("Error fetching user avatar:", error);
+      throw new Error("Failed to fetch user avatar.");
+    }
+
+    // Extract the avatar URL if an avatar is selected, otherwise return null
+    const avatarUrl = data?.avatars?.url || null;
+
+    // Return the avatar URL
+    return { avatarUrl };
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    throw error; // Re-throw error for further handling
+  }
+}
+
+export async function updateUserAvatar(
+  userId: number,
+  avatarUrl: string,
+): Promise<void> {
+  try {
+    // Step 1: Fetch the avatar ID from the `avatars` table based on the provided URL
+    const { data: avatarData, error: avatarError } = await supabase
+      .from("avatars")
+      .select("id")
+      .eq("url", avatarUrl)
+      .single(); // Ensure only one result is fetched
+
+    if (avatarError) {
+      console.error("Error fetching avatar ID:", avatarError);
+      throw new Error("Failed to find avatar with the specified URL.");
+    }
+
+    if (!avatarData?.id) {
+      throw new Error("Invalid avatar URL provided.");
+    }
+
+    const avatarId = avatarData.id;
+
+    // Step 2: Update the `avatar_id` column in the `users` table for the specified user
+    const { error: userError } = await supabase
+      .from("users")
+      .update({ avatar_id: avatarId })
+      .eq("id", userId);
+
+    if (userError) {
+      console.error("Error updating user avatar:", userError);
+      throw new Error("Failed to update user's avatar.");
+    }
+
+    console.log("User avatar updated successfully.");
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    throw error; // Re-throw error for further handling
+  }
+}
+
+export async function getUserAvatarOrDefault(userId: number): Promise<string> {
+  try {
+    // Step 1: Get the `avatar_id` for the user
+    const { data: userData, error: userError } = await supabase
+      .from("users")
+      .select("avatar_id")
+      .eq("id", userId)
+      .single();
+
+    if (userError) {
+      console.error("Error fetching user's avatar ID:", userError);
+      throw new Error("Failed to fetch user's avatar ID.");
+    }
+
+    const avatarId = userData?.avatar_id;
+
+    // Step 2: Determine which avatar URL to return
+    if (avatarId) {
+      // Fetch the URL for the user's selected avatar
+      const { data: avatarData, error: avatarError } = await supabase
+        .from("avatars")
+        .select("url")
+        .eq("id", avatarId)
+        .single();
+
+      if (avatarError) {
+        console.error("Error fetching avatar URL:", avatarError);
+        throw new Error("Failed to fetch avatar URL.");
+      }
+
+      return avatarData?.url || "";
+    } else {
+      // Fetch the default avatar URL (id = 1)
+      const { data: defaultAvatarData, error: defaultAvatarError } =
+        await supabase.from("avatars").select("url").eq("id", 1).single();
+
+      if (defaultAvatarError) {
+        console.error("Error fetching default avatar URL:", defaultAvatarError);
+        throw new Error("Failed to fetch default avatar URL.");
+      }
+
+      return defaultAvatarData?.url || "";
+    }
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    throw error; // Re-throw error for further handling
+  }
 }

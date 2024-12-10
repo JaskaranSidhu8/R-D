@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import Orbital from "./Orbital";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const Banner = () => {
   return (
@@ -15,9 +16,11 @@ const Banner = () => {
       />
 
       <Orbital />
-      <Button className="absolute bottom-0 w-4/5 left-1/2  -translate-x-1/2 shadow-md z-50 ">
-        Create a group
-      </Button>
+      <Link href={"./GroupName"}>
+        <Button className="absolute bottom-0 w-4/5 left-1/2  -translate-x-1/2 shadow-md z-50 ">
+          Create a group
+        </Button>
+      </Link>
     </div>
   );
 };

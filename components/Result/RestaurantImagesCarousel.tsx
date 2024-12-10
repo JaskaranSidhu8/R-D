@@ -1,8 +1,13 @@
 import React from "react";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import Image from "next/image";
+import { Tables } from "@/utils/types/supabase";
 
-export const RestaurantImagesCarousel = () => {
+type Props = {
+  images: Tables<"restaurants_photos">[];
+};
+export const RestaurantImagesCarousel = (props: Props) => {
+  const { images } = props;
   return (
     <div>
       <Carousel
@@ -12,16 +17,16 @@ export const RestaurantImagesCarousel = () => {
         className="w-full "
       >
         <CarouselContent className="gap-3 p-4">
-          {Array.from({ length: 10 }, (_, i) => i + 1).map((i) => (
+          {images.map((img, index) => (
             <CarouselItem
               className=" basis-1/2 aspect-square overflow-hidden rounded-lg p-0  shadow-md "
-              key={`restaurant_image_${i}`}
+              key={`restaurant_image_${index}`}
             >
               <Image
                 className=" w-full"
                 width={400}
                 height={400}
-                src={`https://picsum.photos/200/300?random=${i}`}
+                src={img.photo || ""}
                 alt="restaurant image"
               />
             </CarouselItem>

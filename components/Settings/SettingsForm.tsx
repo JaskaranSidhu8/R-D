@@ -10,6 +10,7 @@ import {
   QuestionMarkIcon,
   ExitIcon,
 } from "@radix-ui/react-icons";
+import LogoutBtn from "../static/LogoutBtn";
 
 interface SettingsFormProps {
   name: string;
@@ -42,7 +43,7 @@ const SettingsForm = ({ name, joinedDate }: SettingsFormProps) => {
           icon={QuestionMarkIcon}
           label="Help and support"
         />
-        <NavigationLink href="/logout" icon={ExitIcon} label="Log out" />
+        <LogoutBtn />
       </div>
     </div>
   );
