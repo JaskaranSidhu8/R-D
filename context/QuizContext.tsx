@@ -11,19 +11,22 @@ interface BitStrings {
 // Define what our context will provide
 interface QuizContextType {
   bitStrings: BitStrings;
+  groupId: number | null;
   updateBitStrings: (field: keyof BitStrings, value: string) => void;
+  setGroupId: (id: number) => void;
 }
 
 // Create the context
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
 
-// Create the provider component
+// the provider component
 export function QuizProvider({ children }: { children: React.ReactNode }) {
   const [bitStrings, setBitStrings] = useState<BitStrings>({
     cuisine_preferences: "0000000000000",
     soft_constraints: "000000000",
     budget: "000000",
   });
+  const [groupId, setGroupId] = useState<number | null>(null);
 
   const updateBitStrings = (field: keyof BitStrings, value: string) => {
     setBitStrings((prev) => ({
@@ -33,7 +36,9 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <QuizContext.Provider value={{ bitStrings, updateBitStrings }}>
+    <QuizContext.Provider
+      value={{ bitStrings, updateBitStrings, groupId, setGroupId }}
+    >
       {children}
     </QuizContext.Provider>
   );

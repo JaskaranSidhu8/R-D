@@ -14,18 +14,21 @@ import {
   SelectValue,
 } from "../ui/select";
 import { createGroup } from "@/actions/functions";
+import { useRouter } from "next/navigation"; //sorry Fadi
 
 const GroupNameForm = () => {
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Get the form element, we need this to check validation
-    const form = e.currentTarget.closest("form");
+  const router = useRouter();
 
-    // If form exists and isn't valid, prevent going to next page and show validation messages
-    if (form && !form.checkValidity()) {
-      e.preventDefault();
-      form.reportValidity();
-    }
-  };
+  // const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   // Get the form element, we need this to check validation
+  //   const form = e.currentTarget.closest("form");
+
+  //   // If form exists and isn't valid, prevent going to next page and show validation messages
+  //   if (form && !form.checkValidity()) {
+  //     e.preventDefault();
+  //     form.reportValidity();
+  //   }
+  // };
 
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i.toString().padStart(2, "0");
@@ -35,6 +38,9 @@ const GroupNameForm = () => {
   const onSubmit = async (e: FormData) => {
     const data = await createGroup(e);
     console.log(data);
+    if (data) {
+      router.push("/StatusMgr/1");
+    }
   };
   return (
     <form
@@ -66,11 +72,14 @@ const GroupNameForm = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Link href="/StatusMgr/1" className="mt-5 w-full">
+        {/* <Link href="/StatusMgr/1" className="mt-5 w-full">
           <Button className="w-full" onClick={handleClick}>
             Create group
           </Button>
-        </Link>
+        </Link> */}
+        <Button type="submit" className="mt-5 w-full">
+          Create group
+        </Button>
       </div>
     </form>
   );

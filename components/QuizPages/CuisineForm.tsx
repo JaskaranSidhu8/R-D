@@ -46,9 +46,22 @@ const CUISINE_BIT_MAPPINGS: Record<number, string> = {
   13: "000000000000100", // African
 };
 
-const CuisineForm = () => {
+type CuisineFormProps = {
+  groupId: number;
+};
+
+const CuisineForm: React.FC<CuisineFormProps> = ({ groupId }) => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
-  const { bitStrings, updateBitStrings } = useQuiz();
+  const { bitStrings, updateBitStrings, setGroupId } = useQuiz();
+
+  // useEffect to set the groupId when the component mounts or when groupId prop changes
+  React.useEffect(() => {
+    // Only set the groupId if it exists in props
+    if (groupId) {
+      setGroupId(groupId);
+      console.log("Group ID set in context:", groupId);
+    }
+  }, [groupId, setGroupId]);
 
   // Function to combine bit strings using OR operation
   const combineBitStrings = (bitStrings: string[]): string => {

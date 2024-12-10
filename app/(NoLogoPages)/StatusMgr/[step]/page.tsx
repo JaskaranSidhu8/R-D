@@ -8,12 +8,13 @@ type Props = {
   searchParams: {
     day: string; //convert them to number later on
     hour: string;
+    groupId: string;
   };
 };
 
 const StatusMgr: React.FC<Props> = ({ params, searchParams }) => {
   const { step } = params;
-  const { day, hour } = searchParams;
+  const { day, hour, groupId } = searchParams;
   return (
     <div>
       <ReturnButton />
@@ -21,6 +22,7 @@ const StatusMgr: React.FC<Props> = ({ params, searchParams }) => {
       <GroupStatus
         state={step === "1" ? "Makeyourchoices" : "Changeyourchoices"}
         generate
+        groupId={Number(groupId)}
       />
     </div>
   );

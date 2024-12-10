@@ -10,7 +10,7 @@ import { updateUserConstraints } from "@/utils/updateUserConstraints";
 
 const BudgetSelectorForm = () => {
   const [range, setRange] = useState([20, 40]);
-  const { bitStrings, updateBitStrings } = useQuiz();
+  const { bitStrings, updateBitStrings, groupId } = useQuiz();
   const [currentBudgetBitString, setCurrentBudgetBitString] = useState("");
 
   const getBudgetBitString = (max: number): string => {
@@ -40,13 +40,19 @@ const BudgetSelectorForm = () => {
 
   const handleSubmit = async () => {
     const userId = 6; // testing wiht hard coded values for now, replace later
-    const groupId = 3;
+    //const groupId = 3;
     const { soft_constraints, cuisine_preferences, budget } = bitStrings;
+
+    if (!groupId) {
+      console.error("No group ID found in context");
+      return;
+    }
 
     try {
       await updateUserConstraints(
         userId,
-        groupId,
+        //parseInt(groupId),
+        groupId, //gotten from context now
         soft_constraints,
         cuisine_preferences,
         budget,
