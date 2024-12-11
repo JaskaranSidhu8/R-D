@@ -1,4 +1,4 @@
-import { checkCodeAndInsertUser } from "@/actions/functions";
+/*import { checkCodeAndInsertUser } from "@/actions/functions";
 
 export default async function Page() {
   // Example hardcoded IDs
@@ -10,4 +10,4 @@ export default async function Page() {
   console.log(result);
 
   return null; // No HTML needed, function runs on the server
-}
+}*/
