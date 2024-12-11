@@ -314,7 +314,7 @@ export async function checkCodeAndInsertUser(formData: FormData) {
     };
   }
 
-  return { success: true, message: "User added successfully" };
+  return { success: true, message: "User added successfully", groupId };
 }
 
 export async function fetchUserStatusInGroup(group_id: number) {
@@ -1214,4 +1214,63 @@ export async function updateAccountDetails({
   }
 
   return { success: true, message: "Account details updated successfully" };
+}
+
+export async function fetchGroupCreatorUUID(groupId: number): Promise<string> {
+  const supabase = await createSupabaseServerClient();
+
+  // Fetch the group creator UUID for the given groupId
+  const { data: groupData, error: groupError } = await supabase
+    .from("groups")
+    .select("group_creator") // Fetch the group_creator UUID directly
+    .eq("id", groupId)
+    .single();
+
+  if (groupError || !groupData?.group_creator) {
+    console.error("Error fetching group creator UUID:", groupError);
+    throw new Error("Failed to fetch group creator UUID. Group may not exist.");
+  }
+
+  const groupCreatorUUID = groupData.group_creator;
+  console.log(`Group creator UUID for group ${groupId}:`, groupCreatorUUID);
+
+  return groupCreatorUUID;
+}
+
+export async function fetchMyUUID(): Promise<string> {
+  const supabase = await createSupabaseServerClient();
+
+  // Retrieve the session to get the logged-in user's UUID
+  const { data: session, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError || !session?.session?.user) {
+    console.error(
+      "Error fetching session or user not authenticated:",
+      sessionError,
+    );
+    throw new Error("User not authenticated.");
+  }
+
+  return session.session.user.id; // Return the UUID
+}
+
+export async function fetchMyUserId(): Promise<number> {
+  const supabase = await createSupabaseServerClient();
+
+  // Get the logged-in user's UUID
+  const userUUID = await fetchMyUUID();
+
+  // Fetch the user ID from the users table
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id") // Select the `id` column
+    .eq("uid", userUUID) // Match the UUID
+    .single();
+
+  if (userError || !userData?.id) {
+    console.error("Error fetching user ID:", userError);
+    throw new Error("User not found.");
+  }
+
+  return userData.id; // Return the user ID
 }

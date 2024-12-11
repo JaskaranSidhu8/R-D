@@ -11,9 +11,10 @@ import { useToast } from "@/hooks/use-toast";
 const GroupJoinForm = () => {
   const router = useRouter();
   const { toast } = useToast();
+
   const onSubmit = async (e: FormData) => {
-    const { success, message } = await checkCodeAndInsertUser(e);
-    if (success) router.push("/StatusMbr/1");
+    const { success, message, groupId } = await checkCodeAndInsertUser(e);
+    if (success) router.push(`/StatusMbr/1?groupId=${groupId}`);
     else {
       toast({
         variant: "destructive",
