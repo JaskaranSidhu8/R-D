@@ -10,10 +10,10 @@ const CompletedForm = () => {
   const { groupId } = useQuiz();
 
   useEffect(() => {
-    console.log("CompletedForm - Current groupId in context:", groupId); // Debug line
+    //console.log("CompletedForm - Current groupId in context:", groupId); // Debug line
 
     const timer = setTimeout(() => {
-      console.log("CompletedForm - Navigating with groupId:", groupId); //debug line
+      //console.log("CompletedForm - Navigating with groupId:", groupId); //debug line
       router.push(`/StatusMgr/2?groupId=${groupId}`);
     }, 2000);
 

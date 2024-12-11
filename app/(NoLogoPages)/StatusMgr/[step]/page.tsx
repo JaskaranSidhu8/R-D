@@ -24,7 +24,7 @@ const StatusMgr: React.FC<Props> = ({ params, searchParams }) => {
   return (
     <div>
       <ReturnButton />
-      <SectionTitle text="SaaS BOYS" />
+      {/* <SectionTitle text="SaaS BOYS" /> */}
       <GroupStatus
         state={step === "1" ? "Makeyourchoices" : "Changeyourchoices"}
         generate

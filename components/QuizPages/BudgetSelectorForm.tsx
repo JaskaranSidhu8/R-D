@@ -7,7 +7,6 @@ import SectionTitle from "../static/SectionTitle";
 import Link from "next/link";
 import { useQuiz } from "@/context/QuizContext";
 import { updateUserConstraints } from "@/utils/updateUserConstraints";
-//import createSupabaseServerClient from "@/utils/supabaseClient";
 
 const BudgetSelectorForm = () => {
   const [range, setRange] = useState([20, 40]);
