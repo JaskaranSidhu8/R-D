@@ -14,21 +14,21 @@ const NewPasswordForm = () => {
           <label className="text-sm font-medium text-black mb-2 block">
             Current password
           </label>
-          <Password name="password" />
+          <Password name="password" showForgotPassword={false} />
         </div>
 
         <div>
           <label className="text-sm font-medium text-black mb-2 block">
             New password
           </label>
-          <Password name="password" />
+          <Password name="password" showForgotPassword={false} />
         </div>
 
         <div>
           <label className="text-sm font-medium text-black mb-2 block">
             Confirm new password
           </label>
-          <Password name="password" />
+          <Password name="password" showForgotPassword={false} />
         </div>
       </div>
 

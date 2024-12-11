@@ -25,10 +25,10 @@ const Signup2Form = () => {
       }}
       className=" space-y-5"
     >
-      <Input name="firstName" type="text" placeholder="First Name" />
-      <Input name="lastName" type="text" placeholder="Last Name" />
+      <Input name="firstName" type="text" placeholder="First Name" required />
+      <Input name="lastName" type="text" placeholder="Last Name" required />
       <CountrySelectList name="country" />
-      <Input name="city" type="text" placeholder=" City " />
+      <Input name="city" type="text" placeholder=" City " required />
 
       <PreferencesForm name="preferences" />
 

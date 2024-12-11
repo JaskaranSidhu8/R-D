@@ -62,7 +62,7 @@ const SignupForm = (props: Props) => {
       {props.mode === "Signup" ? (
         <PasswordValidator name="password" />
       ) : (
-        <Password name="password" />
+        <Password name="password" showForgotPassword={true} />
       )}
 
       <Button type="submit">

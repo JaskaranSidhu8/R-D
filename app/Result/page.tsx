@@ -6,32 +6,27 @@ import React from "react";
 
 type Props = {
   searchParams: {
-    groupId: string;
+    groupId: number;
   }; // Explicitly define the type of groupId
 };
 
-const page: React.FC<Props> = ({ searchParams }) => {
+const page: React.FC<Props> = async ({ searchParams }) => {
   const { groupId } = searchParams;
   const now = new Date();
 
   //This needs fixing
-  // const restaurant = await algorithm(
-  //   groupId,
-  //   now.getDay(),
-  //   now.getHours(),
-  //   now.getMinutes(),
-  // );
+  const restaurant = await algorithm(1, now.getDay(), 14, now.getMinutes());
 
-  // const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
+  const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
 
   console.log("Results - Received groupId:", groupId); // debug line
   return (
     <div>
-      {/* <Banner restaurantUrl={restaurant_logo?.url || ""} />
+      <Banner restaurantUrl={restaurant_logo?.url || ""} />
       <ResultInfo
         simularity={restaurant.similarity}
         restaurant={restaurant.bestRestaurant}
-      /> */}
+      />
     </div>
   );
 };

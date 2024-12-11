@@ -85,7 +85,7 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
           className=" font-bold text-primary shadow-none border-primary border-2 "
           variant={"outline"}
         >
-          Copy Link <Link2Icon />
+          Copy Code <Link2Icon />
         </Button>
         {/* <Card className=" w-full   h-[417px]  p-3 space-y-3 overflow-y-scroll bg-gray-50 border border-primary  items-center  shadow-md shadow-primary rounded-[20px]">
           {profileCardDummyData.map((item, index) => (
