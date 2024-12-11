@@ -1,5 +1,6 @@
 "use server";
 import supabase from "@/utils/supabaseClient";
+import createSupabaseServerClient from "@/lib/supabase/reader";
 //import { constants } from "buffer";
 
 export const getUserAvatarUrl = async (): Promise<string | null> => {
@@ -15,14 +16,19 @@ export const getUserAvatarUrl = async (): Promise<string | null> => {
 
     const userId = data.session.user.id;
     */
+    const supabase = await createSupabaseServerClient();
 
-    const userId = "6f3c0585-1c7d-4105-9c27-78afb6af7bb3";
+    const uid = (await supabase.auth.getSession()).data.session?.user.id;
+
+    if (!uid) {
+      throw new Error("User not authenticated.");
+    }
 
     // Fetch user data including avatar_id
     const { data: userData, error: userError } = await supabase
       .from("users")
       .select("avatar_id")
-      .eq("uid", userId)
+      .eq("uid", uid)
       .single();
 
     if (userError) {
@@ -96,7 +102,13 @@ export const updateUserAvatar = async (avatarUrl: string): Promise<boolean> => {
       */
 
     //const userId = session.user.id; // Get the user's UID from the session
-    const userId = "6f3c0585-1c7d-4105-9c27-78afb6af7bb3";
+    const supabase = await createSupabaseServerClient();
+
+    const uid = (await supabase.auth.getSession()).data.session?.user.id;
+
+    if (!uid) {
+      throw new Error("User not authenticated.");
+    }
 
     // Get the corresponding avatar ID for the provided URL
     const { data: avatarData, error: avatarError } = await supabase
@@ -116,7 +128,7 @@ export const updateUserAvatar = async (avatarUrl: string): Promise<boolean> => {
     const { data: userData, error: userError } = await supabase
       .from("users")
       .select("avatar_id")
-      .eq("uid", userId) // Match based on the user ID
+      .eq("uid", uid) // Match based on the user ID
       .single();
 
     if (userError || !userData) {
@@ -138,7 +150,7 @@ export const updateUserAvatar = async (avatarUrl: string): Promise<boolean> => {
     const { data: updateData, error: updateError } = await supabase
       .from("users")
       .update({ avatar_id: avatarId })
-      .eq("uid", userId); // Update based on the user ID
+      .eq("uid", uid); // Update based on the user ID
 
     if (updateError) {
       console.error("Error updating avatar ID:", updateError);
