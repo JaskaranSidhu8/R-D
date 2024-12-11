@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-const SvgWave2 = (props: Props) => {
+const SvgWave2 = () => {
   return (
     <svg
       className=" absolute -bottom-1 left-1/2 -translate-x-1/2 rotate-180"
