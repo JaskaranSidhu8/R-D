@@ -3,13 +3,18 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
+import { useQuiz } from "@/context/QuizContext";
 
 const CompletedForm = () => {
   const router = useRouter();
+  const { groupId } = useQuiz();
 
   useEffect(() => {
+    console.log("CompletedForm - Current groupId in context:", groupId); // Debug line
+
     const timer = setTimeout(() => {
-      router.push("/StatusMbr/2");
+      console.log("CompletedForm - Navigating with groupId:", groupId); //debug line
+      router.push(`/StatusMgr/2?groupId=${groupId}`);
     }, 2000);
 
     return () => clearTimeout(timer);

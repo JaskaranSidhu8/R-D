@@ -249,9 +249,14 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
           </Button>
         )}
         {state === "Changeyourchoices" && (
-          <Button className="font-bold shadow-none" variant={"link"}>
-            Change your choices
-          </Button>
+          // <Button className="font-bold shadow-none" variant={"link"}>
+          //   Change your choices
+          // </Button>
+          <Link href={`/Cuisine?groupId=${groupId}`} className="mt-4 block">
+            <Button className="font-bold shadow-none" variant={"link"}>
+              Change your choices
+            </Button>
+          </Link>
         )}
       </div>
     </div>

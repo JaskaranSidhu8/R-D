@@ -16,7 +16,10 @@ const StatusMgr: React.FC<Props> = ({ params, searchParams }) => {
   const { step } = params;
   //const { day, hour, groupId } = searchParams;
   const { groupId } = searchParams;
+
   console.log("Search params received in StatusMgr:", searchParams); //debug line
+  console.log("StatusMgr - Step:", step); // debug line
+  console.log("StatusMgr - Received groupId:", groupId); // debug line
 
   return (
     <div>
