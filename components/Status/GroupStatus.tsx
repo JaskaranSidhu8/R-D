@@ -10,6 +10,7 @@ import * as amplitude from "@amplitude/analytics-node";
 import { fetchUserStatusInGroup } from "@/actions/functions";
 import SectionTitle from "../static/SectionTitle";
 import ConfirmGenerate from "./ConfirmGenerate";
+import { useGroup } from "@/context/GroupContext";
 
 type Props = {
   state: "Makeyourchoices" | "Changeyourchoices";
@@ -53,6 +54,9 @@ type Member = {
 const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
   const [members, setMembers] = useState<Member[]>([]);
   const [groupName, setGroupName] = useState<string>("");
+  const [showCopySuccess, setShowCopySuccess] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const { groupCode } = useGroup();
   // Fetch members when the component mounts or groupId changes
   useEffect(() => {
     const fetchMembers = async () => {
@@ -71,12 +75,40 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
 
     fetchMembers();
   }, [groupId]); // Dependency array ensures this runs when groupId changes
+
+  const handleCopyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(groupCode);
+      setIsAnimating(true);
+      setShowCopySuccess(true);
+
+      // Hide after 3 seconds
+      setTimeout(() => {
+        setShowCopySuccess(false);
+      }, 3000);
+
+      // Reset animation state after transition ends
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 3500); // 3000ms + 500ms for animation
+    } catch (err) {
+      console.error("Failed to copy code:", err);
+    }
+  };
   return (
     <div>
-      {" "}
-      {/* <SectionTitle text={groupName || "Loading..."} /> */}
       <div className=" mt-2 items-center space-y-4  ">
-        {" "}
+        {(showCopySuccess || isAnimating) && (
+          <div
+            className={`fixed left-0 right-0 top-0 bg-[#FF7B5F] text-white py-3 px-6 rounded-md flex items-center justify-center transition-transform duration-500 ease-in-out ${
+              showCopySuccess ? "translate-y-0" : "-translate-y-full"
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              Link copied successfully <span>✓</span>
+            </span>
+          </div>
+        )}
         <h1 className="montserrat mt-10 text-3xl mb-2">
           {groupName || "Loading..."}
         </h1>
@@ -84,8 +116,9 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
         <Button
           className=" font-bold text-primary shadow-none border-primary border-2 "
           variant={"outline"}
+          onClick={handleCopyCode}
         >
-          Copy Link <Link2Icon />
+          Copy Code <Link2Icon />
         </Button>
         {/* <Card className=" w-full   h-[417px]  p-3 space-y-3 overflow-y-scroll bg-gray-50 border border-primary  items-center  shadow-md shadow-primary rounded-[20px]">
           {profileCardDummyData.map((item, index) => (
