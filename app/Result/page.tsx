@@ -4,20 +4,15 @@ import RestaurantImagesCarousel from "@/components/Result/RestaurantImagesCarous
 import ResultInfo from "@/components/Result/ResultInfo";
 import React from "react";
 
-const page = async () => {
-  const groud_id = 3; // replace the group_id value with the actual id from the context
-  const now = new Date();
-  const restaurant = await algorithm(
-    groud_id,
-    now.getDay(),
-    now.getHours(),
-    now.getMinutes(),
-  );
+type Props = {
+  searchParams: {
+    groupId: string;
+  }; // Explicitly define the type of groupId
+};
 
-  const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
-  console.log(restaurant_logo);
-
-  console.log("Algorithm Result : ", restaurant);
+const page: React.FC<Props> = ({ searchParams }) => {
+  const { groupId } = searchParams;
+  console.log("Results - Received groupId:", groupId); // debug line
   return (
     <div>
       <Banner restaurantUrl={restaurant_logo?.url || ""} />
