@@ -218,9 +218,29 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
   return dotProduct / (magA * magB);
 }
 
-export async function fetchUserGroups(user_idd: number) {
+export async function fetchUserGroups() {
   // fetches the groups that the loggin in user is a part of
   const supabase = await createSupabaseServerClient();
+  const uid = (await supabase.auth.getSession()).data.session?.user.id;
+
+  if (!uid) {
+    console.error("User not authenticated");
+    return [];
+  }
+
+  // 2. Map uid to custom users.id
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("uid", uid)
+    .single();
+
+  if (userError || !userData) {
+    console.error("Error retrieving user ID:", userError);
+    return [];
+  }
+
+  const user_idd = userData.id;
 
   const { data, error } = await supabase
     .from("group_users")
@@ -242,9 +262,11 @@ export async function fetchUserGroups(user_idd: number) {
     )
     .eq("user_id", user_idd);
   if (error) {
-    throw new Error(`Error fetching groups for user: ${error.message}`);
+    console.error("Error fetching groups for user:", error);
+    return [];
   }
-  return data;
+
+  return data || [];
 }
 
 export async function checkCodeAndInsertUser(formData: FormData) {

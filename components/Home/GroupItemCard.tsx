@@ -13,7 +13,7 @@ const GroupItemCard = (props: Props) => {
       <CardContent className=" pt-2 gap-3 h-full flex flex-col justify-center items-start">
         <h4 className=" text-sm font-bold"> {item.groups.name} </h4>
         <h5 className="  items-center flex flex-row gap-1 text-sm font-bold">
-          <Users2Icon /> {item.groups.id}
+          <Users2Icon /> {item.groups.size}
         </h5>
         <div className="flex flex-col gap-0">
           <p className=" text-tiny "> {item.groups.location}</p>

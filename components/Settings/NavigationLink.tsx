@@ -6,6 +6,7 @@ interface NavigationLinkProps {
   icon: React.ElementType;
   label: string;
   destructive?: boolean;
+  onClick?: () => void; // Add an optional onClick handler
 }
 
 export const NavigationLink = ({
@@ -13,6 +14,7 @@ export const NavigationLink = ({
   icon: Icon,
   label,
   destructive,
+  onClick,
 }: NavigationLinkProps) => {
   return (
     <>
@@ -27,14 +29,16 @@ export const NavigationLink = ({
           <span>{label}</span>
         </Link>
       ) : (
-        <span
-          className={`flex cursor-pointer items-center gap-3 p-4 hover:bg-accent rounded-lg transition-colors ${
+        <button
+          type="submit" // Makes it interactive and supports form submission
+          onClick={onClick}
+          className={`flex items-center gap-3 p-4 hover:bg-accent rounded-lg transition-colors ${
             destructive ? "text-destructive mt-auto" : ""
           }`}
         >
           <Icon className="w-5 h-5 text-muted-foreground" />
           <span>{label}</span>
-        </span>
+        </button>
       )}
     </>
   );
