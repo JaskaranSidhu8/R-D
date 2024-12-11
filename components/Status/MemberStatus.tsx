@@ -9,12 +9,13 @@ type Props = {
 
 const MemberStatus = (props: Props) => {
   const { fullname, profilePicture, email, readiness } = props.member;
+  const fallbackImage = "/avatarpinkwoman.png";
   return (
     <Card className="rounded-full flex flex-col items-center bg-white w-full p-0">
       <CardContent className=" p-0 px-3 h-[60px] w-full  flex flex-row justify-between items-center">
         <div className="flex flex-row justify-start items-center gap-3">
           <Image
-            src={profilePicture}
+            src={profilePicture || fallbackImage}
             alt={fullname}
             width={36}
             height={36}

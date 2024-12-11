@@ -3,17 +3,43 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
+import { useQuiz } from "@/context/QuizContext";
+import { markUserReady } from "@/actions/functions";
 
 const CompletedForm = () => {
   const router = useRouter();
+  const { groupId } = useQuiz();
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     router.push(`/StatusMgr/2?groupId=${groupId}`);
+  //   }, 2000);
+
+  //   return () => clearTimeout(timer);
+  // }, [router]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push("/StatusMbr/2");
-    }, 2000);
+    const markReadyAndRedirect = async () => {
+      try {
+        // Call the server-side function to mark the user as ready
+        if (groupId) {
+          await markUserReady(groupId);
+          console.log("User successfully marked as ready.");
+        } else {
+          console.warn("Group ID is not available.");
+        }
+      } catch (error) {
+        console.error("Failed to mark user as ready:", error);
+      }
 
-    return () => clearTimeout(timer);
-  }, [router]);
+      // Redirect to the next page after a delay
+      setTimeout(() => {
+        router.push(`/StatusMgr/2?groupId=${groupId}`);
+      }, 2000);
+    };
+
+    markReadyAndRedirect();
+  }, [router, groupId]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh]">
