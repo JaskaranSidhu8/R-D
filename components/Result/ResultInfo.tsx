@@ -74,7 +74,7 @@ const ResultInfo = async (props: Props) => {
         </div>
 
         <div>
-          <RestaurantImagesCarousel images={images} />
+          <RestaurantImagesCarousel images={images || []} />
         </div>
 
         <div className="flex flex-row gap-3">
