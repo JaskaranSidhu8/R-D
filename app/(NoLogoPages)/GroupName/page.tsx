@@ -3,7 +3,7 @@
 import React from "react";
 import GroupNameForm from "@/components/GroupName/GroupNameForm";
 import ReturnButton from "@/components/static/ReturnButton";
-import DiningTimeForm from "@/components/DiningTime/DiningTimeForm";
+//import DiningTimeForm from "@/components/DiningTime/DiningTimeForm";
 
 const GroupName = () => {
   return (

@@ -1,13 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import FormField from "./FormField";
 import Link from "next/link";
+import { fetchAccountDetails, updateAccountDetails } from "@/actions/functions";
+import { useRouter } from "next/navigation";
 
 interface FormData {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   country: string;
   city: string;
 }
@@ -17,14 +20,34 @@ interface AccountFormProps {
 }
 
 const DEFAULT_VALUES: FormData = {
-  fullName: "Jack Dartic",
-  country: "Belgium",
-  city: "Leuven",
+  firstName: "",
+  lastName: "",
+  country: "",
+  city: "",
 };
 
 const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
   const [formData, setFormData] = useState<FormData>(defaultValues);
   const [isModified, setIsModified] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const loadAccountDetails = async () => {
+      try {
+        const accountDetails = await fetchAccountDetails();
+        setFormData({
+          firstName: accountDetails.firstName || DEFAULT_VALUES.firstName,
+          lastName: accountDetails.lastName || DEFAULT_VALUES.lastName,
+          country: accountDetails.country || DEFAULT_VALUES.country,
+          city: accountDetails.city || DEFAULT_VALUES.city,
+        });
+      } catch (error) {
+        console.error("Failed to fetch account details:", error);
+      }
+    };
+
+    loadAccountDetails();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,9 +58,17 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
     setIsModified(true); // Mark the form as modified when any input changes
   };
 
-  const handleSubmit = () => {
-    console.log("Saving changes:", formData); // Simulated submission logic
-    setIsModified(false); // Reset modified state after submission
+  const handleSubmit = async () => {
+    try {
+      await updateAccountDetails(formData); // Pass the formData to update the account details
+      console.log("Account details updated successfully!");
+      setIsModified(false);
+
+      // Navigate back to the settings page
+      router.push("/Settings");
+    } catch (error) {
+      console.error("Error updating account details:", error);
+    }
   };
 
   return (
@@ -63,9 +94,15 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
       </div>
 
       <FormField
-        label="Full Name"
-        name="fullName"
-        value={formData.fullName}
+        label="First Name"
+        name="firstName"
+        value={formData.firstName}
+        onChange={handleInputChange}
+      />
+      <FormField
+        label="Last Name"
+        name="lastName"
+        value={formData.lastName}
         onChange={handleInputChange}
       />
       <FormField
