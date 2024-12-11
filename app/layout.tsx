@@ -41,7 +41,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body className=" lg:max-w-sm mx-auto">
         <Toaster />
         <AnimatePresence mode="wait">{children}</AnimatePresence>
         <Foter />

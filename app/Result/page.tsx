@@ -1,3 +1,4 @@
+import { algorithm, retrieveLogo } from "@/actions/functions";
 import Banner from "@/components/Result/Banner";
 import RestaurantImagesCarousel from "@/components/Result/RestaurantImagesCarousel";
 import ResultInfo from "@/components/Result/ResultInfo";
@@ -11,11 +12,24 @@ type Props = {
 
 const page: React.FC<Props> = ({ searchParams }) => {
   const { groupId } = searchParams;
+  const now = new Date();
+  const restaurant = await algorithm(
+    group_id,
+    now.getDay(),
+    now.getHours(),
+    now.getMinutes(),
+  );
+
+  const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
+  
   console.log("Results - Received groupId:", groupId); // debug line
   return (
     <div>
-      <Banner />
-      <ResultInfo />
+      <Banner restaurantUrl={restaurant_logo?.url || ""} />
+      <ResultInfo
+        simularity={restaurant.similarity}
+        restaurant={restaurant.bestRestaurant}
+      />
     </div>
   );
 };

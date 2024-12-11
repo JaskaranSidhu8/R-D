@@ -16,11 +16,10 @@ const Banner = () => {
       />
 
       <Orbital />
-      <Link
-        href="/GroupName"
-        className="absolute bottom-0 w-4/5 left-1/2 -translate-x-1/2 z-50"
-      >
-        <Button className="w-full shadow-md">Create a group</Button>
+      <Link href={"./GroupName"}>
+        <Button className="absolute bottom-0 w-4/5 left-1/2  -translate-x-1/2 shadow-md z-50 ">
+          Create a group
+        </Button>
       </Link>
     </div>
   );
