@@ -1120,3 +1120,98 @@ export async function markUserReady(groupId: number) {
     `User ${userId} successfully marked as ready in group ${groupId}`,
   );
 }
+
+export async function fetchAccountDetails() {
+  const supabase = await createSupabaseServerClient();
+
+  // Retrieve the session and UID
+  const { data: session, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError || !session?.session?.user) {
+    console.error(
+      "Failed to fetch user ID or user is not authenticated:",
+      sessionError,
+    );
+    throw new Error("User not authenticated");
+  }
+
+  const uid = session.session.user.id;
+  console.log("UID from session:", uid);
+
+  // Fetch the corresponding user details from the users table, including created_at
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id, firstName, lastName, country, city, created_at")
+    .eq("uid", uid)
+    .single();
+
+  if (userError || !userData) {
+    console.error(
+      "Error fetching user details from the users table:",
+      userError,
+    );
+    throw new Error("Failed to retrieve user details.");
+  }
+
+  console.log("User details fetched:", userData);
+
+  // Process the created_at date to extract the month and year
+  const createdAt = new Date(userData.created_at);
+  const month = createdAt.toLocaleString("en-US", { month: "long" });
+  const year = createdAt.getFullYear();
+
+  // Return the user details along with the formatted joined date
+  return {
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    country: userData.country,
+    city: userData.city,
+    joinedDate: `${month} ${year}`,
+  };
+}
+
+export async function updateAccountDetails({
+  firstName,
+  lastName,
+  country,
+  city,
+}: {
+  firstName: string;
+  lastName: string;
+  country: string;
+  city: string;
+}) {
+  const supabase = await createSupabaseServerClient();
+
+  // Retrieve the user ID from the session
+  const { data: session, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError || !session?.session?.user) {
+    console.error(
+      "Failed to fetch user ID or user is not authenticated:",
+      sessionError,
+    );
+    throw new Error("User not authenticated");
+  }
+
+  const uid = session.session.user.id;
+
+  // Update the user details in the database
+  const { error: updateError } = await supabase
+    .from("users")
+    .update({
+      firstName,
+      lastName,
+      country,
+      city,
+    })
+    .eq("uid", uid);
+
+  if (updateError) {
+    console.error("Error updating account details:", updateError.message);
+    throw new Error("Failed to update account details");
+  }
+
+  return { success: true, message: "Account details updated successfully" };
+}
