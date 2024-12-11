@@ -2,19 +2,17 @@ import ReturnButton from "@/components/static/ReturnButton";
 import SectionTitle from "@/components/static/SectionTitle";
 import GroupStatus from "@/components/Status/GroupStatus";
 import React from "react";
+import Link from "next/link";
 
 type Props = {
   params: { step: string };
   searchParams: {
-    //day: string; //convert them to number later on
-    //our: string;
     groupId: string;
   };
 };
 
 const StatusMgr: React.FC<Props> = ({ params, searchParams }) => {
   const { step } = params;
-  //const { day, hour, groupId } = searchParams;
   const { groupId } = searchParams;
 
   console.log("Search params received in StatusMgr:", searchParams); //debug line
@@ -23,8 +21,7 @@ const StatusMgr: React.FC<Props> = ({ params, searchParams }) => {
 
   return (
     <div>
-      <ReturnButton />
-      {/* <SectionTitle text="SaaS BOYS" /> */}
+      <ReturnButton link="/Home" />
       <GroupStatus
         state={step === "1" ? "Makeyourchoices" : "Changeyourchoices"}
         generate
