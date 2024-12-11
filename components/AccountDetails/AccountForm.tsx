@@ -8,6 +8,7 @@ import Link from "next/link";
 import { fetchAccountDetails, updateAccountDetails } from "@/actions/functions";
 import { useRouter } from "next/navigation";
 import { getUserAvatarUrl } from "@/actions/avatarfunctions";
+import { useUser } from "@/context/UserContext";
 
 interface FormData {
   firstName: string;
@@ -30,7 +31,9 @@ const DEFAULT_VALUES: FormData = {
 const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
   const [formData, setFormData] = useState<FormData>(defaultValues);
   const [isModified, setIsModified] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState<string>("/pfp.jpg");
+  //const [avatarUrl, setAvatarUrl] = useState<string>("/pfp.jpg");
+  const { firstName, lastName, avatarUrl, isLoading, refreshUserData } =
+    useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -46,10 +49,10 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
         });
 
         // Fetch avatar URL
-        const userAvatarUrl = await getUserAvatarUrl();
-        if (userAvatarUrl) {
-          setAvatarUrl(userAvatarUrl);
-        }
+        // const userAvatarUrl = await getUserAvatarUrl();
+        // if (userAvatarUrl) {
+        //   setAvatarUrl(userAvatarUrl);
+        // }
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
