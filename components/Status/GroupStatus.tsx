@@ -10,6 +10,7 @@ import * as amplitude from "@amplitude/analytics-node";
 type Props = {
   state: "Makeyourchoices" | "Changeyourchoices";
   generate?: boolean;
+  groupId: number;
 };
 export type MemberCardProps = {
   fullname: string;
@@ -209,7 +210,7 @@ const handleRestaurantGenerationButtonClick = () => {
   });
 };
 
-const GroupStatus: React.FC<Props> = ({ state, generate }) => {
+const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
   return (
     <div>
       {" "}
@@ -228,7 +229,7 @@ const GroupStatus: React.FC<Props> = ({ state, generate }) => {
           ))}
         </Card>
         {state === "Makeyourchoices" && (
-          <Link href={"/Cuisine"} className="mt-4 block">
+          <Link href={`/Cuisine?groupId=${groupId}`} className="mt-4 block">
             <Button
               className="font-bold shadow-none border-primary text-primary"
               variant={"outline"}
@@ -248,9 +249,14 @@ const GroupStatus: React.FC<Props> = ({ state, generate }) => {
           </Button>
         )}
         {state === "Changeyourchoices" && (
-          <Button className="font-bold shadow-none" variant={"link"}>
-            Change your choices
-          </Button>
+          // <Button className="font-bold shadow-none" variant={"link"}>
+          //   Change your choices
+          // </Button>
+          <Link href={`/Cuisine?groupId=${groupId}`} className="mt-4 block">
+            <Button className="font-bold shadow-none" variant={"link"}>
+              Change your choices
+            </Button>
+          </Link>
         )}
       </div>
     </div>
