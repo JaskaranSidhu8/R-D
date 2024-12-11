@@ -3,7 +3,15 @@ import RestaurantImagesCarousel from "@/components/Result/RestaurantImagesCarous
 import ResultInfo from "@/components/Result/ResultInfo";
 import React from "react";
 
-const page = () => {
+type Props = {
+  searchParams: {
+    groupId: string;
+  }; // Explicitly define the type of groupId
+};
+
+const page: React.FC<Props> = ({ searchParams }) => {
+  const { groupId } = searchParams;
+  console.log("Results - Received groupId:", groupId); // debug line
   return (
     <div>
       <Banner />

@@ -9,6 +9,7 @@ import Link from "next/link";
 import * as amplitude from "@amplitude/analytics-node";
 import { fetchUserStatusInGroup } from "@/actions/functions";
 import SectionTitle from "../static/SectionTitle";
+import ConfirmGenerate from "./ConfirmGenerate";
 
 type Props = {
   state: "Makeyourchoices" | "Changeyourchoices";
@@ -116,7 +117,7 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
             </Button>
           </Link>
         )}
-        {generate && (
+        {/* {generate && (
           <Button
             className="font-bold"
             onClick={() => {
@@ -125,6 +126,15 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
           >
             Generate
           </Button>
+        )} */}
+        {generate && (
+          <ConfirmGenerate
+            groupId={groupId} // Pass the groupId to the ConfirmGenerate component
+            onConfirm={() => {
+              handleRestaurantGenerationButtonClick(); // Track the button click event
+              // Add any additional logic here, if necessary
+            }}
+          />
         )}
         {state === "Changeyourchoices" && (
           // <Button className="font-bold shadow-none" variant={"link"}>
