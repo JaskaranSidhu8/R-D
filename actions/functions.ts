@@ -895,3 +895,52 @@ export async function createGroup(formData: FormData) {
     "Failed to create group after multiple attempts at generating a unique group code.",
   );
 }
+
+export async function markUserReady(groupId: number) {
+  const supabase = await createSupabaseServerClient();
+
+  // Retrieve the user ID from the session
+  const { data: session, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError || !session?.session?.user) {
+    console.error(
+      "Failed to fetch user ID or user is not authenticated:",
+      sessionError,
+    );
+    throw new Error("User not authenticated");
+  }
+
+  const uid = session.session.user.id;
+  console.log("UID from session:", uid);
+
+  // Fetch the corresponding user_id from the users table
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id") // Assuming `id` is the user_id column
+    .eq("uid", uid) // Match the uid to fetch the user_id
+    .single();
+
+  if (userError || !userData) {
+    console.error("Error fetching user ID from the users table:", userError);
+    throw new Error("Failed to retrieve user data.");
+  }
+
+  const userId = userData.id;
+  console.log("User ID fetched from database:", userId);
+
+  // Update the isready field to true
+  const { error } = await supabase
+    .from("group_users")
+    .update({ isready: true }) // Set isready to "Ready"
+    .eq("user_id", userId)
+    .eq("group_id", groupId);
+
+  if (error) {
+    console.error("Error updating user status to ready:", error.message);
+    throw new Error("Failed to update user status");
+  }
+
+  console.log(
+    `User ${userId} successfully marked as ready in group ${groupId}`,
+  );
+}
