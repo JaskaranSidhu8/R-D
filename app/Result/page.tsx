@@ -13,23 +13,25 @@ type Props = {
 const page: React.FC<Props> = ({ searchParams }) => {
   const { groupId } = searchParams;
   const now = new Date();
-  const restaurant = await algorithm(
-    group_Id,
-    now.getDay(),
-    now.getHours(),
-    now.getMinutes(),
-  );
 
-  const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
+  //This needs fixing
+  // const restaurant = await algorithm(
+  //   groupId,
+  //   now.getDay(),
+  //   now.getHours(),
+  //   now.getMinutes(),
+  // );
+
+  // const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
 
   console.log("Results - Received groupId:", groupId); // debug line
   return (
     <div>
-      <Banner restaurantUrl={restaurant_logo?.url || ""} />
+      {/* <Banner restaurantUrl={restaurant_logo?.url || ""} />
       <ResultInfo
         simularity={restaurant.similarity}
         restaurant={restaurant.bestRestaurant}
-      />
+      /> */}
     </div>
   );
 };
