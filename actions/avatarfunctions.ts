@@ -164,3 +164,49 @@ export const updateUserAvatar = async (avatarUrl: string): Promise<boolean> => {
     return false;
   }
 };
+
+export const getAvatarUrlwithUserId = async (
+  numericUserId: number, // Changed to number since we're getting numeric ID
+): Promise<string | null> => {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const { data: userData, error: userError } = await supabase
+      .from("users")
+      .select("uid") // Get the UUID
+      .eq("id", numericUserId) // Search by numeric ID
+      .single();
+
+    if (userError || !userData?.uid) {
+      console.error("Error fetching user UUID:", userError);
+      return null;
+    }
+
+    const { data: avatarData, error: avatarError } = await supabase
+      .from("users")
+      .select("avatar_id")
+      .eq("uid", userData.uid)
+      .single();
+
+    if (avatarError || !avatarData?.avatar_id) {
+      console.error("Error fetching avatar ID:", avatarError);
+      return null;
+    }
+
+    const { data: finalAvatarData, error: finalAvatarError } = await supabase
+      .from("avatars")
+      .select("url")
+      .eq("id", avatarData.avatar_id)
+      .single();
+
+    if (finalAvatarError) {
+      console.error("Error fetching avatar URL:", finalAvatarError);
+      return null;
+    }
+
+    return finalAvatarData?.url || null;
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    return null;
+  }
+};

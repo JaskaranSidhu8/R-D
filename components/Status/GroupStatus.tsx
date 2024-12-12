@@ -8,9 +8,9 @@ import { Link2Icon } from "lucide-react";
 import Link from "next/link";
 import * as amplitude from "@amplitude/analytics-node";
 import { fetchUserStatusInGroup } from "@/actions/functions";
-import SectionTitle from "../static/SectionTitle";
 import ConfirmGenerate from "./ConfirmGenerate";
 import { useGroup } from "@/context/GroupContext";
+import { getAvatarUrlwithUserId } from "@/actions/avatarfunctions";
 
 type Props = {
   state: "Makeyourchoices" | "Changeyourchoices";
@@ -22,6 +22,7 @@ export type MemberCardProps = {
   email?: string;
   profilePicture?: string;
   readiness: "ready" | "busy";
+  userId: string;
 };
 
 // For Monitoring (Amplitude)
@@ -136,6 +137,7 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
                 readiness: member.isready ? "ready" : "busy",
                 profilePicture:
                   member.users?.profilePicture || "/avatarpinkwoman.png",
+                userId: member.user_id.toString(),
               }}
             />
           ))}
@@ -150,16 +152,6 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
             </Button>
           </Link>
         )}
-        {/* {generate && (
-          <Button
-            className="font-bold"
-            onClick={() => {
-              handleRestaurantGenerationButtonClick();
-            }}
-          >
-            Generate
-          </Button>
-        )} */}
         {generate && (
           <ConfirmGenerate
             groupId={groupId} // Pass the groupId to the ConfirmGenerate component
