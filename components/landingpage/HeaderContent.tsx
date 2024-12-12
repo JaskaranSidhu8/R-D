@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const HeaderContent = () => {
   return (
-    <div className="absolute bottom-20 w-full items-center">
+    <div className="absolute bottom-28 w-full items-center">
       <div className="relative z-10 text-center w-full px-6 mt-10">
         <p className="montserrat text-2xl font-bold  text-white">
           Don&apos;t know where to eat?
@@ -18,15 +18,15 @@ const HeaderContent = () => {
         </p>
       </div>
 
-      <div className="relative z-10  w-full px-6 mt-8 items-center">
-        <Input
+      <div className="relative z-10  w-full px-6  items-center">
+        {/*<Input
           type="email"
           placeholder="Enter your email"
           className="border-secondary mt-4 text-center py-6 w-full rounded-full bg-white"
-        />
+        />*/}
 
         <Link href="/Signup">
-          <Button className="w-full mt-5 py-6 rounded-full  shadow-lg">
+          <Button className="w-full  py-6 rounded-full  shadow-lg">
             Get Started
           </Button>
         </Link>

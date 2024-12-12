@@ -1,13 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import FormField from "./FormField";
 import Link from "next/link";
+import { fetchAccountDetails, updateAccountDetails } from "@/actions/functions";
+import { useRouter } from "next/navigation";
+import { getUserAvatarUrl } from "@/actions/avatarfunctions";
+import { useUser } from "@/context/UserContext";
 
 interface FormData {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   country: string;
   city: string;
 }
@@ -17,14 +22,44 @@ interface AccountFormProps {
 }
 
 const DEFAULT_VALUES: FormData = {
-  fullName: "Jack Dartic",
-  country: "Belgium",
-  city: "Leuven",
+  firstName: "",
+  lastName: "",
+  country: "",
+  city: "",
 };
 
 const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
   const [formData, setFormData] = useState<FormData>(defaultValues);
   const [isModified, setIsModified] = useState(false);
+  //const [avatarUrl, setAvatarUrl] = useState<string>("/pfp.jpg");
+  const { firstName, lastName, avatarUrl, isLoading, refreshUserData } =
+    useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Fetch account details
+        const accountDetails = await fetchAccountDetails();
+        setFormData({
+          firstName: accountDetails.firstName || DEFAULT_VALUES.firstName,
+          lastName: accountDetails.lastName || DEFAULT_VALUES.lastName,
+          country: accountDetails.country || DEFAULT_VALUES.country,
+          city: accountDetails.city || DEFAULT_VALUES.city,
+        });
+
+        // Fetch avatar URL
+        // const userAvatarUrl = await getUserAvatarUrl();
+        // if (userAvatarUrl) {
+        //   setAvatarUrl(userAvatarUrl);
+        // }
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+
+    loadData();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,9 +70,17 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
     setIsModified(true); // Mark the form as modified when any input changes
   };
 
-  const handleSubmit = () => {
-    console.log("Saving changes:", formData); // Simulated submission logic
-    setIsModified(false); // Reset modified state after submission
+  const handleSubmit = async () => {
+    try {
+      await updateAccountDetails(formData); // Pass the formData to update the account details
+      console.log("Account details updated successfully!");
+      setIsModified(false);
+
+      // Navigate back to the settings page
+      router.push("/Settings");
+    } catch (error) {
+      console.error("Error updating account details:", error);
+    }
   };
 
   return (
@@ -46,7 +89,7 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
       <div className="flex justify-center mb-2">
         <div className="relative">
           <img
-            src="/pfp.jpg"
+            src={avatarUrl}
             alt="Profile"
             className="w-32 h-32 rounded-full object-cover border border-gray-200"
           />
@@ -63,9 +106,15 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
       </div>
 
       <FormField
-        label="Full Name"
-        name="fullName"
-        value={formData.fullName}
+        label="First Name"
+        name="firstName"
+        value={formData.firstName}
+        onChange={handleInputChange}
+      />
+      <FormField
+        label="Last Name"
+        name="lastName"
+        value={formData.lastName}
         onChange={handleInputChange}
       />
       <FormField

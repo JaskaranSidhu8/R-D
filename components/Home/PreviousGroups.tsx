@@ -6,7 +6,7 @@ import { fetchUserGroups } from "@/actions/functions";
 // type Props = {};
 
 const PreviousGroups = async () => {
-  const groups = await fetchUserGroups(2);
+  const groups = await fetchUserGroups();
 
   return (
     <div className="mt-10">

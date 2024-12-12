@@ -3,8 +3,8 @@
 import React from "react";
 import SettingsForm from "@/components/Settings/SettingsForm";
 
-const SettingsPage = () => {
-  return <SettingsForm name="Jack" joinedDate="November 2024" />;
+const Settings = () => {
+  return <SettingsForm />;
 };
 
-export default SettingsPage;
+export default Settings;

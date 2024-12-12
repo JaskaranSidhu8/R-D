@@ -9,6 +9,45 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      avatars: {
+        Row: {
+          id: number;
+          url: string | null;
+        };
+        Insert: {
+          id?: number;
+          url?: string | null;
+        };
+        Update: {
+          id?: number;
+          url?: string | null;
+        };
+        Relationships: [];
+      };
+      badges: {
+        Row: {
+          description: string | null;
+          id: number;
+          name: string | null;
+          url_display: string | null;
+          url_gray: string | null;
+        };
+        Insert: {
+          description?: string | null;
+          id?: number;
+          name?: string | null;
+          url_display?: string | null;
+          url_gray?: string | null;
+        };
+        Update: {
+          description?: string | null;
+          id?: number;
+          name?: string | null;
+          url_display?: string | null;
+          url_gray?: string | null;
+        };
+        Relationships: [];
+      };
       cuisine_groups: {
         Row: {
           cuisine_soft_constraints: string | null;
@@ -59,7 +98,9 @@ export type Database = {
           cuisine_preferences: string | null;
           group_id: number;
           id: number;
+          is_deleted: boolean | null;
           isready: boolean | null;
+          review_rating: number;
           soft_constraints: string | null;
           user_id: number;
         };
@@ -68,7 +109,9 @@ export type Database = {
           cuisine_preferences?: string | null;
           group_id: number;
           id?: number;
+          is_deleted?: boolean | null;
           isready?: boolean | null;
+          review_rating?: number;
           soft_constraints?: string | null;
           user_id: number;
         };
@@ -77,7 +120,9 @@ export type Database = {
           cuisine_preferences?: string | null;
           group_id?: number;
           id?: number;
+          is_deleted?: boolean | null;
           isready?: boolean | null;
+          review_rating?: number;
           soft_constraints?: string | null;
           user_id?: number;
         };
@@ -100,61 +145,51 @@ export type Database = {
       };
       groups: {
         Row: {
-          city: string | null;
-          country: string | null;
           created_at: string | null;
+          day: string | null;
+          dining_date: string | null;
           group_code: string | null;
-          group_creator: number | null;
+          group_creator: string | null;
           hard_constraints: string | null;
           id: number;
           isdeleted: boolean | null;
-          location: string | null;
           name: string | null;
           pickedrestaurant: number | null;
-          profile_picture: string | null;
+          similarity: number | null;
           size: number | null;
           status: boolean | null;
         };
         Insert: {
-          city?: string | null;
-          country?: string | null;
           created_at?: string | null;
+          day?: string | null;
+          dining_date?: string | null;
           group_code?: string | null;
-          group_creator?: number | null;
+          group_creator?: string | null;
           hard_constraints?: string | null;
           id?: number;
           isdeleted?: boolean | null;
-          location?: string | null;
           name?: string | null;
           pickedrestaurant?: number | null;
-          profile_picture?: string | null;
+          similarity?: number | null;
           size?: number | null;
           status?: boolean | null;
         };
         Update: {
-          city?: string | null;
-          country?: string | null;
           created_at?: string | null;
+          day?: string | null;
+          dining_date?: string | null;
           group_code?: string | null;
-          group_creator?: number | null;
+          group_creator?: string | null;
           hard_constraints?: string | null;
           id?: number;
           isdeleted?: boolean | null;
-          location?: string | null;
           name?: string | null;
           pickedrestaurant?: number | null;
-          profile_picture?: string | null;
+          similarity?: number | null;
           size?: number | null;
           status?: boolean | null;
         };
         Relationships: [
-          {
-            foreignKeyName: "groups_group_creator_fkey";
-            columns: ["group_creator"];
-            isOneToOne: false;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "groups_pickedrestaurant_fkey";
             columns: ["pickedrestaurant"];
@@ -198,6 +233,7 @@ export type Database = {
           google_maps_URI: string | null;
           hard_constraints: string | null;
           id: number;
+          logos: string | null;
           name: string;
           national_phone_number: string | null;
           price_level: string | null;
@@ -213,6 +249,7 @@ export type Database = {
           google_maps_URI?: string | null;
           hard_constraints?: string | null;
           id?: number;
+          logos?: string | null;
           name: string;
           national_phone_number?: string | null;
           price_level?: string | null;
@@ -228,6 +265,7 @@ export type Database = {
           google_maps_URI?: string | null;
           hard_constraints?: string | null;
           id?: number;
+          logos?: string | null;
           name?: string;
           national_phone_number?: string | null;
           price_level?: string | null;
@@ -237,6 +275,89 @@ export type Database = {
           website_URI?: string | null;
         };
         Relationships: [];
+      };
+      restaurants_duplicate: {
+        Row: {
+          business_status: string | null;
+          formatted_address: string | null;
+          google_id: string;
+          google_maps_URI: string | null;
+          hard_constraints: string | null;
+          id: number;
+          logos: string | null;
+          name: string;
+          national_phone_number: string | null;
+          price_level: string | null;
+          primary_type: string | null;
+          primary_type_display_name: string | null;
+          soft_constraints: string | null;
+          website_URI: string | null;
+        };
+        Insert: {
+          business_status?: string | null;
+          formatted_address?: string | null;
+          google_id: string;
+          google_maps_URI?: string | null;
+          hard_constraints?: string | null;
+          id?: number;
+          logos?: string | null;
+          name: string;
+          national_phone_number?: string | null;
+          price_level?: string | null;
+          primary_type?: string | null;
+          primary_type_display_name?: string | null;
+          soft_constraints?: string | null;
+          website_URI?: string | null;
+        };
+        Update: {
+          business_status?: string | null;
+          formatted_address?: string | null;
+          google_id?: string;
+          google_maps_URI?: string | null;
+          hard_constraints?: string | null;
+          id?: number;
+          logos?: string | null;
+          name?: string;
+          national_phone_number?: string | null;
+          price_level?: string | null;
+          primary_type?: string | null;
+          primary_type_display_name?: string | null;
+          soft_constraints?: string | null;
+          website_URI?: string | null;
+        };
+        Relationships: [];
+      };
+      restaurants_logos: {
+        Row: {
+          id: number;
+          name: string | null;
+          restaurant_id: number | null;
+          url: string | null;
+          url2: string | null;
+        };
+        Insert: {
+          id?: never;
+          name?: string | null;
+          restaurant_id?: number | null;
+          url?: string | null;
+          url2?: string | null;
+        };
+        Update: {
+          id?: never;
+          name?: string | null;
+          restaurant_id?: number | null;
+          url?: string | null;
+          url2?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "restaurants_logos_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants_duplicate";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       restaurants_photos: {
         Row: {
@@ -302,44 +423,41 @@ export type Database = {
           },
         ];
       };
-      test_table: {
+      user_badges: {
         Row: {
-          age: number | null;
+          badge_id: number | null;
+          display: boolean | null;
           id: number;
-          name: string | null;
+          user_id: number | null;
         };
         Insert: {
-          age?: number | null;
+          badge_id?: number | null;
+          display?: boolean | null;
           id?: number;
-          name?: string | null;
+          user_id?: number | null;
         };
         Update: {
-          age?: number | null;
+          badge_id?: number | null;
+          display?: boolean | null;
           id?: number;
-          name?: string | null;
+          user_id?: number | null;
         };
-        Relationships: [];
-      };
-      test_users: {
-        Row: {
-          created_at: string;
-          email: string | null;
-          id: number;
-          name: string | null;
-        };
-        Insert: {
-          created_at?: string;
-          email?: string | null;
-          id?: number;
-          name?: string | null;
-        };
-        Update: {
-          created_at?: string;
-          email?: string | null;
-          id?: number;
-          name?: string | null;
-        };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_badge_id_fkey";
+            columns: ["badge_id"];
+            isOneToOne: false;
+            referencedRelation: "badges";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "user_badges_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       user_weights: {
         Row: {
@@ -378,37 +496,66 @@ export type Database = {
       };
       users: {
         Row: {
+          avatar_id: number | null;
+          city: string | null;
+          country: string | null;
           created_at: string;
           firstName: string | null;
+          groups_created: number;
+          groups_joined: number;
           hard_constraints: string | null;
           id: number;
-          isDeleted: boolean;
+          is_deleted: boolean;
           lastName: string | null;
+          uid: string | null;
         };
         Insert: {
+          avatar_id?: number | null;
+          city?: string | null;
+          country?: string | null;
           created_at?: string;
           firstName?: string | null;
+          groups_created?: number;
+          groups_joined?: number;
           hard_constraints?: string | null;
           id?: number;
-          isDeleted: boolean;
+          is_deleted?: boolean;
           lastName?: string | null;
+          uid?: string | null;
         };
         Update: {
+          avatar_id?: number | null;
+          city?: string | null;
+          country?: string | null;
           created_at?: string;
           firstName?: string | null;
+          groups_created?: number;
+          groups_joined?: number;
           hard_constraints?: string | null;
           id?: number;
-          isDeleted?: boolean;
+          is_deleted?: boolean;
           lastName?: string | null;
+          uid?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "users_avatar_id_fkey";
+            columns: ["avatar_id"];
+            isOneToOne: false;
+            referencedRelation: "avatars";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      generate_logos_urls: {
+        Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;

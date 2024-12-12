@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
 import { logOut } from "@/actions/auth";
 import { redirect } from "next/navigation";
+import { NavigationLink } from "../Settings/NavigationLink";
 
 const LogoutBtn = () => {
   const logoutHandler = async () => {
@@ -13,9 +14,7 @@ const LogoutBtn = () => {
   };
   return (
     <form action={logoutHandler}>
-      <Button type="submit">
-        <LogOut />
-      </Button>
+      <NavigationLink icon={LogOut} label="Log out" />
     </form>
   );
 };
