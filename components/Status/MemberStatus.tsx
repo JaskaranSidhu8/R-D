@@ -16,7 +16,7 @@ const MemberStatus = (props: Props) => {
   useEffect(() => {
     const fetchAvatarUrl = async () => {
       if (userId) {
-        const url = await getAvatarUrlwithUserId(userId);
+        const url = await getAvatarUrlwithUserId(Number(userId));
         if (url) {
           setAvatarUrl(url);
         }
