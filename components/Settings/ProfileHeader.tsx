@@ -1,4 +1,8 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { getUserAvatarUrl } from "@/actions/avatarfunctions";
+import { useUser } from "@/context/UserContext";
 
 interface ProfileHeaderProps {
   name: string;
@@ -6,10 +10,31 @@ interface ProfileHeaderProps {
 }
 
 export const ProfileHeader = ({ name, joinedDate }: ProfileHeaderProps) => {
+  //const [avatarUrl, setAvatarUrl] = useState<string>("/pfp.jpg");
+  const { firstName, avatarUrl, isLoading } = useUser();
+  // useEffect(() => {
+  //   const fetchAvatar = async () => {
+  //     try {
+  //       const url = await getUserAvatarUrl();
+  //       if (url) {
+  //         setAvatarUrl(url);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching avatar:", error);
+  //       // Keep default avatar if there's an error
+  //     }
+  //   };
+
+  //   fetchAvatar();
+  // }, []);
+  if (isLoading) {
+    return <div>Loading...</div>; // Or your loading skeleton
+  }
+
   return (
     <div className="text-center flex justify-center items-center gap-6 p-6 mb-8">
       <img
-        src="/pfp.jpg"
+        src={avatarUrl}
         alt="User Avatar"
         className="w-32 h-32 rounded-full object-cover"
       />

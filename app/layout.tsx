@@ -8,6 +8,8 @@ import { AnimatePresence } from "framer-motion";
 import { initIntercom, shutdownIntercom } from "../utils/intercom"; // Adjust the path based on your utils location
 import * as amplitude from "@amplitude/analytics-node";
 import { Toaster } from "@/components/ui/toaster";
+import { GroupProvider } from "@/context/GroupContext";
+import { UserProvider } from "@/context/UserContext";
 
 /*
 export const metadata = {
@@ -42,9 +44,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className=" lg:max-w-sm mx-auto">
-        <Toaster />
-        <AnimatePresence mode="wait">{children}</AnimatePresence>
-        <Foter />
+        <UserProvider>
+          <GroupProvider>
+            <Toaster />
+            <AnimatePresence mode="wait">{children}</AnimatePresence>
+            <Foter />
+          </GroupProvider>
+        </UserProvider>
       </body>
     </html>
   );

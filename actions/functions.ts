@@ -53,11 +53,11 @@ export async function algorithm(
   );
   const groupOfUsers = await fetchGroupPreferences(group_id);
   const numUsers = groupOfUsers.length;
-  const { cuisine_weight, budget_weight, drink_weight, atmosphere_weight } =
-    await fetchGroupWeightSums(group_id);
-  const cuisineWeight = cuisine_weight! / numUsers;
-  const budgetWeight = budget_weight! / numUsers;
-  const drinkWeight = drink_weight! / numUsers;
+  // const { cuisine_weight, budget_weight, drink_weight, atmosphere_weight } =
+  //   await fetchGroupWeightSums(group_id);
+  // const cuisineWeight = cuisine_weight! / numUsers;
+  // const budgetWeight = budget_weight! / numUsers;
+  // const drinkWeight = drink_weight! / numUsers;
 
   //console.log("THE group cuisine weihjt is:", cuisineWeight);
   //console.log("THE group budget weihjt is:", budgetWeight);
@@ -73,7 +73,7 @@ export async function algorithm(
 
   console.log("Number of users is:", numUsers);
   const softPreferences = Array(9).fill(0);
-  const weightsSoft = Array(9).fill(drinkWeight); //this one I can update to be the value from users_weights value:
+  const weightsSoft = Array(9).fill(1.0); //this one I can update to be the value from users_weights value:
   groupOfUsers.forEach(({ soft_constraints }) => {
     if (!soft_constraints) {
       // Skip this user if softconstraints doesn't exist
@@ -94,7 +94,7 @@ export async function algorithm(
   ); ///
 
   const cuisinePreferences = Array(13).fill(0);
-  const weightsCuisine = Array(13).fill(cuisineWeight);
+  const weightsCuisine = Array(13).fill(2.0);
   groupOfUsers.forEach(({ cuisine_preferences }) => {
     if (!cuisine_preferences) {
       // Skip this user if softconstraints doesn't exist
@@ -116,7 +116,7 @@ export async function algorithm(
   //);
 
   const budgetPreferences = Array(6).fill(0);
-  const weightsBudget = Array(6).fill(budgetWeight);
+  const weightsBudget = Array(6).fill(1.5);
   groupOfUsers.forEach(({ budget }) => {
     if (!budget) {
       // Skip this user if softconstraints doesn't exist
@@ -256,7 +256,8 @@ export async function fetchUserGroups() {
         group_creator,
         hard_constraints,
         isdeleted,
-        size
+        size,
+        group_code
       )
     `,
     )
@@ -314,7 +315,7 @@ export async function checkCodeAndInsertUser(formData: FormData) {
     };
   }
 
-  return { success: true, message: "User added successfully" };
+  return { success: true, message: "User added successfully", groupId };
 }
 
 export async function fetchUserStatusInGroup(group_id: number) {
@@ -690,6 +691,8 @@ export async function incrementGroupCreated(
     userData.groups_joined,
   );
 
+  //const badgeUpdate5 = await checkAndUpdateBadge5(uid)
+
   return badgeUpdateResult;
 }
 
@@ -791,22 +794,33 @@ export async function checkAndUpdateBadges(
   return { success: true };
 }
 
-export async function getUserBadges(
+type Badge = {
+  id: number;
+  name: string;
+  description: string;
+  colorImageUrl: string; // URL for the colored badge
+  bwImageUrl: string; // URL for the black-and-white badge
+};
+
+export async function getUserBadgesDisplay(
   userId: number,
-): Promise<{ badges: any[]; error?: string }> {
+): Promise<{ badges: Badge[]; error?: string }> {
   const supabase = await createSupabaseServerClient();
 
-  // Uncomment these lines when you can retrieve the uid from the session
-  // const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-  // const userId = sessionData?.session?.user.id;
-  // if (!userId) {
-  //   return { badges: [], error: "User ID is missing from session." };
-  // }
-
-  // Query the `user_badges` table for badges with `display` set to true
+  // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
   const { data: badges, error } = await supabase
     .from("user_badges")
-    .select("badge_id") // Adjust the columns if you need more data (e.g., badge names or descriptions)
+    .select(
+      `
+      badges (
+        id,
+        name,
+        description,
+        url_gray,
+        url_display
+      )
+    `,
+    )
     .eq("user_id", userId)
     .eq("display", true);
 
@@ -814,8 +828,58 @@ export async function getUserBadges(
     console.error("Error fetching badges:", error.message);
     return { badges: [], error: error.message };
   }
-  console.log("Badges to be displayed are:", badges);
-  return { badges, error: undefined };
+
+  // Map the response to the expected Badge structure
+  const formattedBadges = badges.map((badge: any) => ({
+    id: badge.badges.id,
+    name: badge.badges.name,
+    description: badge.badges.description,
+    colorImageUrl: badge.badges.url_display,
+    bwImageUrl: badge.badges.url_gray,
+  }));
+
+  console.log("Badges to be displayed are:", formattedBadges);
+  return { badges: formattedBadges, error: undefined };
+}
+
+export async function getUserBadgesDisplayGray(
+  userId: number,
+): Promise<{ badges: Badge[]; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
+  const { data: badges, error } = await supabase
+    .from("user_badges")
+    .select(
+      `
+      badges (
+        id,
+        name,
+        description,
+        url_gray,
+        url_display
+      )
+    `,
+    )
+    .eq("user_id", userId)
+    .eq("display", false);
+
+  if (error) {
+    console.error("Error fetching badges:", error.message);
+    return { badges: [], error: error.message };
+  }
+
+  // Map the response to the expected Badge structure
+  const formattedBadges = badges.map((badge: any) => ({
+    id: badge.badges.id,
+    name: badge.badges.name,
+    description: badge.badges.description,
+    colorImageUrl: badge.badges.url_display,
+    bwImageUrl: badge.badges.url_gray,
+  }));
+
+  console.log("Badges to be displayed are:", formattedBadges);
+  return { badges: formattedBadges, error: undefined };
 }
 
 export async function createGroup(formData: FormData) {
@@ -906,6 +970,27 @@ export async function createGroup(formData: FormData) {
       }
 
       const userId = userData.id;
+
+      // const diningDate = new Date(dining_date);
+      // const createdAt = new Date(); // Current date and time
+
+      // const timeDifferenceInMs = Math.abs(
+      //   diningDate.getTime() - createdAt.getTime(),
+      // );
+      // const timeDifferenceInHours = timeDifferenceInMs / (1000 * 3600);
+
+      // if (timeDifferenceInHours <= 24) {
+      //   const { error: badgeUpdateError } = await supabase
+      //     .from("user_badges")
+      //     .update({ display: true }) // Assuming badge_5 is the correct column for this badge
+      //     .eq("id", userId)
+      //     .eq("badge_id", 5);
+
+      //   if (badgeUpdateError) {
+      //     console.error("Error updating badge 5:", badgeUpdateError.message);
+      //     throw new Error("Failed to update badge number 5.");
+      //   }
+      // }
 
       // Insert into group_users using custom user id
       const { error: groupUserError } = await supabase
@@ -1214,4 +1299,104 @@ export async function updateAccountDetails({
   }
 
   return { success: true, message: "Account details updated successfully" };
+}
+
+export async function fetchGroupCreatorUUID(groupId: number): Promise<string> {
+  const supabase = await createSupabaseServerClient();
+
+  // Fetch the group creator UUID for the given groupId
+  const { data: groupData, error: groupError } = await supabase
+    .from("groups")
+    .select("group_creator") // Fetch the group_creator UUID directly
+    .eq("id", groupId)
+    .single();
+
+  if (groupError || !groupData?.group_creator) {
+    console.error("Error fetching group creator UUID:", groupError);
+    throw new Error("Failed to fetch group creator UUID. Group may not exist.");
+  }
+
+  const groupCreatorUUID = groupData.group_creator;
+  console.log(`Group creator UUID for group ${groupId}:`, groupCreatorUUID);
+
+  return groupCreatorUUID;
+}
+
+export async function fetchMyUUID(): Promise<string> {
+  const supabase = await createSupabaseServerClient();
+
+  // Retrieve the session to get the logged-in user's UUID
+  const { data: session, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError || !session?.session?.user) {
+    console.error(
+      "Error fetching session or user not authenticated:",
+      sessionError,
+    );
+    throw new Error("User not authenticated.");
+  }
+
+  return session.session.user.id; // Return the UUID
+}
+
+export async function fetchMyUserId(): Promise<number> {
+  const supabase = await createSupabaseServerClient();
+
+  // Get the logged-in user's UUID
+  const userUUID = await fetchMyUUID();
+
+  // Fetch the user ID from the users table
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id") // Select the `id` column
+    .eq("uid", userUUID) // Match the UUID
+    .single();
+
+  if (userError || !userData?.id) {
+    console.error("Error fetching user ID:", userError);
+    throw new Error("User not found.");
+  }
+
+  return userData.id; // Return the user ID
+}
+
+export async function checkUserReadyStatus(groupId: number) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const session = await supabase.auth.getSession();
+    const uid = session.data.session?.user.id;
+
+    if (!uid) {
+      throw new Error("No authenticated user found");
+    }
+
+    const { data: userData, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (userError || !userData) {
+      throw new Error("Error getting user data");
+    }
+
+    const { data, error } = await supabase
+      .from("group_users")
+      .select("isready")
+      .match({
+        group_id: groupId,
+        user_id: userData.id,
+      })
+      .single();
+
+    if (error) {
+      throw new Error("Error checking ready status");
+    }
+
+    return data?.isready || false;
+  } catch (error) {
+    console.error("Error in checkUserReadyStatus:", error);
+    return false;
+  }
 }

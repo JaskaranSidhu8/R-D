@@ -4,31 +4,56 @@ import RestaurantImagesCarousel from "@/components/Result/RestaurantImagesCarous
 import ResultInfo from "@/components/Result/ResultInfo";
 import React from "react";
 
+// Define types for better type safety
 type Props = {
   searchParams: {
-    groupId: number;
-  }; // Explicitly define the type of groupId
+    groupId: string;
+  };
 };
 
-const page: React.FC<Props> = async ({ searchParams }) => {
-  const { groupId } = searchParams;
+// Since we're using async operations, we need to mark the component as async
+const Page = async ({ searchParams }: Props) => {
+  // Convert groupId to number since you mentioned it should be a number
+  const groupId = parseInt(searchParams.groupId);
   const now = new Date();
 
-  //This needs fixing
-  const restaurant = await algorithm(1, now.getDay(), 14, now.getMinutes());
+  // Validate groupId
+  if (isNaN(groupId)) {
+    throw new Error("Invalid group ID provided");
+  }
 
-  const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
+  try {
+    // Get restaurant recommendation
+    const restaurant = await algorithm(
+      groupId,
+      now.getDay(),
+      now.getHours(),
+      now.getMinutes(),
+    );
 
-  console.log("Results - Received groupId:", groupId); // debug line
-  return (
-    <div>
-      <Banner restaurantUrl={restaurant_logo?.url2 || ""} />
-      <ResultInfo
-        simularity={restaurant.similarity}
-        restaurant={restaurant.bestRestaurant}
-      />
-    </div>
-  );
+    // Fetch restaurant logo
+    const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
+
+    console.log("Results - Received groupId:", groupId); // debug line
+
+    return (
+      <div>
+        <Banner restaurantUrl={restaurant_logo?.url2 || ""} />
+        <ResultInfo
+          simularity={restaurant.similarity}
+          restaurant={restaurant.bestRestaurant}
+        />
+      </div>
+    );
+  } catch (error) {
+    // Handle any errors that might occur during the async operations
+    console.error("Error fetching restaurant data:", error);
+    return (
+      <div className="p-4">
+        <p>Error loading restaurant information. Please try again later.</p>
+      </div>
+    );
+  }
 };
 
-export default page;
+export default Page;

@@ -14,10 +14,12 @@ import {
   SelectValue,
 } from "../ui/select";
 import { createGroup } from "@/actions/functions";
-import { useRouter } from "next/navigation"; //sorry Fadi
+import { useRouter } from "next/navigation";
+import { useGroup } from "@/context/GroupContext";
 
 const GroupNameForm = () => {
   const router = useRouter();
+  const { setGroupId, setGroupCode, setGroupName } = useGroup();
 
   // const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
   //   // Get the form element, we need this to check validation
@@ -42,6 +44,8 @@ const GroupNameForm = () => {
       // Check if we have data and the group
       const groupId = data[0].id; // Get the group ID from the created group
       router.push(`/StatusMgr/1?groupId=${groupId}`); // Add groupId as a URL parameter
+      const groupCode = data[0].group_code || "";
+      setGroupCode(groupCode);
       console.log(groupId);
     }
   };

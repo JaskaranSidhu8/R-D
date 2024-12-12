@@ -5,16 +5,22 @@ import { Button } from "../ui/button";
 import { checkCodeAndInsertUser } from "@/actions/functions";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-
+import { useGroup } from "@/context/GroupContext";
 // type Props = {};
 
 const GroupJoinForm = () => {
   const router = useRouter();
   const { toast } = useToast();
+  const { setGroupCode } = useGroup();
+
   const onSubmit = async (e: FormData) => {
-    const { success, message } = await checkCodeAndInsertUser(e);
-    if (success) router.push("/StatusMbr/1");
-    else {
+    const code = e.get("code") as string;
+    const { success, message, groupId } = await checkCodeAndInsertUser(e);
+    if (success) {
+      setGroupCode(code); // Set the code in context before navigation
+      console.log("Setting group code in context:", code);
+      router.push(`/StatusMbr/1?groupId=${groupId}`);
+    } else {
       toast({
         variant: "destructive",
         title: "Error",

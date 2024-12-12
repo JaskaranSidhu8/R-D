@@ -1,30 +1,31 @@
+"use client";
 import ReturnButton from "@/components/static/ReturnButton";
 import SectionTitle from "@/components/static/SectionTitle";
 import GroupStatus from "@/components/Status/GroupStatus";
 import React from "react";
+import Link from "next/link";
+import { useGroup } from "@/context/GroupContext";
 
 type Props = {
   params: { step: string };
   searchParams: {
-    //day: string; //convert them to number later on
-    //our: string;
     groupId: string;
   };
 };
 
 const StatusMgr: React.FC<Props> = ({ params, searchParams }) => {
   const { step } = params;
-  //const { day, hour, groupId } = searchParams;
   const { groupId } = searchParams;
+  const { groupId: contextGroupId, groupCode } = useGroup();
 
   console.log("Search params received in StatusMgr:", searchParams); //debug line
   console.log("StatusMgr - Step:", step); // debug line
   console.log("StatusMgr - Received groupId:", groupId); // debug line
+  console.log("StatusMgr - Group Code from context:", groupCode);
 
   return (
     <div>
-      <ReturnButton />
-      {/* <SectionTitle text="SaaS BOYS" /> */}
+      <ReturnButton link="/Home" />
       <GroupStatus
         state={step === "1" ? "Makeyourchoices" : "Changeyourchoices"}
         generate
