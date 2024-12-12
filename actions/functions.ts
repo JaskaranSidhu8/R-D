@@ -53,11 +53,11 @@ export async function algorithm(
   );
   const groupOfUsers = await fetchGroupPreferences(group_id);
   const numUsers = groupOfUsers.length;
-  const { cuisine_weight, budget_weight, drink_weight, atmosphere_weight } =
-    await fetchGroupWeightSums(group_id);
-  const cuisineWeight = cuisine_weight! / numUsers;
-  const budgetWeight = budget_weight! / numUsers;
-  const drinkWeight = drink_weight! / numUsers;
+  // const { cuisine_weight, budget_weight, drink_weight, atmosphere_weight } =
+  //   await fetchGroupWeightSums(group_id);
+  // const cuisineWeight = cuisine_weight! / numUsers;
+  // const budgetWeight = budget_weight! / numUsers;
+  // const drinkWeight = drink_weight! / numUsers;
 
   //console.log("THE group cuisine weihjt is:", cuisineWeight);
   //console.log("THE group budget weihjt is:", budgetWeight);
@@ -73,7 +73,7 @@ export async function algorithm(
 
   console.log("Number of users is:", numUsers);
   const softPreferences = Array(9).fill(0);
-  const weightsSoft = Array(9).fill(drinkWeight); //this one I can update to be the value from users_weights value:
+  const weightsSoft = Array(9).fill(1.0); //this one I can update to be the value from users_weights value:
   groupOfUsers.forEach(({ soft_constraints }) => {
     if (!soft_constraints) {
       // Skip this user if softconstraints doesn't exist
@@ -94,7 +94,7 @@ export async function algorithm(
   ); ///
 
   const cuisinePreferences = Array(13).fill(0);
-  const weightsCuisine = Array(13).fill(cuisineWeight);
+  const weightsCuisine = Array(13).fill(2.0);
   groupOfUsers.forEach(({ cuisine_preferences }) => {
     if (!cuisine_preferences) {
       // Skip this user if softconstraints doesn't exist
@@ -116,7 +116,7 @@ export async function algorithm(
   //);
 
   const budgetPreferences = Array(6).fill(0);
-  const weightsBudget = Array(6).fill(budgetWeight);
+  const weightsBudget = Array(6).fill(1.5);
   groupOfUsers.forEach(({ budget }) => {
     if (!budget) {
       // Skip this user if softconstraints doesn't exist
@@ -267,6 +267,60 @@ export async function fetchUserGroups() {
   }
 
   return data || [];
+}
+export async function getRestaurantById(restaurant_id: number) {
+  const supabase = await createSupabaseServerClient();
+  const { data: Restaurant, error } = await supabase
+    .from("restaurants")
+    .select("*")
+    .eq("id", restaurant_id)
+    .single();
+  return Restaurant;
+}
+export async function getResultAccess(groupID: number): Promise<{
+  success: boolean;
+  pickedRestaurant?: number;
+  similarity?: number;
+  error?: string;
+}> {
+  const supabase = await createSupabaseServerClient();
+  const uid = (await supabase.auth.getSession()).data.session?.user.id;
+  if (!uid) {
+    console.error("User not authenticated");
+    return { success: false, error: "User not authenticated" };
+  }
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("uid", uid)
+    .single();
+
+  const { data: groupData, error: groupError } = await supabase
+    .from("groups")
+    .select("*")
+    .eq("id", groupID)
+    .single();
+
+  const { data: IsUserInGroup, error: UserIngGroupError } = await supabase
+    .from("group_users")
+    .select("")
+    .eq("user_id", userData?.id || "")
+    .eq("group_id", groupData?.id || "")
+    .single();
+
+  if (IsUserInGroup) {
+    if (groupData?.pickedrestaurant !== null) {
+      return {
+        success: true,
+        pickedRestaurant: groupData?.pickedrestaurant,
+        similarity: groupData?.similarity || 0,
+      };
+    } else {
+      return { success: false, error: "Restaurant is not picked yet" };
+    }
+  } else {
+    return { success: false, error: "You are not a member in the group" };
+  }
 }
 
 export async function checkCodeAndInsertUser(formData: FormData) {
