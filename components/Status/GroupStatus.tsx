@@ -21,7 +21,7 @@ export type MemberCardProps = {
   fullname: string;
   email?: string;
   profilePicture?: string;
-  readiness: "ready" | "busy";
+  readiness: "ready" | "waiting";
   userId: string;
 };
 
@@ -134,7 +134,7 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
                 fullname: `${member.users?.firstName || "Unknown"} ${
                   member.users?.lastName || "User"
                 }`,
-                readiness: member.isready ? "ready" : "busy",
+                readiness: member.isready ? "ready" : "waiting",
                 profilePicture:
                   member.users?.profilePicture || "/avatarpinkwoman.png",
                 userId: member.user_id.toString(),
