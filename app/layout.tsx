@@ -9,6 +9,7 @@ import { initIntercom, shutdownIntercom } from "../utils/intercom"; // Adjust th
 import * as amplitude from "@amplitude/analytics-node";
 import { Toaster } from "@/components/ui/toaster";
 import { GroupProvider } from "@/context/GroupContext";
+import { UserProvider } from "@/context/UserContext";
 
 /*
 export const metadata = {
@@ -43,11 +44,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className=" lg:max-w-sm mx-auto">
-        <GroupProvider>
-          <Toaster />
-          <AnimatePresence mode="wait">{children}</AnimatePresence>
-          <Foter />
-        </GroupProvider>
+        <UserProvider>
+          <GroupProvider>
+            <Toaster />
+            <AnimatePresence mode="wait">{children}</AnimatePresence>
+            <Foter />
+          </GroupProvider>
+        </UserProvider>
       </body>
     </html>
   );

@@ -8,30 +8,45 @@ import {
   fetchAllAvatars,
   updateUserAvatar,
 } from "@/actions/avatarfunctions"; // Import the necessary backend functions
+import { useUser } from "@/context/UserContext";
 
 const AvatarForm = () => {
+  const { avatarUrl, refreshUserData } = useUser();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null); // Store the selected avatar URL
   const [isModified, setIsModified] = useState(false); // Track if the avatar selection is modified
-  const [userAvatar, setUserAvatar] = useState<string | null>(null); // Store the current user's avatar URL
+  //const [userAvatar, setUserAvatar] = useState<string | null>(null); // Store the current user's avatar URL
   const [avatars, setAvatars] = useState<string[]>([]); // Store the list of avatar URLs
 
-  // Fetch user avatar and list of avatars when the component mounts
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const avatarUrl = await getUserAvatarUrl(); // Fetch the current user's avatar URL
-        if (avatarUrl) {
-          setUserAvatar(avatarUrl); // Set the user's current avatar URL
-        }
+  // // Fetch user avatar and list of avatars when the component mounts
+  // useEffect(() => {
+  //   const fetchInitialData = async () => {
+  //     try {
+  //       const avatarUrl = await getUserAvatarUrl(); // Fetch the current user's avatar URL
+  //       if (avatarUrl) {
+  //         setUserAvatar(avatarUrl); // Set the user's current avatar URL
+  //       }
 
-        const avatarUrls = await fetchAllAvatars(); // Fetch all avatar URLs from the database
-        setAvatars(avatarUrls); // Populate the avatars state with fetched URLs
+  //       const avatarUrls = await fetchAllAvatars(); // Fetch all avatar URLs from the database
+  //       setAvatars(avatarUrls); // Populate the avatars state with fetched URLs
+  //     } catch (error) {
+  //       console.error("Error fetching initial data:", error);
+  //     }
+  //   };
+
+  //   fetchInitialData();
+  // }, []);
+
+  useEffect(() => {
+    const fetchAvatars = async () => {
+      try {
+        const avatarUrls = await fetchAllAvatars();
+        setAvatars(avatarUrls);
       } catch (error) {
-        console.error("Error fetching initial data:", error);
+        console.error("Error fetching avatars:", error);
       }
     };
 
-    fetchInitialData();
+    fetchAvatars();
   }, []);
 
   // Handle avatar selection
@@ -48,7 +63,7 @@ const AvatarForm = () => {
       const success = await updateUserAvatar(selectedAvatar); // Call the backend function to update the avatar
       if (success) {
         console.log("Avatar updated successfully");
-        setUserAvatar(selectedAvatar); // Update the current avatar to the newly selected one
+        await refreshUserData(); // Changed this line
       } else {
         console.error("Failed to update avatar");
       }
@@ -64,7 +79,7 @@ const AvatarForm = () => {
       <div className="flex justify-center mb-2">
         <div className="relative bg-primary rounded-full">
           <img
-            src={selectedAvatar || userAvatar || "/pfp.jpg"} // Dynamically update the profile picture based on selection or fetched data
+            src={selectedAvatar || avatarUrl} // Dynamically update the profile picture based on selection or fetched data
             alt="Profile"
             className="w-32 h-32 rounded-full object-cover border border-gray-200"
           />
