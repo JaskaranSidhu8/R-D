@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -11,6 +11,12 @@ import {
 } from "@/components/ui/select";
 import PreferenceTag from "./PreferenceTag";
 import SectionTitle from "../static/SectionTitle";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import {
+  updateUserPreferences,
+  fetchUserConstraints,
+} from "@/actions/functions";
 
 type Props = {
   name: string;
@@ -19,12 +25,31 @@ const PreferencesForm = (props: Props) => {
   const [selectedRestrictions, setSelectedRestrictions] = useState<string[]>(
     [],
   );
+  const [isModified, setIsModified] = useState(false);
+  const router = useRouter();
+  const [initialRestrictions, setInitialRestrictions] = useState<string[]>([]);
 
   const restrictions = ["Vegan", "Vegetarian"];
 
+  // Load initial constraints
+  useEffect(() => {
+    const loadUserConstraints = async () => {
+      try {
+        const constraints = await fetchUserConstraints();
+        setSelectedRestrictions(constraints);
+        setInitialRestrictions(constraints);
+      } catch (error) {
+        console.error("Error loading user constraints:", error);
+      }
+    };
+
+    loadUserConstraints();
+  }, []);
+
   const handleSelect = (value: string) => {
     if (!selectedRestrictions.includes(value)) {
-      setSelectedRestrictions([...selectedRestrictions, value]);
+      setSelectedRestrictions((prev) => [...prev, value]);
+      setIsModified(true); // Mark as modified when adding a restriction
     }
   };
 
@@ -34,6 +59,26 @@ const PreferencesForm = (props: Props) => {
         (restriction) => restriction !== restrictionToRemove,
       ),
     );
+    setIsModified(true);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
+      formData.set("dietaryRestrictions", selectedRestrictions.join("-"));
+
+      const result = await updateUserPreferences(formData);
+
+      if (result.success) {
+        console.log("Preferences updated successfully!");
+        setIsModified(false);
+        router.push("/Settings");
+      } else {
+        console.error("Error updating preferences:", result.error);
+      }
+    } catch (error) {
+      console.error("Error updating preferences:", error);
+    }
   };
 
   return (
@@ -75,6 +120,14 @@ const PreferencesForm = (props: Props) => {
           ))}
         </div>
       </div>
+      <Button
+        onClick={handleSubmit}
+        variant={isModified ? "default" : "secondary"}
+        disabled={!isModified}
+        className="mt-12"
+      >
+        Save Changes
+      </Button>
     </div>
   );
 };
