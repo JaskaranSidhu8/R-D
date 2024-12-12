@@ -11,20 +11,22 @@ import { useGroup } from "@/context/GroupContext";
 const GroupJoinForm = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const { setGroupCode } = useGroup();
+  const { setContextGroupId, setGroupCode } = useGroup();
 
   const onSubmit = async (e: FormData) => {
     const code = e.get("code") as string;
     const { success, message, groupId } = await checkCodeAndInsertUser(e);
-    if (success) {
-      setGroupCode(code); // Set the code in context before navigation
-      console.log("Setting group code in context:", code);
-      router.push(`/StatusMbr/1?groupId=${groupId}`);
+    if (success && groupId !== undefined) {
+      setGroupCode(code);
+      setContextGroupId(groupId);
+      console.log("Group code and ID set in context:", { code, groupId });
+      router.push(`/StatusMbr/1`);
+      //router.push(`/StatusMbr/1?groupId=${groupId}`);
     } else {
       toast({
         variant: "destructive",
         title: "Error",
-        description: message,
+        description: message || "Group ID is missing",
       });
     }
   };

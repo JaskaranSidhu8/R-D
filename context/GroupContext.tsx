@@ -4,10 +4,10 @@ import React from "react";
 import { createContext, useContext, useState } from "react";
 
 interface GroupContextType {
-  groupId: number | null;
+  contextGroupId: number | null;
   groupCode: string;
   groupName: string;
-  setGroupId: (id: number) => void;
+  setContextGroupId: (id: number) => void;
   setGroupCode: (code: string) => void;
   setGroupName: (name: string) => void;
   clearGroupData: () => void;
@@ -16,12 +16,12 @@ interface GroupContextType {
 const GroupContext = createContext<GroupContextType | undefined>(undefined);
 
 export function GroupProvider({ children }: { children: React.ReactNode }) {
-  const [groupId, setGroupId] = useState<number | null>(null);
+  const [contextGroupId, setContextGroupId] = useState<number | null>(null);
   const [groupCode, setGroupCode] = useState<string>("");
   const [groupName, setGroupName] = useState<string>("");
 
   const clearGroupData = () => {
-    setGroupId(null);
+    setContextGroupId(null);
     setGroupCode("");
     setGroupName("");
   };
@@ -29,10 +29,10 @@ export function GroupProvider({ children }: { children: React.ReactNode }) {
   return (
     <GroupContext.Provider
       value={{
-        groupId,
+        contextGroupId,
         groupCode,
         groupName,
-        setGroupId,
+        setContextGroupId,
         setGroupCode,
         setGroupName,
         clearGroupData,

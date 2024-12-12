@@ -1,26 +1,30 @@
+"use client";
 import GroupStatus from "@/components/Status/GroupStatus";
 import React from "react";
 import ReturnButton from "@/components/static/ReturnButton";
 import Link from "next/link";
+import { useGroup } from "@/context/GroupContext";
 
 type Props = {
   params: { step: string };
-  searchParams: {
-    groupId: string;
-  };
+  // searchParams: {
+  //   groupId: string;
+  // };
 };
 
-const page = ({ params, searchParams }: Props) => {
+const page = ({ params }: Props) => {
   const { step } = params;
-  const { groupId } = searchParams;
+  const { contextGroupId, groupCode } = useGroup();
 
   return (
     <div>
       <ReturnButton link="/Home" />
-      <GroupStatus
-        state={step === "1" ? "Makeyourchoices" : "Changeyourchoices"}
-        groupId={Number(groupId)}
-      />
+      {contextGroupId !== null && (
+        <GroupStatus
+          state={step === "1" ? "Makeyourchoices" : "Changeyourchoices"}
+          groupId={contextGroupId} // Pass only when contextGroupId is not null
+        />
+      )}
     </div>
   );
 };

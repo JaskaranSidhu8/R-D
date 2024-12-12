@@ -19,7 +19,7 @@ import { useGroup } from "@/context/GroupContext";
 
 const GroupNameForm = () => {
   const router = useRouter();
-  const { setGroupId, setGroupCode, setGroupName } = useGroup();
+  const { setContextGroupId, setGroupCode, setGroupName } = useGroup();
 
   // const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
   //   // Get the form element, we need this to check validation
@@ -42,10 +42,13 @@ const GroupNameForm = () => {
     console.log(data);
     if (data && data[0]) {
       // Check if we have data and the group
-      const groupId = data[0].id; // Get the group ID from the created group
-      router.push(`/StatusMgr/1?groupId=${groupId}`); // Add groupId as a URL parameter
+      const groupId = Number(data[0].id); // Get the group ID from the created group
+      setContextGroupId(groupId);
+      //router.push(`/StatusMgr/1?groupId=${groupId}`); // Add groupId as a URL parameter
+      router.push(`/StatusMgr/1`);
       const groupCode = data[0].group_code || "";
       setGroupCode(groupCode);
+      setContextGroupId(groupId);
       console.log(groupId);
     }
   };
