@@ -64,7 +64,7 @@ const Conversation: ChatBubbleProps[] = [
 const ConversationSection = () => {
   return (
     <div className="flex flex-col overflow-x-hidden">
-      <div className="w-full space-y-5 p-5">
+      <div className="w-full space-y-5 px-5">
         {Conversation.map((bubble, index) => (
           <ChatBubble
             key={`chat_bubble_${index}`}

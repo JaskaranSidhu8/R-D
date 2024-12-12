@@ -14,7 +14,7 @@ const Banner = () => {
         width={800}
         height={800}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/5 to-transparent opacity-70"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/5 to-transparent opacity-60"></div>
 
       <Orbital />
       <Link href={"./GroupName"}>
