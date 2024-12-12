@@ -1,10 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const PulsingPicture: React.FC = () => {
   const [percentage, setPercentage] = useState<number>(0);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const groupId = searchParams?.get("groupId"); // Retrieve groupId from query parameters
 
   useEffect(() => {
+    if (!groupId) {
+      console.error("Group ID is missing from query parameters!");
+      return;
+    }
+
     const intervals = [200, 400, 600, 300, 500]; // Slower update intervals in milliseconds
     const increments = [1, 5, 3, 3, 4]; // Smaller increments for slower progress
     let index = 0; // Track which speed/increment to use
@@ -26,9 +35,22 @@ const PulsingPicture: React.FC = () => {
     };
 
     updatePercentage();
+  }, [groupId]); // Ensure groupId is included in the dependencies
 
-    return () => {}; // No interval to clean up since we use timeouts
-  }, []);
+  useEffect(() => {
+    if (percentage === 100 && groupId) {
+      router.push(`/Result?groupId=${groupId}`);
+    }
+  }, [percentage, groupId, router]);
+
+  if (!groupId) {
+    // Render a fallback if groupId is missing
+    return (
+      <div className="p-4">
+        <p>Error: Group ID is required to proceed.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center ">

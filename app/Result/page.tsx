@@ -1,4 +1,8 @@
-import { algorithm, retrieveLogo } from "@/actions/functions";
+import {
+  algorithm,
+  retrieveLogo,
+  updatePickedRestaurant,
+} from "@/actions/functions";
 import Banner from "@/components/Result/Banner";
 import RestaurantImagesCarousel from "@/components/Result/RestaurantImagesCarousel";
 import ResultInfo from "@/components/Result/ResultInfo";
@@ -31,6 +35,7 @@ const Page = async ({ searchParams }: Props) => {
       now.getMinutes(),
     );
 
+    await updatePickedRestaurant(groupId, restaurant.bestRestaurant.id);
     // Fetch restaurant logo
     const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
 

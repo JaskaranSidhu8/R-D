@@ -39,6 +39,33 @@ export async function retrieveLogo(restaurant_id: number) {
   }
   return restaurant;
 }
+
+export async function updatePickedRestaurant(
+  groupId: number,
+  restaurantId: number,
+) {
+  const supabase = await createSupabaseServerClient();
+
+  try {
+    // Update the picked_restaurant column in the groups table
+    const { data, error } = await supabase
+      .from("groups")
+      .update({ pickedrestaurant: restaurantId })
+      .eq("id", groupId); // Match the row with the provided groupId
+
+    if (error) {
+      console.error("Error updating picked_restaurant:", error);
+      throw new Error("Failed to update the picked restaurant.");
+    }
+
+    console.log("Picked restaurant updated successfully:", data);
+    return data; // Optionally return the updated data
+  } catch (err) {
+    console.error("Error in updatePickedRestaurant function:", err);
+    throw err;
+  }
+}
+
 export async function algorithm(
   group_id: number,
   day: number,
@@ -368,35 +395,79 @@ export async function importUserData(
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createSupabaseServerClient();
 
-  const firstName = formData.get("firstName") as string | null;
-  const lastName = formData.get("lastName") as string | null;
-  const country = formData.get("country") as string | null;
-  const city = formData.get("city") as string | null;
-  const preferences_str = formData.get("preferences") as string | null;
-  const uid = (await supabase.auth.getSession()).data.session?.user.id;
+  const firstName = (formData.get("firstName") as string | null) || "";
+  const lastName = (formData.get("lastName") as string | null) || "";
+  const country = (formData.get("country") as string | null) || "";
+  const city = (formData.get("city") as string | null) || "";
+  const preferences_str = (formData.get("preferences") as string | null) || "";
 
-  const hard_constraints =
-    preferences_str && preferences_str.length > 0 ? "1" : "0";
+  const session = (await supabase.auth.getSession()).data.session;
+  const uid = session?.user?.id;
+
+  if (!uid) {
+    console.error("User ID is undefined or user is not authenticated.");
+    return { success: false, error: "Authentication required." };
+  }
+
+  const hard_constraints = preferences_str.length > 0 ? "1" : "0";
 
   type UserInsert = Database["public"]["Tables"]["users"]["Insert"];
-
   const newUser: UserInsert = {
-    firstName,
-    lastName,
-    country,
-    city,
+    firstName: firstName || null,
+    lastName: lastName || null,
+    country: country || null,
+    city: city || null,
     uid,
     hard_constraints,
   };
 
-  const { error } = await supabase.from("users").insert(newUser);
+  try {
+    // Insert new user
+    const { error: insertError } = await supabase.from("users").insert(newUser);
+    if (insertError) throw new Error(insertError.message);
 
-  if (error) {
-    console.error("Error inserting user data:", error.message);
-    return { success: false, error: error.message };
+    // Fetch user ID
+    const { data: userData, error: fetchError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (fetchError || !userData) {
+      throw new Error(fetchError?.message || "Failed to fetch user ID.");
+    }
+
+    const userId = userData.id;
+
+    // Insert badges
+    const badgeRows = [
+      { user_id: userId, badge_id: 1, display: false },
+      { user_id: userId, badge_id: 2, display: true }, // Badge 2 is displayed
+      { user_id: userId, badge_id: 3, display: false },
+      { user_id: userId, badge_id: 4, display: false },
+      { user_id: userId, badge_id: 5, display: false },
+    ];
+
+    const { error: badgeError } = await supabase
+      .from("user_badges")
+      .insert(badgeRows);
+
+    if (badgeError) throw new Error(badgeError.message);
+
+    return { success: true };
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    console.error("Error in importUserData:", errorMessage);
+    return { success: false, error: errorMessage };
   }
+}
 
-  return { success: true };
+// Utility function to handle unknown errors
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
 }
 
 export async function updateUserConstraints(
