@@ -27,7 +27,7 @@ const ConfirmGenerate: React.FC<ConfirmGenerateProps> = ({
   const handleGenerate = () => {
     setIsOpen(false); // Close the dialog
     if (onConfirm) onConfirm(); // Trigger the optional callback
-    router.push(`/Result?groupId=${groupId}`); // Navigate to the Result page with groupId as a query parameter
+    router.push(`/Analysis?groupId=${groupId}`); // Navigate to the Result page with groupId as a query parameter
   };
 
   return (

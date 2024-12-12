@@ -155,6 +155,7 @@ export type Database = {
           isdeleted: boolean | null;
           name: string | null;
           pickedrestaurant: number | null;
+          similarity: number | null;
           size: number | null;
           status: boolean | null;
         };
@@ -169,6 +170,7 @@ export type Database = {
           isdeleted?: boolean | null;
           name?: string | null;
           pickedrestaurant?: number | null;
+          similarity?: number | null;
           size?: number | null;
           status?: boolean | null;
         };
@@ -183,6 +185,7 @@ export type Database = {
           isdeleted?: boolean | null;
           name?: string | null;
           pickedrestaurant?: number | null;
+          similarity?: number | null;
           size?: number | null;
           status?: boolean | null;
         };
@@ -330,18 +333,21 @@ export type Database = {
           name: string | null;
           restaurant_id: number | null;
           url: string | null;
+          url2: string | null;
         };
         Insert: {
           id?: never;
           name?: string | null;
           restaurant_id?: number | null;
           url?: string | null;
+          url2?: string | null;
         };
         Update: {
           id?: never;
           name?: string | null;
           restaurant_id?: number | null;
           url?: string | null;
+          url2?: string | null;
         };
         Relationships: [
           {
@@ -413,78 +419,6 @@ export type Database = {
             columns: ["restaurant_id"];
             isOneToOne: false;
             referencedRelation: "restaurants";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      test_table: {
-        Row: {
-          age: number | null;
-          id: number;
-          name: string | null;
-        };
-        Insert: {
-          age?: number | null;
-          id?: number;
-          name?: string | null;
-        };
-        Update: {
-          age?: number | null;
-          id?: number;
-          name?: string | null;
-        };
-        Relationships: [];
-      };
-      test_users: {
-        Row: {
-          created_at: string;
-          email: string | null;
-          id: number;
-          name: string | null;
-        };
-        Insert: {
-          created_at?: string;
-          email?: string | null;
-          id?: number;
-          name?: string | null;
-        };
-        Update: {
-          created_at?: string;
-          email?: string | null;
-          id?: number;
-          name?: string | null;
-        };
-        Relationships: [];
-      };
-      "user avatar": {
-        Row: {
-          avatar_id: number | null;
-          id: number;
-          user_id: number;
-        };
-        Insert: {
-          avatar_id?: number | null;
-          id?: number;
-          user_id: number;
-        };
-        Update: {
-          avatar_id?: number | null;
-          id?: number;
-          user_id?: number;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "user avatar_avatar_id_fkey";
-            columns: ["avatar_id"];
-            isOneToOne: false;
-            referencedRelation: "avatars";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "user avatar_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: true;
-            referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];
