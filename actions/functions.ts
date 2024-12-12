@@ -690,6 +690,8 @@ export async function incrementGroupCreated(
     userData.groups_joined,
   );
 
+  //const badgeUpdate5 = await checkAndUpdateBadge5(uid)
+
   return badgeUpdateResult;
 }
 
@@ -791,22 +793,33 @@ export async function checkAndUpdateBadges(
   return { success: true };
 }
 
-export async function getUserBadges(
+type Badge = {
+  id: number;
+  name: string;
+  description: string;
+  colorImageUrl: string; // URL for the colored badge
+  bwImageUrl: string; // URL for the black-and-white badge
+};
+
+export async function getUserBadgesDisplay(
   userId: number,
-): Promise<{ badges: any[]; error?: string }> {
+): Promise<{ badges: Badge[]; error?: string }> {
   const supabase = await createSupabaseServerClient();
 
-  // Uncomment these lines when you can retrieve the uid from the session
-  // const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-  // const userId = sessionData?.session?.user.id;
-  // if (!userId) {
-  //   return { badges: [], error: "User ID is missing from session." };
-  // }
-
-  // Query the `user_badges` table for badges with `display` set to true
+  // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
   const { data: badges, error } = await supabase
     .from("user_badges")
-    .select("badge_id") // Adjust the columns if you need more data (e.g., badge names or descriptions)
+    .select(
+      `
+      badges (
+        id,
+        name,
+        description,
+        url_gray,
+        url_display
+      )
+    `,
+    )
     .eq("user_id", userId)
     .eq("display", true);
 
@@ -814,8 +827,58 @@ export async function getUserBadges(
     console.error("Error fetching badges:", error.message);
     return { badges: [], error: error.message };
   }
-  console.log("Badges to be displayed are:", badges);
-  return { badges, error: undefined };
+
+  // Map the response to the expected Badge structure
+  const formattedBadges = badges.map((badge: any) => ({
+    id: badge.badges.id,
+    name: badge.badges.name,
+    description: badge.badges.description,
+    colorImageUrl: badge.badges.url_display,
+    bwImageUrl: badge.badges.url_gray,
+  }));
+
+  console.log("Badges to be displayed are:", formattedBadges);
+  return { badges: formattedBadges, error: undefined };
+}
+
+export async function getUserBadgesDisplayGray(
+  userId: number,
+): Promise<{ badges: Badge[]; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
+  const { data: badges, error } = await supabase
+    .from("user_badges")
+    .select(
+      `
+      badges (
+        id,
+        name,
+        description,
+        url_gray,
+        url_display
+      )
+    `,
+    )
+    .eq("user_id", userId)
+    .eq("display", false);
+
+  if (error) {
+    console.error("Error fetching badges:", error.message);
+    return { badges: [], error: error.message };
+  }
+
+  // Map the response to the expected Badge structure
+  const formattedBadges = badges.map((badge: any) => ({
+    id: badge.badges.id,
+    name: badge.badges.name,
+    description: badge.badges.description,
+    colorImageUrl: badge.badges.url_display,
+    bwImageUrl: badge.badges.url_gray,
+  }));
+
+  console.log("Badges to be displayed are:", formattedBadges);
+  return { badges: formattedBadges, error: undefined };
 }
 
 export async function createGroup(formData: FormData) {
@@ -906,6 +969,27 @@ export async function createGroup(formData: FormData) {
       }
 
       const userId = userData.id;
+
+      // const diningDate = new Date(dining_date);
+      // const createdAt = new Date(); // Current date and time
+
+      // const timeDifferenceInMs = Math.abs(
+      //   diningDate.getTime() - createdAt.getTime(),
+      // );
+      // const timeDifferenceInHours = timeDifferenceInMs / (1000 * 3600);
+
+      // if (timeDifferenceInHours <= 24) {
+      //   const { error: badgeUpdateError } = await supabase
+      //     .from("user_badges")
+      //     .update({ display: true }) // Assuming badge_5 is the correct column for this badge
+      //     .eq("id", userId)
+      //     .eq("badge_id", 5);
+
+      //   if (badgeUpdateError) {
+      //     console.error("Error updating badge 5:", badgeUpdateError.message);
+      //     throw new Error("Failed to update badge number 5.");
+      //   }
+      // }
 
       // Insert into group_users using custom user id
       const { error: groupUserError } = await supabase
