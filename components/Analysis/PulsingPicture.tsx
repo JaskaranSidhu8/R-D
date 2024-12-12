@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const PulsingPicture: React.FC = () => {
   const [percentage, setPercentage] = useState<number>(0);
+  const router = useRouter();
 
   useEffect(() => {
     const intervals = [200, 400, 600, 300, 500]; // Slower update intervals in milliseconds
@@ -29,6 +31,11 @@ const PulsingPicture: React.FC = () => {
 
     return () => {}; // No interval to clean up since we use timeouts
   }, []);
+  useEffect(() => {
+    if (percentage === 100) {
+      router.push("/Result");
+    }
+  }, [percentage, router]);
 
   return (
     <div className="flex flex-col items-center justify-center ">

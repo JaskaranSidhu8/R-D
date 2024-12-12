@@ -1,8 +1,11 @@
+"use client";
+
 import { algorithm, retrieveLogo } from "@/actions/functions";
 import Banner from "@/components/Result/Banner";
 import RestaurantImagesCarousel from "@/components/Result/RestaurantImagesCarousel";
 import ResultInfo from "@/components/Result/ResultInfo";
 import React from "react";
+import { useGroup } from "@/context/GroupContext";
 
 type Props = {
   searchParams: {
@@ -10,8 +13,10 @@ type Props = {
   }; // Explicitly define the type of groupId
 };
 
-const page: React.FC<Props> = ({ searchParams }) => {
-  const { groupId } = searchParams;
+//const page: React.FC<Props> = ({ searchParams }) => {
+const ResultPage: React.FC = () => {
+  const { contextGroupId } = useGroup();
+
   const now = new Date();
 
   //This needs fixing
@@ -24,7 +29,7 @@ const page: React.FC<Props> = ({ searchParams }) => {
 
   // const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
 
-  console.log("Results - Received groupId:", groupId); // debug line
+  console.log("Results - Received groupId:", contextGroupId); // debug line
   return (
     <div>
       {/* <Banner restaurantUrl={restaurant_logo?.url || ""} />
@@ -36,4 +41,4 @@ const page: React.FC<Props> = ({ searchParams }) => {
   );
 };
 
-export default page;
+export default ResultPage;

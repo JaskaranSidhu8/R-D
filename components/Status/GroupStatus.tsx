@@ -163,7 +163,7 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
         )} */}
         {generate && (
           <ConfirmGenerate
-            groupId={groupId} // Pass the groupId to the ConfirmGenerate component
+            //groupId={groupId} // Pass the groupId to the ConfirmGenerate component
             onConfirm={() => {
               handleRestaurantGenerationButtonClick(); // Track the button click event
               // Add any additional logic here, if necessary

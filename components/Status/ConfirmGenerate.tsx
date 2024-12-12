@@ -13,12 +13,12 @@ import {
 import { Button } from "../ui/button";
 
 type ConfirmGenerateProps = {
-  groupId: number; // Pass groupId to navigate with it
+  //groupId: number; // Pass groupId to navigate with it
   onConfirm?: () => void; // Optional callback for additional actions
 };
 
 const ConfirmGenerate: React.FC<ConfirmGenerateProps> = ({
-  groupId,
+  //groupId,
   onConfirm,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +27,7 @@ const ConfirmGenerate: React.FC<ConfirmGenerateProps> = ({
   const handleGenerate = () => {
     setIsOpen(false); // Close the dialog
     if (onConfirm) onConfirm(); // Trigger the optional callback
-    router.push(`/Result?groupId=${groupId}`); // Navigate to the Result page with groupId as a query parameter
+    router.push(`/Analysis`); // Navigate to the Result page with groupId as a query parameter
   };
 
   return (
