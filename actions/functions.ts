@@ -790,23 +790,33 @@ export async function checkAndUpdateBadges(
 
   return { success: true };
 }
+type Badge = {
+  id: number;
+  name: string;
+  description: string;
+  colorImageUrl: string; // URL for the colored badge
+  bwImageUrl: string; // URL for the black-and-white badge
+};
 
-export async function getUserBadges(
+export async function getUserBadgesDisplay(
   userId: number,
-): Promise<{ badges: any[]; error?: string }> {
+): Promise<{ badges: Badge[]; error?: string }> {
   const supabase = await createSupabaseServerClient();
 
-  // Uncomment these lines when you can retrieve the uid from the session
-  // const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-  // const userId = sessionData?.session?.user.id;
-  // if (!userId) {
-  //   return { badges: [], error: "User ID is missing from session." };
-  // }
-
-  // Query the `user_badges` table for badges with `display` set to true
+  // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
   const { data: badges, error } = await supabase
     .from("user_badges")
-    .select("badge_id") // Adjust the columns if you need more data (e.g., badge names or descriptions)
+    .select(
+      `
+      badges (
+        id,
+        name,
+        description,
+        url_gray,
+        url_display
+      )
+    `,
+    )
     .eq("user_id", userId)
     .eq("display", true);
 
@@ -814,8 +824,58 @@ export async function getUserBadges(
     console.error("Error fetching badges:", error.message);
     return { badges: [], error: error.message };
   }
-  console.log("Badges to be displayed are:", badges);
-  return { badges, error: undefined };
+
+  // Map the response to the expected Badge structure
+  const formattedBadges = badges.map((badge: any) => ({
+    id: badge.badges.id,
+    name: badge.badges.name,
+    description: badge.badges.description,
+    colorImageUrl: badge.badges.url_display,
+    bwImageUrl: badge.badges.url_gray,
+  }));
+
+  console.log("Badges to be displayed are:", formattedBadges);
+  return { badges: formattedBadges, error: undefined };
+}
+
+export async function getUserBadgesDisplayGray(
+  userId: number,
+): Promise<{ badges: Badge[]; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
+  const { data: badges, error } = await supabase
+    .from("user_badges")
+    .select(
+      `
+      badges (
+        id,
+        name,
+        description,
+        url_gray,
+        url_display
+      )
+    `,
+    )
+    .eq("user_id", userId)
+    .eq("display", false);
+
+  if (error) {
+    console.error("Error fetching badges:", error.message);
+    return { badges: [], error: error.message };
+  }
+
+  // Map the response to the expected Badge structure
+  const formattedBadges = badges.map((badge: any) => ({
+    id: badge.badges.id,
+    name: badge.badges.name,
+    description: badge.badges.description,
+    colorImageUrl: badge.badges.url_display,
+    bwImageUrl: badge.badges.url_gray,
+  }));
+
+  console.log("Badges to be displayed are:", formattedBadges);
+  return { badges: formattedBadges, error: undefined };
 }
 
 export async function createGroup(formData: FormData) {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import UserBadgesCarousel from "@/components/Settings/Badges";
+import BadgesCarousel from "@/components/Settings/Badges";
 import BadgeContainer from "@/components/Settings/Badges";
 
 const BadgesPage = () => {
@@ -9,7 +9,7 @@ const BadgesPage = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Your Badges</h1>
-      <BadgeContainer userId={userId} />
+      <BadgesCarousel userId={userId} />
     </div>
   );
 };
