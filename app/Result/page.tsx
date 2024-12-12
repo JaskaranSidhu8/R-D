@@ -1,37 +1,78 @@
-import { algorithm, retrieveLogo } from "@/actions/functions";
+"use client";
+import {
+  algorithm,
+  getRestaurantById,
+  getResultAccess,
+  retrieveLogo,
+} from "@/actions/functions";
 import Banner from "@/components/Result/Banner";
 import RestaurantImagesCarousel from "@/components/Result/RestaurantImagesCarousel";
 import ResultInfo from "@/components/Result/ResultInfo";
-import React from "react";
+import { useGroup } from "@/context/GroupContext";
+import { Tables } from "@/utils/types/supabase";
+import React, { useEffect, useState } from "react";
 
-type Props = {
-  searchParams: {
-    groupId: string;
-  }; // Explicitly define the type of groupId
-};
+type Props = {};
 
-const page: React.FC<Props> = ({ searchParams }) => {
-  const { groupId } = searchParams;
-  const now = new Date();
+const page: React.FC<Props> = () => {
+  const { groupId: contextGroupId, groupCode } = useGroup();
 
-  //This needs fixing
-  // const restaurant = await algorithm(
-  //   groupId,
-  //   now.getDay(),
-  //   now.getHours(),
-  //   now.getMinutes(),
-  // );
+  const [isLoaded, setLoaded] = useState(false);
+  const [hasAccess, setHasAccess] = useState(false);
+  const [pickedRestaurant, setPickedRestaurant] = useState<number>(0);
+  const [similarity, setSimilarity] = useState<number>(0);
+  const [error, setError] = useState("");
+  const [restaurant_logo, setRestaurantLogo] =
+    useState<Tables<"restaurants_logos">>();
+  const [restaurant, setRestaurant] = useState<Tables<"restaurants">>();
 
-  // const restaurant_logo = await retrieveLogo(restaurant.bestRestaurant.id);
+  useEffect(() => {
+    const checkAccess = async () => {
+      if (contextGroupId) {
+        const {
+          success,
+          pickedRestaurant,
+          similarity: SM,
+          error: ERR,
+        } = await getResultAccess(contextGroupId);
+        if (success) {
+          setLoaded(true);
+          setHasAccess(true);
+          setPickedRestaurant(pickedRestaurant || 0);
+          setSimilarity(SM || 0);
+          const logoData = (await retrieveLogo(
+            pickedRestaurant || 0,
+          )) as Tables<"restaurants_logos">;
+          setRestaurantLogo(logoData);
+          const restaurant = (await getRestaurantById(
+            pickedRestaurant || 0,
+          )) as Tables<"restaurants">;
+          setRestaurant(restaurant);
+        } else {
+          setLoaded(true);
+          setError(ERR || "");
+        }
+      }
+      checkAccess();
+    };
+  }, [contextGroupId]);
 
-  console.log("Results - Received groupId:", groupId); // debug line
   return (
     <div>
-      {/* <Banner restaurantUrl={restaurant_logo?.url || ""} />
-      <ResultInfo
-        simularity={restaurant.similarity}
-        restaurant={restaurant.bestRestaurant}
-      /> */}
+      {isLoaded ? (
+        hasAccess ? (
+          <>
+            <Banner restaurantUrl={restaurant_logo?.url || ""} />
+            <ResultInfo similarity={similarity} restaurant={restaurant} />
+          </>
+        ) : (
+          <p>{error}</p>
+        )
+      ) : contextGroupId ? (
+        <h5>Loading ...</h5>
+      ) : (
+        <h5>You don't have a permission to access this page</h5>
+      )}
     </div>
   );
 };

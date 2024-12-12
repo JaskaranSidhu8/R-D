@@ -12,6 +12,52 @@ import { getBudgetRestaurant } from "@/utils/convertRestaurantBudgetToSoftConstr
 import { filterRestaurantsByTime } from "@/utils/filterRestaurantsBasedOnTime";
 import { UUID } from "crypto";
 
+export async function getResultAccess(groupID: number): Promise<{
+  success: boolean;
+  pickedRestaurant?: number;
+  similarity?: number;
+  error?: string;
+}> {
+  const supabase = await createSupabaseServerClient();
+  const uid = (await supabase.auth.getSession()).data.session?.user.id;
+  if (!uid) {
+    console.error("User not authenticated");
+    return { success: false, error: "User not authenticated" };
+  }
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("uid", uid)
+    .single();
+
+  const { data: groupData, error: groupError } = await supabase
+    .from("groups")
+    .select("*")
+    .eq("id", groupID)
+    .single();
+
+  const { data: IsUserInGroup, error: UserIngGroupError } = await supabase
+    .from("group_users")
+    .select("")
+    .eq("user_id", userData?.id || "")
+    .eq("group_id", groupData?.id || "")
+    .single();
+
+  if (IsUserInGroup) {
+    if (groupData?.pickedrestaurant !== null) {
+      return {
+        success: true,
+        pickedRestaurant: groupData?.pickedrestaurant,
+        similarity: groupData?.similarity || 0,
+      };
+    } else {
+      return { success: false, error: "Restaurant is not picked yet" };
+    }
+  } else {
+    return { success: false, error: "You are not a member in the group" };
+  }
+}
+
 export async function getRestaurantImages(restaurant_id: number) {
   const supabase = await createSupabaseServerClient();
   const { data: images, error } = await supabase
@@ -22,6 +68,16 @@ export async function getRestaurantImages(restaurant_id: number) {
     console.error("Error fetching restaurant details:", error?.message);
   }
   return images;
+}
+
+export async function getRestaurantById(restaurant_id: number) {
+  const supabase = await createSupabaseServerClient();
+  const { data: Restaurant, error } = await supabase
+    .from("restaurants")
+    .select("*")
+    .eq("id", restaurant_id)
+    .single();
+  return Restaurant;
 }
 export async function retrieveLogo(restaurant_id: number) {
   const supabase = await createSupabaseServerClient();

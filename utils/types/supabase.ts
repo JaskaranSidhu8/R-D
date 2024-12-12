@@ -155,6 +155,7 @@ export type Database = {
           isdeleted: boolean | null;
           name: string | null;
           pickedrestaurant: number | null;
+          similarity: number | null;
           size: number | null;
           status: boolean | null;
         };
@@ -169,6 +170,7 @@ export type Database = {
           isdeleted?: boolean | null;
           name?: string | null;
           pickedrestaurant?: number | null;
+          similarity?: number | null;
           size?: number | null;
           status?: boolean | null;
         };
@@ -183,6 +185,7 @@ export type Database = {
           isdeleted?: boolean | null;
           name?: string | null;
           pickedrestaurant?: number | null;
+          similarity?: number | null;
           size?: number | null;
           status?: boolean | null;
         };
@@ -330,18 +333,21 @@ export type Database = {
           name: string | null;
           restaurant_id: number | null;
           url: string | null;
+          url2: string | null;
         };
         Insert: {
           id?: never;
           name?: string | null;
           restaurant_id?: number | null;
           url?: string | null;
+          url2?: string | null;
         };
         Update: {
           id?: never;
           name?: string | null;
           restaurant_id?: number | null;
           url?: string | null;
+          url2?: string | null;
         };
         Relationships: [
           {
