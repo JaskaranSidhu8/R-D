@@ -31,19 +31,19 @@ const cuisineOptions: CarouselOption[] = [
 
 //the bit representations that will be sent to the database, when more than one is selected an AND operation will be used on them
 const CUISINE_BIT_MAPPINGS: Record<number, string> = {
-  1: "100000000000000", // Asian
-  2: "010000000000000", // American
-  3: "001000000000000", // Italian
-  4: "000100000000000", // Mexican_Latin
-  5: "000010000000000", // Indian
-  6: "000001000000000", // Mediterranean
-  7: "000000100000000", // European
-  8: "000000010000000", // Seafood
-  9: "000000001000000", // Vegan
-  10: "000000000100000", // Dessert
-  11: "000000000010000", // Bar
-  12: "000000000001000", // Other
-  13: "000000000000100", // African
+  1: "1000000000000", // Asian
+  2: "0100000000000", // American
+  3: "0010000000000", // Italian
+  4: "0001000000000", // Mexican_Latin
+  5: "0000100000000", // Indian
+  6: "0000010000000", // Mediterranean
+  7: "0000001000000", // European
+  8: "0000000100000", // Seafood
+  9: "0000000010000", // Vegan
+  10: "0000000001000", // Dessert
+  11: "0000000000100", // Bar
+  12: "0000000000010", // Other
+  13: "0000000000001", // African
 };
 
 type CuisineFormProps = {

@@ -53,11 +53,11 @@ export async function algorithm(
   );
   const groupOfUsers = await fetchGroupPreferences(group_id);
   const numUsers = groupOfUsers.length;
-  const { cuisine_weight, budget_weight, drink_weight, atmosphere_weight } =
-    await fetchGroupWeightSums(group_id);
-  const cuisineWeight = cuisine_weight! / numUsers;
-  const budgetWeight = budget_weight! / numUsers;
-  const drinkWeight = drink_weight! / numUsers;
+  // const { cuisine_weight, budget_weight, drink_weight, atmosphere_weight } =
+  //   await fetchGroupWeightSums(group_id);
+  // const cuisineWeight = cuisine_weight! / numUsers;
+  // const budgetWeight = budget_weight! / numUsers;
+  // const drinkWeight = drink_weight! / numUsers;
 
   //console.log("THE group cuisine weihjt is:", cuisineWeight);
   //console.log("THE group budget weihjt is:", budgetWeight);
@@ -73,7 +73,7 @@ export async function algorithm(
 
   console.log("Number of users is:", numUsers);
   const softPreferences = Array(9).fill(0);
-  const weightsSoft = Array(9).fill(drinkWeight); //this one I can update to be the value from users_weights value:
+  const weightsSoft = Array(9).fill(1.0); //this one I can update to be the value from users_weights value:
   groupOfUsers.forEach(({ soft_constraints }) => {
     if (!soft_constraints) {
       // Skip this user if softconstraints doesn't exist
@@ -94,7 +94,7 @@ export async function algorithm(
   ); ///
 
   const cuisinePreferences = Array(13).fill(0);
-  const weightsCuisine = Array(13).fill(cuisineWeight);
+  const weightsCuisine = Array(13).fill(2.0);
   groupOfUsers.forEach(({ cuisine_preferences }) => {
     if (!cuisine_preferences) {
       // Skip this user if softconstraints doesn't exist
@@ -116,7 +116,7 @@ export async function algorithm(
   //);
 
   const budgetPreferences = Array(6).fill(0);
-  const weightsBudget = Array(6).fill(budgetWeight);
+  const weightsBudget = Array(6).fill(1.5);
   groupOfUsers.forEach(({ budget }) => {
     if (!budget) {
       // Skip this user if softconstraints doesn't exist
