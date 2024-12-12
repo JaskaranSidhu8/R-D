@@ -141,7 +141,8 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
           ))}
         </Card>
         {state === "Makeyourchoices" && (
-          <Link href={`/Cuisine?groupId=${groupId}`} className="mt-4 block">
+          //<Link href={`/Cuisine?groupId=${groupId}`} className="mt-4 block">
+          <Link href={`/Cuisine`} className="mt-4 block">
             <Button
               className="font-bold shadow-none border-primary text-primary"
               variant={"outline"}
@@ -173,7 +174,8 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
           // <Button className="font-bold shadow-none" variant={"link"}>
           //   Change your choices
           // </Button>
-          <Link href={`/Cuisine?groupId=${groupId}`} className="mt-4 block">
+          //<Link href={`/Cuisine?groupId=${groupId}`} className="mt-4 block">
+          <Link href={`/Cuisine`} className="mt-4 block">
             <Button className="font-bold shadow-none" variant={"link"}>
               Change your choices
             </Button>

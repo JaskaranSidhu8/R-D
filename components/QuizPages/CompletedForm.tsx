@@ -7,35 +7,12 @@ import { useQuiz } from "@/context/QuizContext";
 import { markUserReady } from "@/actions/functions";
 import { fetchGroupCreatorUUID } from "@/actions/functions";
 import { fetchMyUUID } from "@/actions/functions";
-import createSupabaseServerClient from "@/lib/supabase/reader";
 
 const CompletedForm = () => {
   const router = useRouter();
   const { groupId } = useQuiz();
   console.log("Group ID in completedForm:", groupId);
 
-  // useEffect(() => {
-  //   const markReadyAndRedirect = async () => {
-  //     try {
-  //       // Call the server-side function to mark the user as ready
-  //       if (groupId) {
-  //         await markUserReady(groupId);
-  //         console.log("User successfully marked as ready.");
-  //       } else {
-  //         console.warn("Group ID is not available.");
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to mark user as ready:", error);
-  //     }
-
-  //     // Redirect to the next page after a delay
-  //     setTimeout(() => {
-  //       router.push(`/StatusMgr/2?groupId=${groupId}`);
-  //     }, 2000);
-  //   };
-
-  //   markReadyAndRedirect();
-  // }, [router, groupId]);
   useEffect(() => {
     const markReadyAndRedirect = async () => {
       try {
@@ -57,12 +34,20 @@ const CompletedForm = () => {
         console.log("Group creator UUID:", groupCreatorUUID);
 
         // Redirect based on whether the logged-in user is the group creator
+        // if (userUUID === groupCreatorUUID) {
+        //   console.log("Redirecting to /StatusMgr/2...");
+        //   router.push(`/StatusMgr/2?groupId=${groupId}`);
+        // } else {
+        //   console.log("Redirecting to /StatusMbr/2...");
+        //   router.push(`/StatusMbr/2?groupId=${groupId}`);
+        // }
+        // Redirect based on whether the logged-in user is the group creator
         if (userUUID === groupCreatorUUID) {
           console.log("Redirecting to /StatusMgr/2...");
-          router.push(`/StatusMgr/2?groupId=${groupId}`);
+          router.push(`/StatusMgr/2`);
         } else {
           console.log("Redirecting to /StatusMbr/2...");
-          router.push(`/StatusMbr/2?groupId=${groupId}`);
+          router.push(`/StatusMbr/2`);
         }
       } catch (error) {
         console.error("Error during redirection:", error);
