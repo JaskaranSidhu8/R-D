@@ -38,7 +38,7 @@ const Page = async ({ searchParams }: Props) => {
 
     return (
       <div>
-        <Banner restaurantUrl={restaurant_logo?.url || ""} />
+        <Banner restaurantUrl={restaurant_logo?.url2 || ""} />
         <ResultInfo
           simularity={restaurant.similarity}
           restaurant={restaurant.bestRestaurant}

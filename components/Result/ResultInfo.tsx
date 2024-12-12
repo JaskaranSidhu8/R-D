@@ -77,16 +77,16 @@ const ResultInfo = async (props: Props) => {
           <RestaurantImagesCarousel images={images || []} />
         </div>
 
-        <div className="flex flex-row gap-3">
-          <Button
-            variant={"outline"}
-            className=" text-primary border-primary shadow-none border-2"
-          >
-            {" "}
-            <ArrowLeft /> Back Home{" "}
-          </Button>
-
-          <RefuseButton></RefuseButton>
+        <div className="flex gap-3 w-full">
+          <Link href={"/Home"} className=" w-full">
+            <Button
+              variant={"outline"}
+              className=" w-full text-primary border-primary shadow-none border-2"
+            >
+              {" "}
+              <ArrowLeft /> Back Home{" "}
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

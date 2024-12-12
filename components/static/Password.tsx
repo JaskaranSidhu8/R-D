@@ -2,11 +2,13 @@
 
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import React from "react";
 
 type Props = {
   name: string;
+  showForgotPassword: boolean;
 };
 
 export default function Password(props: Props) {
@@ -24,6 +26,7 @@ export default function Password(props: Props) {
           placeholder="Password"
           type={isVisible ? "text" : "password"}
         />
+
         <button
           className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-lg text-muted-foreground/80 ring-offset-background transition-shadow hover:text-foreground focus-visible:border focus-visible:border-ring focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
           type="button"
@@ -38,6 +41,16 @@ export default function Password(props: Props) {
             <Eye size={16} strokeWidth={2} aria-hidden="true" />
           )}
         </button>
+      </div>
+      <div
+        className={`text-right ${!props.showForgotPassword ? "hidden" : ""}`}
+      >
+        <Link
+          href="/NewPassword"
+          className="text-sm font-medium text-primary hover:underline"
+        >
+          Forgot your password?
+        </Link>
       </div>
     </div>
   );

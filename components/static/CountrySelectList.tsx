@@ -260,7 +260,15 @@ export default function CountrySelectList(props: Props) {
   return (
     <div className="space-y-2">
       {/* we've created this dom because form can not access to the useState hooks value */}
-      <input className="hidden" value={value} name={props.name} />
+      <input
+        className="hidden"
+        value={value}
+        name={props.name}
+        onInvalid={(e) => {
+          e.preventDefault();
+          alert("First Name is required.");
+        }}
+      />
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

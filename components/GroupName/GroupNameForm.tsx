@@ -54,7 +54,7 @@ const GroupNameForm = () => {
       action={(e) => onSubmit(e)}
       className="flex flex-col gap-4 max-w-md mx-auto  mt-20"
     >
-      <SectionTitle text="Give your group a name!" classname="mt-14" />
+      <SectionTitle text="let's plan your group event!" classname="mt-14" />
 
       <div className=" mt-1 flex flex-col gap-4">
         <Input

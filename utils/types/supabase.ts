@@ -330,18 +330,21 @@ export type Database = {
           name: string | null;
           restaurant_id: number | null;
           url: string | null;
+          url2: string | null;
         };
         Insert: {
           id?: never;
           name?: string | null;
           restaurant_id?: number | null;
           url?: string | null;
+          url2?: string | null;
         };
         Update: {
           id?: never;
           name?: string | null;
           restaurant_id?: number | null;
           url?: string | null;
+          url2?: string | null;
         };
         Relationships: [
           {
