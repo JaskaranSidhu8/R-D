@@ -11,7 +11,7 @@ const Orbital = () => {
       >
         <Image
           className=" w-full h-full object-cover "
-          src={"https://picsum.photos/200/300?random=1"}
+          src={"/otacos.png"}
           alt="logo"
           width={800}
           height={800}
@@ -36,7 +36,7 @@ const Orbital = () => {
         {" "}
         <Image
           className=" w-full h-full  object-cover "
-          src={"/bk.png"}
+          src={"/poke.webp"}
           alt="logo"
           width={800}
           height={800}
@@ -60,7 +60,7 @@ const Orbital = () => {
       >
         <Image
           className=" w-full h-full object-cover "
-          src={"https://picsum.photos/200/300?random=2"}
+          src={"/dominos.png"}
           alt="logo"
           width={800}
           height={800}
@@ -84,7 +84,7 @@ const Orbital = () => {
       >
         <Image
           className=" w-full h-full object-cover "
-          src={"https://picsum.photos/200/300?random=3"}
+          src={"/pepe.png"}
           alt="logo"
           width={800}
           height={800}
@@ -96,7 +96,7 @@ const Orbital = () => {
       >
         <Image
           className=" w-full h-full object-cover "
-          src={"https://picsum.photos/200/300?random=4"}
+          src={"/donki.png"}
           alt="logo"
           width={800}
           height={800}

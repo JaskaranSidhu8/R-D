@@ -27,7 +27,7 @@ export async function retrieveLogo(restaurant_id: number) {
   const supabase = await createSupabaseServerClient();
   const { data: restaurant, error: restaurantError } = await supabase
     .from("restaurants_logos")
-    .select("url")
+    .select("url2")
     .eq("restaurant_id", restaurant_id)
     .single();
 

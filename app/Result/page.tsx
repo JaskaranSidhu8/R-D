@@ -22,7 +22,7 @@ const page: React.FC<Props> = async ({ searchParams }) => {
   console.log("Results - Received groupId:", groupId); // debug line
   return (
     <div>
-      <Banner restaurantUrl={restaurant_logo?.url || ""} />
+      <Banner restaurantUrl={restaurant_logo?.url2 || ""} />
       <ResultInfo
         simularity={restaurant.similarity}
         restaurant={restaurant.bestRestaurant}
