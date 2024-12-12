@@ -1400,3 +1400,37 @@ export async function checkUserReadyStatus(groupId: number) {
     return false;
   }
 }
+export async function updateUserPreferences(
+  formData: FormData,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Retrieve dietary restrictions from formData
+  const dietaryRestrictions =
+    (formData.get("dietaryRestrictions") as string | null)?.split("-") || [];
+
+  const uid = (await supabase.auth.getSession()).data.session?.user.id as UUID;
+  if (!uid) {
+    return { success: false, error: "User not authenticated." };
+  }
+
+  // Determine hard_constraints value based on dietary restrictions
+  const hardConstraints =
+    dietaryRestrictions.includes("Vegan") ||
+    dietaryRestrictions.includes("Vegetarian")
+      ? 1
+      : 0;
+
+  // Update the user's hard_constraints in the database
+  const { error } = await supabase
+    .from("users")
+    .update({ hard_constraints: hardConstraints })
+    .eq("uid", uid);
+
+  if (error) {
+    console.error("Error updating user preferences:", error.message);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
