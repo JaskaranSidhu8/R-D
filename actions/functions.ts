@@ -690,6 +690,8 @@ export async function incrementGroupCreated(
     userData.groups_joined,
   );
 
+  //const badgeUpdate5 = await checkAndUpdateBadge5(uid)
+
   return badgeUpdateResult;
 }
 
@@ -790,6 +792,7 @@ export async function checkAndUpdateBadges(
 
   return { success: true };
 }
+
 type Badge = {
   id: number;
   name: string;
@@ -966,6 +969,27 @@ export async function createGroup(formData: FormData) {
       }
 
       const userId = userData.id;
+
+      const diningDate = new Date(dining_date);
+      const createdAt = new Date(); // Current date and time
+
+      const timeDifferenceInMs = Math.abs(
+        diningDate.getTime() - createdAt.getTime(),
+      );
+      const timeDifferenceInHours = timeDifferenceInMs / (1000 * 3600);
+
+      if (timeDifferenceInHours <= 24) {
+        const { error: badgeUpdateError } = await supabase
+          .from("user_badges")
+          .update({ display: true }) // Assuming badge_5 is the correct column for this badge
+          .eq("id", userId)
+          .eq("badge_id", 5);
+
+        if (badgeUpdateError) {
+          console.error("Error updating badge 5:", badgeUpdateError.message);
+          throw new Error("Failed to update badge number 5.");
+        }
+      }
 
       // Insert into group_users using custom user id
       const { error: groupUserError } = await supabase
