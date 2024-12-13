@@ -48,13 +48,13 @@ const Conversation: ChatBubbleProps[] = [
     bordercolour: "border-t-blue-50",
   },
   {
-    msg: "we need to decide guys !",
+    msg: "we need to decide guys!",
     bgcolour: "bg-red-100",
     direction: "right",
     bordercolour: "border-t-red-100",
   },
   {
-    msg: "it's 23:50 pm and this stupid animation still not working ..",
+    msg: "is there an app that can help?",
     bgcolour: "bg-red-100",
     direction: "right",
     bordercolour: "border-t-red-100",

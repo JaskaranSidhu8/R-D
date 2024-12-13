@@ -23,7 +23,7 @@ const Signup2Form = () => {
       action={(e) => {
         onSubmit(e);
       }}
-      className=" space-y-5"
+      className=" flex flex-col space-y-5 "
     >
       <Input name="firstName" type="text" placeholder="First Name" required />
       <Input name="lastName" type="text" placeholder="Last Name" required />

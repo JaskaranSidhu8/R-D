@@ -276,7 +276,7 @@ export default function CountrySelectList(props: Props) {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full justify-between bg-background px-3 font-normal outline-offset-0 hover:bg-background focus-visible:border-ring focus-visible:outline-[3px] focus-visible:outline-ring/20"
+            className="w-full justify-between bg-background rounded-md py-5  shadow-none"
           >
             {value ? (
               <span className="flex min-w-0 items-center gap-2">

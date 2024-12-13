@@ -82,6 +82,7 @@ const GroupNameForm = () => {
           className="bg-white"
           required
         />
+        <label>Dining date</label>
         <Input type="date" name="date" required />
         <Select name="time" required>
           <SelectTrigger>
