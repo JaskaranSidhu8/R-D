@@ -1534,3 +1534,71 @@ export async function fetchUserConstraints(): Promise<string[]> {
 
   return [];
 }
+export async function getDiningTimeDetails(
+  groupId: number,
+): Promise<{ hour: number; minute: number; day: number } | null> {
+  if (!groupId || groupId <= 0) {
+    console.error("Invalid group ID provided:", groupId);
+    return null;
+  }
+
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("groups")
+    .select("dining_date, day")
+    .eq("id", groupId)
+    .single();
+
+  if (error || !data) {
+    console.error("Error fetching dining_date or day:", error);
+    return null;
+  }
+
+  const { dining_date, day } = data;
+
+  if (!dining_date || !day) {
+    console.error("Missing dining_date or day value.");
+    return null;
+  }
+
+  const [datePart, timePart] = dining_date.split("T");
+  if (!timePart) {
+    console.error("Invalid dining_date format:", dining_date);
+    return null;
+  }
+
+  const [hourStr, minuteStr] = timePart.split(":");
+  const hour = parseInt(hourStr, 10);
+  const minute = parseInt(minuteStr, 10);
+
+  if (isNaN(hour) || isNaN(minute)) {
+    console.error("Error parsing hour or minute:", { hour, minute });
+    return null;
+  }
+
+  const dayMap: Record<string, number> = {
+    Monday: 0,
+    Tuesday: 1,
+    Wednesday: 2,
+    Thursday: 3,
+    Friday: 4,
+    Saturday: 5,
+    Sunday: 6,
+  };
+
+  const dayNumber = dayMap[day] ?? -1;
+
+  if (dayNumber === -1) {
+    console.error("Invalid day string:", day);
+    return null;
+  }
+
+  console.log("Returning dining time details:", {
+    hour,
+    minute,
+    day: dayNumber,
+  });
+
+  return { hour, minute, day: dayNumber };
+}

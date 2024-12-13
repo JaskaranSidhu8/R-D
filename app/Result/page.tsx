@@ -1,5 +1,6 @@
 import {
   algorithm,
+  getDiningTimeDetails,
   retrieveLogo,
   updatePickedRestaurant,
 } from "@/actions/functions";
@@ -27,12 +28,17 @@ const Page = async ({ searchParams }: Props) => {
   }
 
   try {
+    const result = await getDiningTimeDetails(groupId);
+
     // Get restaurant recommendation
     const restaurant = await algorithm(
       groupId,
-      now.getDay(),
-      now.getHours(),
-      now.getMinutes(),
+      result!.day,
+      result!.hour,
+      result!.minute,
+      // now.getDay(),
+      // now.getHours(),
+      // now.getMinutes(),
     );
 
     await updatePickedRestaurant(groupId, restaurant.bestRestaurant.id);
