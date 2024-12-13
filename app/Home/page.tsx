@@ -1,3 +1,4 @@
+import BadgeCarousel from "@/components/Home/Badge";
 import Banner from "@/components/Home/Banner";
 import GroupJoinForm from "@/components/Home/GroupJoinForm";
 import PreviousGroups from "@/components/Home/PreviousGroups";
@@ -19,6 +20,7 @@ const Home = () => {
       <div className=" p-10">
         <GroupJoinForm />
         <PreviousGroups />
+        <BadgeCarousel />
       </div>
     </div>
   );

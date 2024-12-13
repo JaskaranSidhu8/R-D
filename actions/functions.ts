@@ -317,6 +317,8 @@ export async function checkCodeAndInsertUser(formData: FormData) {
   }
 
   const groupId = groupData?.id;
+  const userId = User?.id;
+  incrementGroupJoined(userId!);
 
   const { data: existingUserData, error: existingUserError } = await supabase
     .from("group_users")
@@ -445,7 +447,7 @@ export async function importUserData(
       { user_id: userId, badge_id: 2, display: true }, // Badge 2 is displayed
       { user_id: userId, badge_id: 3, display: false },
       { user_id: userId, badge_id: 4, display: false },
-      { user_id: userId, badge_id: 5, display: false },
+      //  { user_id: userId, badge_id: 5, display: false },
     ];
 
     const { error: badgeError } = await supabase
@@ -873,10 +875,12 @@ type Badge = {
   bwImageUrl: string; // URL for the black-and-white badge
 };
 
-export async function getUserBadgesDisplay(
-  userId: number,
-): Promise<{ badges: Badge[]; error?: string }> {
+export async function getUserBadgesDisplay(): Promise<{
+  badges: Badge[];
+  error?: string;
+}> {
   const supabase = await createSupabaseServerClient();
+  const userId = await fetchMyUserId();
 
   // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
   const { data: badges, error } = await supabase
@@ -913,11 +917,13 @@ export async function getUserBadgesDisplay(
   return { badges: formattedBadges, error: undefined };
 }
 
-export async function getUserBadgesDisplayGray(
-  userId: number,
-): Promise<{ badges: Badge[]; error?: string }> {
+export async function getUserBadgesDisplayGray(): Promise<{
+  badges: Badge[];
+  error?: string;
+}> {
   const supabase = await createSupabaseServerClient();
 
+  const userId = await fetchMyUserId();
   // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
   const { data: badges, error } = await supabase
     .from("user_badges")
@@ -1041,6 +1047,8 @@ export async function createGroup(formData: FormData) {
       }
 
       const userId = userData.id;
+
+      incrementGroupCreated(userId);
 
       // const diningDate = new Date(dining_date);
       // const createdAt = new Date(); // Current date and time
