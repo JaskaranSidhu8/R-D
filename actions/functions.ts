@@ -897,13 +897,16 @@ type Badge = {
   bwImageUrl: string; // URL for the black-and-white badge
 };
 
-export async function getUserBadgesDisplay(
-  userId: number,
-): Promise<{ badges: Badge[]; error?: string }> {
+export async function getUserBadgesDisplay(): Promise<{
+  badges: Badge[];
+  error?: string;
+}> {
   const supabase = await createSupabaseServerClient();
 
   // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
+  const userId = await fetchMyUserId();
   const { data: badges, error } = await supabase
+
     .from("user_badges")
     .select(
       `
@@ -937,11 +940,13 @@ export async function getUserBadgesDisplay(
   return { badges: formattedBadges, error: undefined };
 }
 
-export async function getUserBadgesDisplayGray(
-  userId: number,
-): Promise<{ badges: Badge[]; error?: string }> {
+export async function getUserBadgesDisplayGray(): Promise<{
+  badges: Badge[];
+  error?: string;
+}> {
   const supabase = await createSupabaseServerClient();
 
+  const userId = await fetchMyUserId();
   // Query the `user_badges` table and join it with the `badges` table to retrieve detailed badge info
   const { data: badges, error } = await supabase
     .from("user_badges")

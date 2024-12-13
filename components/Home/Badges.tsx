@@ -32,8 +32,8 @@ export const BadgeCarousel = ({ userId }: BadgeCarouselProps) => {
 
       try {
         const [achievedBadges, unachievedBadges] = await Promise.all([
-          getUserBadgesDisplay(userId),
-          getUserBadgesDisplayGray(userId),
+          getUserBadgesDisplay(),
+          getUserBadgesDisplayGray(),
         ]);
 
         if (achievedBadges.error || unachievedBadges.error) {
