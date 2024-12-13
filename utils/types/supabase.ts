@@ -100,6 +100,7 @@ export type Database = {
           id: number;
           is_deleted: boolean | null;
           isready: boolean | null;
+          review_description: string | null;
           review_rating: number;
           soft_constraints: string | null;
           user_id: number;
@@ -111,6 +112,7 @@ export type Database = {
           id?: number;
           is_deleted?: boolean | null;
           isready?: boolean | null;
+          review_description?: string | null;
           review_rating?: number;
           soft_constraints?: string | null;
           user_id: number;
@@ -122,6 +124,7 @@ export type Database = {
           id?: number;
           is_deleted?: boolean | null;
           isready?: boolean | null;
+          review_description?: string | null;
           review_rating?: number;
           soft_constraints?: string | null;
           user_id?: number;
@@ -195,32 +198,6 @@ export type Database = {
             columns: ["pickedrestaurant"];
             isOneToOne: false;
             referencedRelation: "restaurants";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      pictures: {
-        Row: {
-          file_path: string;
-          group_id: number;
-          id: number;
-        };
-        Insert: {
-          file_path: string;
-          group_id: number;
-          id?: number;
-        };
-        Update: {
-          file_path?: string;
-          group_id?: number;
-          id?: number;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "pictures_group_id_fkey";
-            columns: ["group_id"];
-            isOneToOne: false;
-            referencedRelation: "cuisine_groups";
             referencedColumns: ["id"];
           },
         ];
