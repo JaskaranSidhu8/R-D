@@ -39,7 +39,6 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        // Fetch account details
         const accountDetails = await fetchAccountDetails();
         setFormData({
           firstName: accountDetails.firstName || DEFAULT_VALUES.firstName,
@@ -47,12 +46,6 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
           country: accountDetails.country || DEFAULT_VALUES.country,
           city: accountDetails.city || DEFAULT_VALUES.city,
         });
-
-        // Fetch avatar URL
-        // const userAvatarUrl = await getUserAvatarUrl();
-        // if (userAvatarUrl) {
-        //   setAvatarUrl(userAvatarUrl);
-        // }
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }

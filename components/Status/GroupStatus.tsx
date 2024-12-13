@@ -107,7 +107,7 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
             }`}
           >
             <span className="flex items-center gap-2">
-              Link copied successfully <span>✓</span>
+              Group Code copied successfully <span>✓</span>
             </span>
           </div>
         )}
@@ -130,7 +130,7 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
                 }`,
                 readiness: member.isready ? "ready" : "waiting",
                 profilePicture:
-                  member.users?.profilePicture || "/avatarpinkwoman.png",
+                  member.users?.profilePicture || "/transparent.png",
                 userId: member.user_id.toString(),
               }}
             />
