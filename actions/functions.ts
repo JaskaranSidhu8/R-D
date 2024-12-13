@@ -1585,6 +1585,7 @@ export async function updateReviewExplanation(
   console.log("Review description updated successfully:", data);
   return true;
 }
+
 export async function checkAnyMemberReady(groupId: number): Promise<boolean> {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
@@ -1600,6 +1601,7 @@ export async function checkAnyMemberReady(groupId: number): Promise<boolean> {
   }
 
   return data && data.length > 0;
+}
 
 export async function getDiningTimeDetails(
   groupId: number,
