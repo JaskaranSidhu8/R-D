@@ -124,7 +124,10 @@ const ReviewForm = () => {
               ? ""
               : "border-primary text-primary hover:text-primary"
           }`}
-          onClick={() => setVisited(true)}
+          onClick={() => {
+            setVisited(true);
+            handleGroupReviewButtonClick();
+          }}
         >
           Yes, we visited!
         </Button>
@@ -137,7 +140,6 @@ const ReviewForm = () => {
           }`}
           onClick={() => {
             setVisited(false);
-            handleGroupReviewButtonClick();
           }}
         >
           No, we didn&apos;t
