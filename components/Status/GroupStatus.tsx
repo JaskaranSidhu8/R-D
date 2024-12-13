@@ -130,7 +130,7 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
                 }`,
                 readiness: member.isready ? "ready" : "waiting",
                 profilePicture:
-                  member.users?.profilePicture || "/avatarpinkwoman.png",
+                  member.users?.profilePicture || "/transparent.png",
                 userId: member.user_id.toString(),
               }}
             />

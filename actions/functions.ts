@@ -1471,3 +1471,66 @@ export async function checkUserReadyStatus(groupId: number) {
     return false;
   }
 }
+
+export async function updateUserPreferences(
+  formData: FormData,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Retrieve dietary restrictions from formData
+  const dietaryRestrictions =
+    (formData.get("dietaryRestrictions") as string | null)?.split("-") || [];
+
+  const uid = (await supabase.auth.getSession()).data.session?.user.id as UUID;
+  if (!uid) {
+    return { success: false, error: "User not authenticated." };
+  }
+
+  // Determine hard_constraints value based on dietary restrictions
+  const hardConstraints =
+    dietaryRestrictions.includes("Vegan") ||
+    dietaryRestrictions.includes("Vegetarian")
+      ? 1
+      : 0;
+
+  // Update the user's hard_constraints in the database
+  const { error } = await supabase
+    .from("users")
+    .update({ hard_constraints: hardConstraints.toString() })
+    .eq("uid", uid);
+
+  if (error) {
+    console.error("Error updating user preferences:", error.message);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
+export async function fetchUserConstraints(): Promise<string[]> {
+  const supabase = await createSupabaseServerClient();
+
+  // Get the current user's ID
+  const uid = (await supabase.auth.getSession()).data.session?.user.id;
+  if (!uid) {
+    throw new Error("User not authenticated");
+  }
+
+  // Fetch the user's hard_constraints value
+  const { data, error } = await supabase
+    .from("users")
+    .select("hard_constraints")
+    .eq("uid", uid)
+    .single();
+
+  if (error) {
+    console.error("Error fetching user constraints:", error);
+    return [];
+  }
+
+  // Convert hard_constraints to dietary restrictions
+  if ((data.hard_constraints = "1")) {
+    return ["Vegan", "Vegetarian"];
+  }
+
+  return [];
+}
