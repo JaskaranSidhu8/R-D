@@ -11,7 +11,7 @@ type Props = {
 
 const MemberStatus = (props: Props) => {
   const { fullname, profilePicture, email, readiness, userId } = props.member;
-  const [avatarUrl, setAvatarUrl] = useState<string>("/avatarpinkwoman.png");
+  const [avatarUrl, setAvatarUrl] = useState<string>("/transparent.png");
 
   useEffect(() => {
     const fetchAvatarUrl = async () => {

@@ -11,7 +11,7 @@ type Props = {
 
 const Avatar = (props: Props) => {
   const { link, img } = props;
-  const [avatarUrl, setAvatarUrl] = useState<string>("/pfp.jpg");
+  const [avatarUrl, setAvatarUrl] = useState<string>("transparent.jpg");
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
