@@ -36,10 +36,11 @@ const ReviewForm = () => {
 
   const handleGroupReviewButtonClick = async () => {
     // Track the event
-    const userID_amplitude = await fetchMyUserId();
-    amplitude.track("Group Review Button Clicked", undefined, {
-      user_id: String(userID_amplitude),
-    });
+    // const userID_amplitude = await fetchMyUserId();
+    // amplitude.track("Group Review Button Clicked", undefined, {
+    //   user_id: String(userID_amplitude),
+    // });
+    amplitude.track("Group Review Button Clicked");
   };
 
   useEffect(() => {

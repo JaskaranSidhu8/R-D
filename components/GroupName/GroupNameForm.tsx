@@ -38,10 +38,11 @@ const GroupNameForm = () => {
 
   const handleGroupCreationButtonClick = async () => {
     // Track the event
-    const userID_amplitude = await fetchMyUserId();
-    amplitude.track("Group Create Button Clicked", undefined, {
-      user_id: String(userID_amplitude),
-    });
+    // const userID_amplitude = await fetchMyUserId();
+    // amplitude.track("Group Create Button Clicked", undefined, {
+    //   user_id: String(userID_amplitude),
+    // });
+    amplitude.track("Group Create Button Clicked");
   };
 
   const hours = Array.from({ length: 24 }, (_, i) => {
