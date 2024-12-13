@@ -40,6 +40,7 @@ export default function RootLayout({
   amplitude.init("b770130e4c71a5a4fa0667e2dd19e316", {
     serverZone: amplitude.Types.ServerZone.EU,
   });
+  console.log("Amplitude initialized");
 
   return (
     <html lang="en">

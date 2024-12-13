@@ -40,7 +40,9 @@ const ReviewForm = () => {
     // amplitude.track("Group Review Button Clicked", undefined, {
     //   user_id: String(userID_amplitude),
     // });
-    amplitude.track("Group Review Button Clicked");
+    amplitude.track("Group Review Button Clicked", undefined, {
+      device_id: "device",
+    });
   };
 
   useEffect(() => {

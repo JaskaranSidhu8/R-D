@@ -35,6 +35,9 @@ const GroupNameForm = () => {
   //     form.reportValidity();
   //   }
   // };
+  // amplitude.init("b770130e4c71a5a4fa0667e2dd19e316", {
+  //   serverZone: amplitude.Types.ServerZone.EU,
+  // });
 
   const handleGroupCreationButtonClick = async () => {
     // Track the event
@@ -42,7 +45,9 @@ const GroupNameForm = () => {
     // amplitude.track("Group Create Button Clicked", undefined, {
     //   user_id: String(userID_amplitude),
     // });
-    amplitude.track("Group Create Button Clicked");
+    amplitude.track("Group Create Button Clicked", undefined, {
+      device_id: "device",
+    });
   };
 
   const hours = Array.from({ length: 24 }, (_, i) => {

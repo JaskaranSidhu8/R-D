@@ -151,7 +151,13 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
           <ConfirmGenerate
             groupId={groupId}
             onConfirm={() => {
-              amplitude.track("Restaurant Generated Button Clicked");
+              amplitude.track(
+                "Restaurant Generated Button Clicked",
+                undefined,
+                {
+                  device_id: "device",
+                },
+              );
             }}
           />
         )}
