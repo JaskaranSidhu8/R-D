@@ -591,10 +591,12 @@ export async function getPendingRatings(
   userId: number,
 ): Promise<number[] | null> {
   const supabase = await createSupabaseServerClient();
+  const now = new Date().toISOString();
   // Step 1: Check if the user is in any group with a picked restaurant
   const { data: groupsData, error: groupsError } = await supabase
     .from("groups")
     .select("id")
+    .lt("dining_date", now)
     .not("pickedrestaurant", "is", null);
 
   console.log("first query data:", groupsData);
@@ -630,7 +632,7 @@ export async function getPendingRatings(
 }
 
 export async function getRestaurantDetails(
-  groupUsersId: string,
+  groupUsersId: number,
 ): Promise<{ name: string | null; logo: string | null } | null> {
   const supabase = await createSupabaseServerClient();
 
@@ -1470,4 +1472,76 @@ export async function checkUserReadyStatus(groupId: number) {
     console.error("Error in checkUserReadyStatus:", error);
     return false;
   }
+}
+
+export async function getDiningTimeDetails(
+  groupId: number,
+): Promise<{ hour: number; minute: number; day: number } | null> {
+  const supabase = await createSupabaseServerClient();
+
+  // Step 1: Query the dining_date and day for the given group ID
+  const { data, error } = await supabase
+    .from("groups")
+    .select("dining_date, day")
+    .eq("id", groupId)
+    .single(); // We expect a single row for the given group ID
+
+  if (error || !data) {
+    console.error("Error fetching dining_date or day:", error);
+    return null; // Handle errors or missing data
+  }
+
+  const { dining_date, day } = data;
+  console.log("dining date is:", dining_date);
+
+  if (!dining_date || !day) {
+    console.error("Missing dining_date or day value.");
+    return null;
+  }
+
+  // Step 2: Parse the dining_date manually
+  const dateParts = dining_date.split("T");
+  if (dateParts.length !== 2) {
+    console.error("Invalid dining_date format:", dining_date);
+    return null;
+  }
+
+  const timePart = dateParts[1]; // Get the time part: "10:45:00.000Z"
+  const timeParts = timePart.split(":");
+  if (timeParts.length < 2) {
+    console.error("Invalid time format in dining_date:", timePart);
+    return null;
+  }
+
+  const hour = parseInt(timeParts[0], 10); // Extract the hour
+  const minute = parseInt(timeParts[1], 10); // Extract the minute
+
+  if (isNaN(hour) || isNaN(minute)) {
+    console.error("Error parsing hour or minute:", { hour, minute });
+    return null;
+  }
+
+  console.log("Parsed hour is:", hour);
+  console.log("Parsed minute is:", minute);
+
+  // Step 3: Map the day string to an integer (Monday = 0, ..., Sunday = 6)
+  const dayMap: Record<string, number> = {
+    Monday: 0,
+    Tuesday: 1,
+    Wednesday: 2,
+    Thursday: 3,
+    Friday: 4,
+    Saturday: 5,
+    Sunday: 6,
+  };
+
+  const dayNumber = dayMap[day] ?? -1; // Default to -1 if day is not in the map
+
+  if (dayNumber === -1) {
+    console.error("Invalid day string:", day);
+    return null; // Return null if day is invalid
+  }
+
+  // Step 4: Return the parsed values
+  return { hour, minute, day: dayNumber };
 }
