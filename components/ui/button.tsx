@@ -19,6 +19,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        disabled: "bg-gray-300 text-gray-500 cursor-not-allowed shadow-none", // New disabled variant
       },
       size: {
         default: "h-9 px-4 w-full py-6 rounded-full shadow-lg",

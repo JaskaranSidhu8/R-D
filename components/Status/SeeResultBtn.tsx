@@ -1,6 +1,8 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { checkPickedRestaurant } from "@/actions/functions"; // Adjust the path as needed
+import { Button } from "../ui/button";
 
 // Define the Props type for the component
 type Props = {
@@ -17,9 +19,17 @@ const SeeResultBtn: React.FC<Props> = ({ groupId }) => {
     setIsButtonEnabled(isPicked);
   };
 
-  // Call the function when the component mounts
   useEffect(() => {
+    // Call the function immediately when the component mounts
     enableButtonIfRestaurantPicked();
+
+    // Set up an interval to check every 10 seconds
+    const intervalId = setInterval(() => {
+      enableButtonIfRestaurantPicked();
+    }, 10000); // 10 seconds
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
   }, [groupId]);
 
   const handleButtonClick = () => {
@@ -29,21 +39,17 @@ const SeeResultBtn: React.FC<Props> = ({ groupId }) => {
   };
 
   return (
-    <div className="text-center">
-      <button
+    <div className="text-center mt-4 ">
+      <Button
         onClick={handleButtonClick}
         disabled={!isButtonEnabled}
-        className={`px-4 py-2 rounded-md ${
-          isButtonEnabled
-            ? "bg-blue-500 text-white"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
+        variant={isButtonEnabled ? "default" : "disabled"} // Dynamically set the variant
       >
         Go to Results
-      </button>
+      </Button>
       {!isButtonEnabled && (
-        <p className="text-sm text-red-500">
-          Please select a restaurant first.
+        <p className=" text-center text-sm text-black">
+          Waiting the manager to generate ...
         </p>
       )}
     </div>
