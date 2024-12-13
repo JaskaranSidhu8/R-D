@@ -168,8 +168,7 @@ export const updateUserAvatar = async (avatarUrl: string): Promise<boolean> => {
 export const getAvatarUrlwithUserId = async (
   numericUserId: number,
 ): Promise<string> => {
-  // Changed return type to just string since we'll always return a URL
-  const DEFAULT_AVATAR_URL = "/avatarasianman.png"; // Your default avatar path
+  const DEFAULT_AVATAR_URL = "/defaultAvatar.png"; //
 
   try {
     const supabase = await createSupabaseServerClient();

@@ -8,7 +8,7 @@ import { QuizTransition } from "@/components/QuizPages/QuizTransition";
 const Dessert = () => {
   return (
     <div>
-      <QuizHeader progress={75} />
+      <QuizHeader progress={75} returnLink="/Drinks" />
       <QuizTransition>
         <div className="flex justify-center">
           <DessertForm />

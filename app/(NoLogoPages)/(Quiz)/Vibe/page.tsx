@@ -8,7 +8,7 @@ import { QuizTransition } from "@/components/QuizPages/QuizTransition";
 const Vibe = () => {
   return (
     <div>
-      <QuizHeader progress={38} />
+      <QuizHeader progress={38} returnLink="/IndoorOutdoor" />
       <QuizTransition>
         <div className="flex justify-center">
           <VibeForm />
