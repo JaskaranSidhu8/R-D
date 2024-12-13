@@ -9,6 +9,7 @@ import * as amplitude from "@amplitude/analytics-node";
 import { fetchUserStatusInGroup } from "@/actions/functions";
 import ConfirmGenerate from "./ConfirmGenerate";
 import { useGroup } from "@/context/GroupContext";
+import { fetchMyUserId } from "@/actions/functions";
 
 type Props = {
   state: "Makeyourchoices" | "Changeyourchoices";

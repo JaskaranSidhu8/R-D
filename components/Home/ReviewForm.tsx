@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 //import StarRating from "/StarRating";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import * as amplitude from "@amplitude/analytics-node";
 import {
   updateReviewRating,
   getRestaurantDetails,
@@ -32,6 +33,14 @@ const ReviewForm = () => {
   const [groupUserId, setGroupUserId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [shouldShow, setShouldShow] = useState(true);
+
+  const handleGroupReviewButtonClick = async () => {
+    // Track the event
+    const userID_amplitude = await fetchMyUserId();
+    amplitude.track("Group Review Button Clicked", undefined, {
+      user_id: String(userID_amplitude),
+    });
+  };
 
   useEffect(() => {
     const fetchLatestRestaurant = async () => {
@@ -126,7 +135,10 @@ const ReviewForm = () => {
               ? ""
               : "border-primary text-primary hover:text-primary"
           }`}
-          onClick={() => setVisited(false)}
+          onClick={() => {
+            setVisited(false);
+            handleGroupReviewButtonClick();
+          }}
         >
           No, we didn&apos;t
         </Button>

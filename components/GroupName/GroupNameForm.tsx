@@ -4,6 +4,10 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SectionTitle from "@/components/static/SectionTitle";
+import * as amplitude from "@amplitude/analytics-node";
+import createSupabaseServerClient from "@/lib/supabase/reader";
+import { fetchMyUserId } from "@/actions/functions";
+
 import Link from "next/link";
 import {
   Select,
@@ -31,6 +35,14 @@ const GroupNameForm = () => {
   //     form.reportValidity();
   //   }
   // };
+
+  const handleGroupCreationButtonClick = async () => {
+    // Track the event
+    const userID_amplitude = await fetchMyUserId();
+    amplitude.track("Group Create Button Clicked", undefined, {
+      user_id: String(userID_amplitude),
+    });
+  };
 
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = i.toString().padStart(2, "0");
@@ -84,7 +96,11 @@ const GroupNameForm = () => {
             Create group
           </Button>
         </Link> */}
-        <Button type="submit" className="mt-5 w-full">
+        <Button
+          onClick={handleGroupCreationButtonClick}
+          type="submit"
+          className="mt-5 w-full"
+        >
           Create group
         </Button>
       </div>
