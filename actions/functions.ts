@@ -1577,3 +1577,19 @@ export async function updateReviewExplanation(
   console.log("Review description updated successfully:", data);
   return true;
 }
+export async function checkAnyMemberReady(groupId: number): Promise<boolean> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("group_users")
+    .select("isready")
+    .eq("group_id", groupId)
+    .eq("isready", true)
+    .limit(1);
+
+  if (error) {
+    console.error("Error checking member readiness:", error);
+    return false;
+  }
+
+  return data && data.length > 0;
+}

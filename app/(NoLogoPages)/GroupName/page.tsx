@@ -8,7 +8,7 @@ import ReturnButton from "@/components/static/ReturnButton";
 const GroupName = () => {
   return (
     <div>
-      <ReturnButton />
+      <ReturnButton link="/Home" />
       <GroupNameForm />
     </div>
   );
