@@ -19,7 +19,7 @@ const Home = () => {
       <Banner />
       <div className=" p-10">
         <GroupJoinForm />
-        <ReviewForm className="mt-4"></ReviewForm>
+        <ReviewForm></ReviewForm>
         <PreviousGroups />
       </div>
     </div>
