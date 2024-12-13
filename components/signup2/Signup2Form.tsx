@@ -30,7 +30,7 @@ const Signup2Form = () => {
       <CountrySelectList name="country" />
       <Input name="city" type="text" placeholder=" City " required />
 
-      <PreferencesForm name="preferences" />
+      <PreferencesForm name="preferences" showSaveChanges={false} />
 
       <Button type="submit" className=" w-full">
         {" "}

@@ -13,8 +13,8 @@ const HeaderContent = () => {
         <p className="montserrat text-2xl font-bold  text-white">
           Don&apos;t know where to eat?
         </p>
-        <p className="montserrat text-2xl font-bold text-primary mt-2">
-          Let Tiebreaker decide.
+        <p className="montserrat text-2xl font-bold text-primary mt-2  mb-8">
+          Let Tiebreaker decide
         </p>
       </div>
 

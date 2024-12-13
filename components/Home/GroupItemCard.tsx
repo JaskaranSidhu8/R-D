@@ -40,6 +40,10 @@ const GroupItemCard = (props: Props) => {
       setIsPressed(false); // Reset pressed state
     }
   };
+
+  // Format the date and time
+  const formattedDateTime = formatDateTime(item.groups.created_at);
+
   return (
     <Card
       className={`bg-transparent h-full border-primary shadow-primary border-2 shadow-md 
@@ -55,12 +59,28 @@ const GroupItemCard = (props: Props) => {
         <div className="flex flex-col gap-0">
           <p className="text-tiny"> {item.groups.location}</p>
           <span className="text-tiny text-muted-foreground">
-            {item.groups.created_at}
+            <div>{formattedDateTime.date}</div>
+            <div>{formattedDateTime.time}</div>
           </span>
         </div>
       </CardContent>
     </Card>
   );
 };
+
+// Utility function to format date and time
+function formatDateTime(dateTime: string): { date: string; time: string } {
+  const dateParts = dateTime.split("T");
+  if (dateParts.length !== 2) {
+    return { date: "Invalid Date", time: "" }; // Fallback for invalid format
+  }
+
+  const date = dateParts[0]; // Extract date (YYYY-MM-DD)
+  const timeParts = dateParts[1].split(":"); // Extract time parts (HH:MM:SS)
+  const hour = timeParts[0];
+  const minute = timeParts[1];
+
+  return { date, time: `${hour}:${minute}` }; // Return as { date, time }
+}
 
 export default GroupItemCard;

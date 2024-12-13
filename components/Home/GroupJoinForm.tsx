@@ -29,17 +29,20 @@ const GroupJoinForm = () => {
     }
   };
   return (
-    <form action={(e) => onSubmit(e)} className=" grid grid-cols-3 gap-5">
+    <form
+      action={(e) => onSubmit(e)}
+      className=" grid grid-cols-3 gap-5 items-center"
+    >
       <Input
         name="code"
         required
-        className=" rounded-full col-span-2"
+        className=" rounded-full col-span-2 py-5"
         placeholder="Group Code"
       />
       <Button
         type="submit"
         variant={"outline"}
-        className=" border-primary text-primary font-bold"
+        className=" border-primary text-primary  py-5 font-bold  "
       >
         Join Group
       </Button>

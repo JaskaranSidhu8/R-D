@@ -20,6 +20,7 @@ import {
 
 type Props = {
   name: string;
+  showSaveChanges: boolean;
 };
 const PreferencesForm = (props: Props) => {
   const [selectedRestrictions, setSelectedRestrictions] = useState<string[]>(
@@ -120,11 +121,12 @@ const PreferencesForm = (props: Props) => {
           ))}
         </div>
       </div>
+
       <Button
         onClick={handleSubmit}
         variant={isModified ? "default" : "secondary"}
         disabled={!isModified}
-        className="mt-12"
+        className={`${!props.showSaveChanges ? "hidden" : ""}`}
       >
         Save Changes
       </Button>

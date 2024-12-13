@@ -11,7 +11,7 @@ const PreviousGroups = async () => {
   return (
     <div className="mt-10">
       <div className=" mb-6 flex flex-row justify-between items-center">
-        <h3 className=" montserrat  text-xl">Your previous groups</h3>
+        <h3 className=" montserrat  text-xl">Your groups</h3>
       </div>
       <PreviousGroupCarousel items={groups} />
     </div>

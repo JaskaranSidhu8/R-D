@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const Banner = () => {
   return (
-    <div className=" relative  h-[50dvh] overflow-x-hidden ">
+    <div className=" relative  h-[60dvh] overflow-x-hidden ">
       <Image
         className=" w-full h-full object-cover"
         src={"/leuvenmapterrain.png"}
