@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   AlertDialog,
@@ -11,10 +11,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
+import { checkAnyMemberReady } from "@/actions/functions";
 
 type ConfirmGenerateProps = {
-  groupId: number; // Pass groupId to navigate with it
-  onConfirm?: () => void; // Optional callback for additional actions
+  groupId: number;
+  onConfirm?: () => void;
 };
 
 const ConfirmGenerate: React.FC<ConfirmGenerateProps> = ({
@@ -23,6 +24,7 @@ const ConfirmGenerate: React.FC<ConfirmGenerateProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const [isEnabled, setIsEnabled] = useState(false);
 
   const handleGenerate = () => {
     setIsOpen(false); // Close the dialog
@@ -30,11 +32,29 @@ const ConfirmGenerate: React.FC<ConfirmGenerateProps> = ({
     router.push(`/Analysis?groupId=${groupId}`); // Navigate to the Result page with groupId as a query parameter
   };
 
+  useEffect(() => {
+    const checkReadyStatus = async () => {
+      const anyMemberReady = await checkAnyMemberReady(groupId);
+      setIsEnabled(anyMemberReady);
+    };
+
+    checkReadyStatus();
+    // Poll every 10 seconds to match your existing polling in GroupStatus
+    const intervalId = setInterval(checkReadyStatus, 10000);
+
+    return () => clearInterval(intervalId);
+  }, [groupId]);
+
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       {/* Trigger Button */}
       <AlertDialogTrigger asChild>
-        <Button>Generate</Button>
+        <Button
+          variant={isEnabled ? "default" : "disabled"}
+          disabled={!isEnabled}
+        >
+          Generate
+        </Button>
       </AlertDialogTrigger>
 
       {/* Dialog Content */}
