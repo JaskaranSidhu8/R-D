@@ -13,7 +13,7 @@ const Home = () => {
     <div>
       <div className=" absolute top-0 w-full z-50 p-3 flex flex-row justify-between items-center">
         <Logo showText={false} big={false} />
-        <Avatar link="/Settings" img="/transparent.png" />
+        <Avatar link="/Settings" img="/defaultAvatar.png" />
       </div>
       <Banner />
       <div className=" p-10">

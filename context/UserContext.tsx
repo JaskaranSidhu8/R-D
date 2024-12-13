@@ -18,7 +18,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [avatarUrl, setAvatarUrl] = useState<string>("/pfp.jpg");
+  const [avatarUrl, setAvatarUrl] = useState<string>("/defaultAvatar.jpg");
   const [isLoading, setIsLoading] = useState(true);
 
   const refreshUserData = async () => {

@@ -18,6 +18,8 @@ const Avatar = (props: Props) => {
         const url = await getUserAvatarUrl();
         if (url) {
           setAvatarUrl(url);
+        } else {
+          setAvatarUrl("defaultAvatar");
         }
       } catch (error) {
         console.error("Error fetching avatar:", error);
