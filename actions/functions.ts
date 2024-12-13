@@ -217,10 +217,12 @@ export async function getPendingRatings(
   userId: number,
 ): Promise<number[] | null> {
   const supabase = await createSupabaseServerClient();
+  const now = new Date().toISOString();
   // Step 1: Check if the user is in any group with a picked restaurant
   const { data: groupsData, error: groupsError } = await supabase
     .from("groups")
     .select("id")
+    .lt("dining_date", now)
     .not("pickedrestaurant", "is", null);
 
   console.log("first query data:", groupsData);
@@ -326,4 +328,61 @@ export async function updateReviewRating(
 
   console.log("Review rating updated successfully:", data);
   return true;
+}
+
+export async function updateReviewExplanation(
+  groupUserId: number,
+  description: string,
+): Promise<boolean> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("group_users")
+    .update({ review_description: description })
+    .eq("id", groupUserId);
+
+  if (error) {
+    console.error("Error updating review description:", error.message);
+    return false;
+  }
+
+  console.log("Review description updated successfully:", data);
+  return true;
+}
+
+export async function fetchMyUUID(): Promise<string> {
+  const supabase = await createSupabaseServerClient();
+
+  // Retrieve the session to get the logged-in user's UUID
+  const { data: session, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError  !session?.session?.user) {
+    console.error(
+      "Error fetching session or user not authenticated:",
+      sessionError,
+    );
+    throw new Error("User not authenticated.");
+  }
+
+  return session.session.user.id; // Return the UUID
+}
+
+export async function fetchMyUserId(): Promise<number> {
+  const supabase = await createSupabaseServerClient();
+
+  // Get the logged-in user's UUID
+  const userUUID = await fetchMyUUID();
+
+  // Fetch the user ID from the users table
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id") // Select the id column
+    .eq("uid", userUUID) // Match the UUID
+    .single();
+
+  if (userError  !userData?.id) {
+    console.error("Error fetching user ID:", userError);
+    throw new Error("User not found.");
+  }
+
+  return userData.id; // Return the user ID
 }

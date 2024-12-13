@@ -30,7 +30,7 @@ const ReviewForm = ({ userId }: ReviewFormProps) => {
   useEffect(() => {
     const fetchLatestRestaurant = async () => {
       console.log("Starting fetch with userId:", userId); //debug line
-      // Get all pending ratings for this user
+
       const pendingRatings = await getPendingRatings(userId);
 
       console.log("Pending ratings received:", pendingRatings); //debug line
@@ -77,14 +77,12 @@ const ReviewForm = ({ userId }: ReviewFormProps) => {
         <>
           <p className="text-base mb-3">
             {" "}
-            {/* Reduced text size and margin */}
             SaaS Boys, we hope you had a great meal at {restaurant.name}! Did
             you visit as planned?
           </p>
 
           <div className="flex gap-2 mb-4">
             {" "}
-            {/* Reduced gap */}
             <Button
               variant={visited === true ? "default" : "outline"}
               className={`text-sm py-2 ${
@@ -112,7 +110,6 @@ const ReviewForm = ({ userId }: ReviewFormProps) => {
           {visited === true && !isSubmitted && (
             <div className="space-y-3">
               {" "}
-              {/* Reduced spacing */}
               <p className="text-base">
                 Great! We&apos;re glad to hear that you visited. How would you
                 rate your experience?
@@ -131,7 +128,6 @@ const ReviewForm = ({ userId }: ReviewFormProps) => {
           {visited === false && !isSubmitted && (
             <div className="space-y-3">
               {" "}
-              {/* Reduced spacing */}
               <p className="text-base">
                 We&apos;re sorry to hear that, could you let us know why?
               </p>
