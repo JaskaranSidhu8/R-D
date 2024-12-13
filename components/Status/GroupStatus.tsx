@@ -9,6 +9,7 @@ import * as amplitude from "@amplitude/analytics-node";
 import { fetchUserStatusInGroup } from "@/actions/functions";
 import ConfirmGenerate from "./ConfirmGenerate";
 import { useGroup } from "@/context/GroupContext";
+import { fetchMyUserId } from "@/actions/functions";
 
 type Props = {
   state: "Makeyourchoices" | "Changeyourchoices";
@@ -150,7 +151,13 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
           <ConfirmGenerate
             groupId={groupId}
             onConfirm={() => {
-              amplitude.track("Restaurant Generated Button Clicked");
+              amplitude.track(
+                "Restaurant Generated Button Clicked",
+                undefined,
+                {
+                  device_id: "device",
+                },
+              );
             }}
           />
         )}

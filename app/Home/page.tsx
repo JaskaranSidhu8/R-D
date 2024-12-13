@@ -2,6 +2,7 @@ import BadgeCarousel from "@/components/Home/Badge";
 import Banner from "@/components/Home/Banner";
 import GroupJoinForm from "@/components/Home/GroupJoinForm";
 import PreviousGroups from "@/components/Home/PreviousGroups";
+import ReviewForm from "@/components/Home/ReviewForm";
 import Avatar from "@/components/static/Avatar";
 import Logo from "@/components/static/Logo";
 import LogoutBtn from "@/components/static/LogoutBtn";
@@ -19,6 +20,7 @@ const Home = () => {
       <Banner />
       <div className=" p-10">
         <GroupJoinForm />
+        <ReviewForm></ReviewForm>
         <PreviousGroups />
         <BadgeCarousel />
       </div>

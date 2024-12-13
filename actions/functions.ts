@@ -66,6 +66,29 @@ export async function updatePickedRestaurant(
   }
 }
 
+export const checkPickedRestaurant = async (
+  groupId: number,
+): Promise<boolean> => {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("groups")
+      .select("pickedrestaurant")
+      .eq("id", groupId)
+      .single();
+
+    if (error) {
+      console.error("Error fetching picked_restaurant:", error);
+      return false;
+    }
+
+    return !!data?.pickedrestaurant; // Return true if picked_restaurant exists
+  } catch (err) {
+    console.error("Error in checkPickedRestaurant function:", err);
+    return false; // Return false on error
+  }
+};
+
 export async function algorithm(
   group_id: number,
   day: number,
@@ -593,10 +616,12 @@ export async function getPendingRatings(
   userId: number,
 ): Promise<number[] | null> {
   const supabase = await createSupabaseServerClient();
+  const now = new Date().toISOString();
   // Step 1: Check if the user is in any group with a picked restaurant
   const { data: groupsData, error: groupsError } = await supabase
     .from("groups")
     .select("id")
+    .lt("dining_date", now)
     .not("pickedrestaurant", "is", null);
 
   console.log("first query data:", groupsData);
@@ -616,7 +641,8 @@ export async function getPendingRatings(
       .select("id")
       .in("group_id", groupIds)
       .eq("user_id", userId)
-      .eq("review_rating", -1);
+      .eq("review_rating", -1)
+      .is("review_description", null);
 
   if (
     pendingRatingsError ||
@@ -631,40 +657,37 @@ export async function getPendingRatings(
   return pendingRatingsData.map((row) => row.id);
 }
 
-export async function getRestaurantDetails(
-  groupUsersId: string,
-): Promise<{ name: string | null; logo: string | null } | null> {
+export async function getRestaurantDetails(groupUsersId: string): Promise<{
+  name: string | null;
+  logo: string | null;
+  groupName: string | null;
+} | null> {
   const supabase = await createSupabaseServerClient();
 
-  // Step 1: Fetch the group ID where the user still has pending reviews (-1)
+  // Step 1: Fetch the group ID and group name where the user still has pending reviews (-1)
   const { data: groupUser, error: groupUserError } = await supabase
     .from("group_users")
-    .select("group_id")
-    .eq("id", groupUsersId) // The ID from the previous function
+    .select(
+      `
+      group_id,
+      groups (
+        name,
+        pickedrestaurant
+      )
+    `,
+    )
+    .eq("id", groupUsersId)
     .single();
 
-  if (groupUserError || !groupUser?.group_id) {
-    console.error("Error fetching group ID:", groupUserError?.message);
+  if (groupUserError || !groupUser?.groups?.pickedrestaurant) {
+    console.error("Error fetching group details:", groupUserError?.message);
     return null;
   }
 
-  const groupId = groupUser.group_id;
+  const restaurantId = groupUser.groups.pickedrestaurant;
+  const groupName = groupUser.groups.name;
 
-  // Step 2: Fetch the restaurant ID (pickedRestaurant) for the group
-  const { data: group, error: groupError } = await supabase
-    .from("groups")
-    .select("pickedrestaurant")
-    .eq("id", groupId)
-    .single();
-
-  if (groupError || !group?.pickedrestaurant) {
-    console.error("Error fetching picked restaurant:", groupError?.message);
-    return null;
-  }
-
-  const restaurantId = group.pickedrestaurant;
-
-  // Step 3: Fetch the restaurant name and logo
+  // Step 2: Fetch the restaurant name and logo
   const { data: restaurant, error: restaurantError } = await supabase
     .from("restaurants_logos")
     .select("name, url")
@@ -682,6 +705,7 @@ export async function getRestaurantDetails(
   return {
     name: restaurant.name,
     logo: restaurant.url,
+    groupName: groupName,
   };
 }
 
@@ -1542,6 +1566,43 @@ export async function fetchUserConstraints(): Promise<string[]> {
 
   return [];
 }
+
+export async function updateReviewExplanation(
+  groupUserId: number,
+  description: string,
+): Promise<boolean> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("group_users")
+    .update({ review_description: description.toString() })
+    .eq("id", groupUserId);
+
+  if (error) {
+    console.error("Error updating review description:", error.message);
+    return false;
+  }
+
+  console.log("Review description updated successfully:", data);
+  return true;
+}
+
+export async function checkAnyMemberReady(groupId: number): Promise<boolean> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("group_users")
+    .select("isready")
+    .eq("group_id", groupId)
+    .eq("isready", true)
+    .limit(1);
+
+  if (error) {
+    console.error("Error checking member readiness:", error);
+    return false;
+  }
+
+  return data && data.length > 0;
+}
+
 export async function getDiningTimeDetails(
   groupId: number,
 ): Promise<{ hour: number; minute: number; day: number } | null> {

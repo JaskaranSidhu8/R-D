@@ -9,7 +9,6 @@ import RestaurantImagesCarousel from "@/components/Result/RestaurantImagesCarous
 import ResultInfo from "@/components/Result/ResultInfo";
 import React from "react";
 
-// Define types for better type safety
 type Props = {
   searchParams: {
     groupId: string;
