@@ -166,20 +166,23 @@ export const updateUserAvatar = async (avatarUrl: string): Promise<boolean> => {
 };
 
 export const getAvatarUrlwithUserId = async (
-  numericUserId: number, // Changed to number since we're getting numeric ID
-): Promise<string | null> => {
+  numericUserId: number,
+): Promise<string> => {
+  // Changed return type to just string since we'll always return a URL
+  const DEFAULT_AVATAR_URL = "/avatarasianman.png"; // Your default avatar path
+
   try {
     const supabase = await createSupabaseServerClient();
 
     const { data: userData, error: userError } = await supabase
       .from("users")
-      .select("uid") // Get the UUID
-      .eq("id", numericUserId) // Search by numeric ID
+      .select("uid")
+      .eq("id", numericUserId)
       .single();
 
     if (userError || !userData?.uid) {
       console.error("Error fetching user UUID:", userError);
-      return null;
+      return DEFAULT_AVATAR_URL;
     }
 
     const { data: avatarData, error: avatarError } = await supabase
@@ -190,7 +193,7 @@ export const getAvatarUrlwithUserId = async (
 
     if (avatarError || !avatarData?.avatar_id) {
       console.error("Error fetching avatar ID:", avatarError);
-      return null;
+      return DEFAULT_AVATAR_URL;
     }
 
     const { data: finalAvatarData, error: finalAvatarError } = await supabase
@@ -199,14 +202,14 @@ export const getAvatarUrlwithUserId = async (
       .eq("id", avatarData.avatar_id)
       .single();
 
-    if (finalAvatarError) {
+    if (finalAvatarError || !finalAvatarData?.url) {
       console.error("Error fetching avatar URL:", finalAvatarError);
-      return null;
+      return DEFAULT_AVATAR_URL;
     }
 
-    return finalAvatarData?.url || null;
+    return finalAvatarData.url;
   } catch (err) {
     console.error("Unexpected error:", err);
-    return null;
+    return DEFAULT_AVATAR_URL;
   }
 };

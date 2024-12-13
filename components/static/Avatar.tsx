@@ -12,23 +12,22 @@ type Props = {
 const Avatar = (props: Props) => {
   const { link, img } = props;
   const [avatarUrl, setAvatarUrl] = useState<string>("transparent.jpg");
+
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
         const url = await getUserAvatarUrl();
-        if (url) {
-          setAvatarUrl(url);
-        } else {
-          setAvatarUrl("defaultAvatar");
-        }
+        // Set either the fetched URL or default avatar
+        setAvatarUrl(url || "defaultAvatar.png");
       } catch (error) {
         console.error("Error fetching avatar:", error);
-        // Keep default avatar if there's an error
+        setAvatarUrl("defaultAvatar.png"); // Set default avatar on error
       }
     };
 
     fetchAvatar();
   }, []);
+
   return (
     <Link
       href={link}
