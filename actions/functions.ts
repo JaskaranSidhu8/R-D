@@ -1425,7 +1425,7 @@ export async function updateUserPreferences(
   // Update the user's hard_constraints in the database
   const { error } = await supabase
     .from("users")
-    .update({ hard_constraints: hardConstraints })
+    .update({ hard_constraints: hardConstraints.toString() })
     .eq("uid", uid);
 
   if (error) {
