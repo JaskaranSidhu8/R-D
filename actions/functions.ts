@@ -66,6 +66,29 @@ export async function updatePickedRestaurant(
   }
 }
 
+export const checkPickedRestaurant = async (
+  groupId: number,
+): Promise<boolean> => {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("groups")
+      .select("pickedrestaurant")
+      .eq("id", groupId)
+      .single();
+
+    if (error) {
+      console.error("Error fetching picked_restaurant:", error);
+      return false;
+    }
+
+    return !!data?.pickedrestaurant; // Return true if picked_restaurant exists
+  } catch (err) {
+    console.error("Error in checkPickedRestaurant function:", err);
+    return false; // Return false on error
+  }
+};
+
 export async function algorithm(
   group_id: number,
   day: number,
