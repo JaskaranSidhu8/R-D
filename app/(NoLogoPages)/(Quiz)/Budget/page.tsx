@@ -9,7 +9,7 @@ import SvgWave2 from "@/components/QuizPages/SvgWave2";
 const Budget = () => {
   return (
     <div>
-      <QuizHeader progress={88} />
+      <QuizHeader progress={88} returnLink="/Dessert" />
       <QuizTransition>
         <div className="flex justify-center">
           <BudgetSelectorForm />
