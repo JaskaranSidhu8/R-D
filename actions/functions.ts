@@ -515,6 +515,41 @@ export async function updateUserDetails(
   return { success: true };
 }
 
+export async function updateUserPreferences(
+  formData: FormData,
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createSupabaseServerClient();
+
+  // Retrieve dietary restrictions from formData
+  const dietaryRestrictions =
+    (formData.get("dietaryRestrictions") as string | null)?.split("-") || [];
+
+  const uid = (await supabase.auth.getSession()).data.session?.user.id as UUID;
+  if (!uid) {
+    return { success: false, error: "User not authenticated." };
+  }
+
+  // Determine hard_constraints value based on dietary restrictions
+  const hardConstraints =
+    dietaryRestrictions.includes("Vegan") ||
+    dietaryRestrictions.includes("Vegetarian")
+      ? "1"
+      : "0";
+
+  // Update the user's hard_constraints in the database
+  const { error } = await supabase
+    .from("users")
+    .update({ hard_constraints: hardConstraints })
+    .eq("uid", uid);
+
+  if (error) {
+    console.error("Error updating user preferences:", error.message);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
+
 export async function getPendingRatings(
   userId: number,
 ): Promise<number[] | null> {
@@ -1357,4 +1392,44 @@ export async function fetchMyUserId(): Promise<number> {
   }
 
   return userData.id; // Return the user ID
+}
+
+export async function moveRestaurantLogos() {
+  const supabase = await createSupabaseServerClient();
+
+  // Step 1: Select `restaurant_id` and `url2` from `restaurant_logos`
+  const { data: logosData, error: logosError } = await supabase
+    .from("restaurants_logos")
+    .select("restaurant_id, url2");
+
+  if (logosError) {
+    console.error("Error fetching restaurant logos:", logosError);
+    throw new Error("Failed to fetch restaurant logos.");
+  }
+
+  if (!logosData || logosData.length === 0) {
+    console.log("No restaurant logos found.");
+    return;
+  }
+
+  // Step 2: Update `logos` column in `restaurants` table for each record in `logosData`
+  logosData.forEach(async (logo) => {
+    const { restaurant_id, url2 } = logo;
+
+    const { error: updateError } = await supabase
+      .from("restaurants")
+      .update({ logos: url2 })
+      .eq("id", restaurant_id!);
+
+    if (updateError) {
+      console.error(
+        `Error updating restaurant ID ${restaurant_id} with logo URL ${url2}:`,
+        updateError,
+      );
+    } else {
+      console.log(
+        `Successfully updated restaurant ID ${restaurant_id} with logo URL ${url2}`,
+      );
+    }
+  });
 }
