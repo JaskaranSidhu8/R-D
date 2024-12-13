@@ -67,7 +67,7 @@ const PulsingPicture: React.FC = () => {
       </div>
 
       <div className="mt-14 text-center">
-        <span>Finding the best restaurant for SaaS Boys...</span>
+        <span>Finding the perfect restaurant for your group...</span>
       </div>
     </div>
   );
