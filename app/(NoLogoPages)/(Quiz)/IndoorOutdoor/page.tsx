@@ -8,7 +8,7 @@ import { QuizTransition } from "@/components/QuizPages/QuizTransition";
 const IndoorOutdoor = () => {
   return (
     <div>
-      <QuizHeader progress={25} />
+      <QuizHeader progress={25} returnLink="/Cuisine" />
       <QuizTransition>
         <div className="flex justify-center">
           <IndoorOutdoorForm />
