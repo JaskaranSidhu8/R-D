@@ -23,10 +23,13 @@ import { useQuiz } from "@/context/QuizContext";
 // }
 
 const indoorOutdoorOptions = [
-  { name: "Rooftop Terrace", image: "/rooftopTerrace.jpg" },
+  { name: "Rooftop Terrace", image: "/rooftopTerrace.jpg" }, // the index matters dont change for these options
   { name: "Lounge/Bar", image: "/lounge.jpg" },
   { name: "Street Café", image: "/streetCafe.jpg" },
   { name: "Themed Restuarant", image: "/themedRestaurant.jpg" },
+  { name: "Indoor", image: "/Indoor.jpeg" },
+  { name: "Outdoor", image: "/Outdoor.jpg" },
+  { name: "Surprise me!", image: "/qdice.jpg" },
 ];
 
 // const IndoorOutdoorForm: React.FC<IndoorOutdoorFormProps> = ({
@@ -57,7 +60,7 @@ const IndoorOutdoorForm = () => {
       }
 
       // Update soft_constraints
-      const isOutdoorOption = index === 0 || index === 2; // Rooftop or Street Café
+      const isOutdoorOption = index === 0 || index === 2 || index === 5; // Rooftop or Street Café
       const softConstraintsArray = "000000000".split("");
       softConstraintsArray[5] = isOutdoorOption ? "1" : "0"; // 6th position (index 5) is hasOutdoorSeating
 
@@ -74,7 +77,10 @@ const IndoorOutdoorForm = () => {
 
   return (
     <div>
-      <SectionTitle text="Pick your ideal dining setting" classname="mt-2" />
+      <SectionTitle
+        text="Mmm tasty! Where would you like to eat?"
+        classname="mt-2"
+      />
       <div className="mt-6">
         <GridSelection
           options={indoorOutdoorOptions}

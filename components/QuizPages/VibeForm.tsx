@@ -8,10 +8,11 @@ import SectionTitle from "../static/SectionTitle";
 import { useQuiz } from "@/context/QuizContext";
 
 const vibeOptions = [
-  { name: "feeling casual", image: "/casualAtmosphere.jpg" }, // bit 0
-  { name: "feeling lively and energetic", image: "/energeticAtmosphere.jpg" }, // bit 7
-  { name: "feeling fancy", image: "/feelinFancy.jpg" }, // bit 3
-  { name: "feeling social", image: "/socialVibe.jpg" }, //bit 1
+  { name: "Feeling casual", image: "/casualAtmosphere.jpg" }, // bit 0
+  { name: "Feeling lively and energetic", image: "/energeticAtmosphere.jpg" }, // bit 7
+  { name: "Feeling fancy", image: "/feelinFancy.jpg" }, // bit 3
+  { name: "Feeling social", image: "/socialVibe.jpg" }, //bit 1
+  { name: "Surprise me!", image: "/qdice.jpg" },
 ];
 
 const VibeForm = () => {

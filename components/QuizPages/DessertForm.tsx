@@ -8,8 +8,9 @@ import SectionTitle from "../static/SectionTitle";
 import { useQuiz } from "@/context/QuizContext";
 
 const dessertOptions = [
-  { name: "Yes please!", image: "/dessert.webp" },
-  { name: "No thanks", image: "/goodbye.avif" },
+  { name: "Yes please!", image: "/Dessert-Yes.jpg" },
+  { name: "No thanks", image: "/nodessert.jpg" },
+  { name: "....I don't care", image: "/tonydontcare.jpg" },
 ];
 
 const DessertForm = () => {

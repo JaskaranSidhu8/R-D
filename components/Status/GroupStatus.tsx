@@ -98,18 +98,18 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
 
   return (
     <div>
+      {(showCopySuccess || isAnimating) && (
+        <div
+          className={`fixed left-0 right-0 top-0 bg-[#FF7B5F] text-white py-3 px-6 rounded-md flex items-center justify-center transition-transform duration-500 ease-in-out ${
+            showCopySuccess ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
+          <span className="flex items-center gap-2">
+            Group Code copied successfully <span>✓</span>
+          </span>
+        </div>
+      )}
       <div className="mt-2 items-center space-y-4">
-        {(showCopySuccess || isAnimating) && (
-          <div
-            className={`fixed left-0 right-0 top-0 bg-[#FF7B5F] text-white py-3 px-6 rounded-md flex items-center justify-center transition-transform duration-500 ease-in-out ${
-              showCopySuccess ? "translate-y-0" : "-translate-y-full"
-            }`}
-          >
-            <span className="flex items-center gap-2">
-              Group Code copied successfully <span>✓</span>
-            </span>
-          </div>
-        )}
         <h1 className="montserrat mt-10 text-3xl mb-2">{groupName}</h1>
         <span>It&apos;s time to invite your members</span>
         <Button

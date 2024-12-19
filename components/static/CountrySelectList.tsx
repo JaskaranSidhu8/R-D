@@ -5,7 +5,7 @@ import React from "react";
 
 import { Label } from "@/components/ui/label";
 import { Check, ChevronDown } from "lucide-react";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -252,10 +252,18 @@ const countries = [
 
 type Props = {
   name: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 export default function CountrySelectList(props: Props) {
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string>("");
+  //const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>(props.value || "");
+  useEffect(() => {
+    if (props.value) {
+      setValue(props.value);
+    }
+  }, [props.value]);
 
   return (
     <div className="space-y-2">
@@ -320,6 +328,14 @@ export default function CountrySelectList(props: Props) {
                         onSelect={(currentValue) => {
                           setValue(currentValue);
                           setOpen(false);
+                          if (props.onChange) {
+                            props.onChange({
+                              target: {
+                                name: props.name,
+                                value: currentValue,
+                              },
+                            } as React.ChangeEvent<HTMLInputElement>);
+                          }
                         }}
                       >
                         <span className="text-lg leading-none">
