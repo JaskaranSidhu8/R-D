@@ -12,6 +12,7 @@ const vibeOptions = [
   { name: "feeling lively and energetic", image: "/energeticAtmosphere.jpg" }, // bit 7
   { name: "feeling fancy", image: "/feelinFancy.jpg" }, // bit 3
   { name: "feeling social", image: "/socialVibe.jpg" }, //bit 1
+  { name: "Surprise me!", image: "/qdice.jpg" },
 ];
 
 const VibeForm = () => {
