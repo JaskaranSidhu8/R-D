@@ -29,11 +29,12 @@ const VerticalCarousel = ({
         axis: "y",
         dragFree: true,
         containScroll: false,
+        //containScroll: "always",
         align: "start",
       }}
       className="w-full relative h-full overflow-hidden "
     >
-      <CarouselContent className="grid grid-cols-2 gap-x-6 gap-y-3 px-3">
+      <CarouselContent className="grid grid-cols-2 gap-x-6 gap-y-3 px-3 ">
         {options.map((option) => (
           <CarouselItem key={option.id} className="basis-auto">
             <button
