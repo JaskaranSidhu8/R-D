@@ -27,6 +27,8 @@ const indoorOutdoorOptions = [
   { name: "Lounge/Bar", image: "/lounge.jpg" },
   { name: "Street Café", image: "/streetCafe.jpg" },
   { name: "Themed Restuarant", image: "/themedRestaurant.jpg" },
+  { name: "Indoor", image: "/Indoor.jpeg" },
+  { name: "Outdoor", image: "/Outdoor.jpg" },
 ];
 
 // const IndoorOutdoorForm: React.FC<IndoorOutdoorFormProps> = ({
@@ -74,7 +76,10 @@ const IndoorOutdoorForm = () => {
 
   return (
     <div>
-      <SectionTitle text="Pick your ideal dining setting" classname="mt-2" />
+      <SectionTitle
+        text="Mmm tasty! Where would you like to eat?"
+        classname="mt-2"
+      />
       <div className="mt-6">
         <GridSelection
           options={indoorOutdoorOptions}

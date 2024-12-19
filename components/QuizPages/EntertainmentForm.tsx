@@ -10,6 +10,7 @@ import { useQuiz } from "@/context/QuizContext";
 const entertainmentOptions = [
   { name: "Live Music", image: "/liveMusic.webp" }, //bit 6
   { name: "Good for watching Sports", image: "/liveSports.jpg" }, // bit 8
+  { name: "....I don't care", image: "/dontcare.jpeg" },
 ];
 
 const EntertainmentForm = () => {

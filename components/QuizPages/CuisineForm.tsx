@@ -21,12 +21,13 @@ const cuisineOptions: CarouselOption[] = [
   { id: 4, name: "Mexican_Latin", image: "/mexican.jpg" },
   { id: 5, name: "Indian", image: "/indian.jpg" },
   { id: 6, name: "Mediterranean", image: "/mediterranean.jpg" },
-  { id: 7, name: "European", image: "/european.webp" },
+  { id: 7, name: "European", image: "/European-Cuisine.jpg" },
   { id: 8, name: "Seafood", image: "/seafood.jpg" },
   { id: 9, name: "Vegan", image: "/vegan.jpg" },
   { id: 10, name: "Dessert", image: "/dessert.jpg" },
-  { id: 11, name: "Bar", image: "/bar.jpg" },
+  { id: 11, name: "Bar", image: "/Bar-Cuisine.jpg" },
   { id: 13, name: "African", image: "/african.jpg" },
+  { id: 13, name: "Surprise me!", image: "/african.jpg" },
 ];
 
 //the bit representations that will be sent to the database, when more than one is selected an AND operation will be used on them
