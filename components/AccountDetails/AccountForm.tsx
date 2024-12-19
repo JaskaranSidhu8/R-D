@@ -9,6 +9,7 @@ import { fetchAccountDetails, updateAccountDetails } from "@/actions/functions";
 import { useRouter } from "next/navigation";
 import { getUserAvatarUrl } from "@/actions/avatarfunctions";
 import { useUser } from "@/context/UserContext";
+import CountrySelectList from "../static/CountrySelectList";
 
 interface FormData {
   firstName: string;
@@ -110,12 +111,22 @@ const AccountForm = ({ defaultValues = DEFAULT_VALUES }: AccountFormProps) => {
         value={formData.lastName}
         onChange={handleInputChange}
       />
-      <FormField
+      {/* <FormField
         label="Country"
         name="country"
         value={formData.country}
         onChange={handleInputChange}
-      />
+      /> */}
+      <div className="mb-4">
+        <label className="text-sm font-medium text-black mb-2 block">
+          Country
+        </label>
+        <CountrySelectList
+          name="country"
+          value={formData.country}
+          onChange={handleInputChange}
+        />
+      </div>
       <FormField
         label="City"
         name="city"
