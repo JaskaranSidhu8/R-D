@@ -77,7 +77,6 @@ const GroupNameForm = () => {
   // };
 
   const onSubmit = async (formData: FormData) => {
-    // Extract necessary fields from FormData
     const date = formData.get("date") as string | null;
     const time = formData.get("time") as string | null;
 
@@ -86,26 +85,31 @@ const GroupNameForm = () => {
       return;
     }
 
-    // Map date to day (1-7)
     const getDayOfWeek = (dateString: string): number => {
       const dateObj = new Date(dateString);
-      return dateObj.getDay() === 0 ? 7 : dateObj.getDay(); // Sunday = 7
+      return dateObj.getDay() === 0 ? 7 : dateObj.getDay();
     };
 
     const day = getDayOfWeek(date);
-    const hour = parseInt(time.split(":")[0], 10); // Extract hour
+    const hour = parseInt(time.split(":")[0], 10);
     const minute = 0; // Minutes are always 0
 
     try {
-      // Call filterRestaurantsByTime to validate the time
       const restaurants = await filterRestaurantsByTime(day, hour, minute);
+      console.log("Inputs to filterRestaurantsByTime:", { day, hour, minute });
       console.log("Filtered restaurants:", restaurants);
 
       if (!restaurants || restaurants.length === 0) {
         alert(
           "No restaurants are open at the selected time. Please choose a different time.",
         );
-        return; // Stop further processing if no restaurants match
+        return;
+      }
+      if (restaurants.length < 10) {
+        alert(
+          "Fewer than 10 restaurants are open at this time. Please choose another time for the algorithm to work best.",
+        );
+        return;
       }
 
       // If restaurants are valid, proceed with group creation
