@@ -8,6 +8,7 @@ interface FormFieldProps {
   name: string;
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
+  type?: "text" | "country";
 }
 
 const FormField = ({ label, name, value, onChange }: FormFieldProps) => {
