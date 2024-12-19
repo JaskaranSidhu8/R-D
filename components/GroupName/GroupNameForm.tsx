@@ -20,6 +20,7 @@ import {
 import { createGroup } from "@/actions/functions";
 import { useRouter } from "next/navigation";
 import { useGroup } from "@/context/GroupContext";
+import { filterRestaurantsByTime } from "@/utils/filterRestaurantsBasedOnTime";
 
 const GroupNameForm = () => {
   const router = useRouter();
@@ -55,18 +56,74 @@ const GroupNameForm = () => {
     return `${hour}:00`;
   });
 
-  const onSubmit = async (e: FormData) => {
-    const data = await createGroup(e);
-    console.log(data);
-    if (data && data[0]) {
-      // Check if we have data and the group
-      const groupId = data[0].id; // Get the group ID from the created group
-      router.push(`/StatusMgr/1?groupId=${groupId}`); // Add groupId as a URL parameter
-      const groupCode = data[0].group_code || "";
-      setGroupCode(groupCode);
-      console.log(groupId);
+  // const getDayOfWeek = (dateString) => {
+  //   const date = new Date(dateString);
+  //   // Adjust JavaScript's 0 (Sunday) to your 7 (Sunday)
+  //   return date.getDay() === 0 ? 7 : date.getDay();
+  // };
+
+  // the original working one
+  // const onSubmit = async (e: FormData) => {
+  //   const data = await createGroup(e);
+  //   console.log(data);
+  //   if (data && data[0]) {
+  //     // Check if we have data and the group
+  //     const groupId = data[0].id; // Get the group ID from the created group
+  //     router.push(`/StatusMgr/1?groupId=${groupId}`); // Add groupId as a URL parameter
+  //     const groupCode = data[0].group_code || "";
+  //     setGroupCode(groupCode);
+  //     console.log(groupId);
+  //   }
+  // };
+
+  const onSubmit = async (formData: FormData) => {
+    // Extract necessary fields from FormData
+    const date = formData.get("date") as string | null;
+    const time = formData.get("time") as string | null;
+
+    if (!date || !time) {
+      alert("Please select a valid date and time.");
+      return;
+    }
+
+    // Map date to day (1-7)
+    const getDayOfWeek = (dateString: string): number => {
+      const dateObj = new Date(dateString);
+      return dateObj.getDay() === 0 ? 7 : dateObj.getDay(); // Sunday = 7
+    };
+
+    const day = getDayOfWeek(date);
+    const hour = parseInt(time.split(":")[0], 10); // Extract hour
+    const minute = 0; // Minutes are always 0
+
+    try {
+      // Call filterRestaurantsByTime to validate the time
+      const restaurants = await filterRestaurantsByTime(day, hour, minute);
+      console.log("Filtered restaurants:", restaurants);
+
+      if (!restaurants || restaurants.length === 0) {
+        alert(
+          "No restaurants are open at the selected time. Please choose a different time.",
+        );
+        return; // Stop further processing if no restaurants match
+      }
+
+      // If restaurants are valid, proceed with group creation
+      const data = await createGroup(formData);
+
+      if (data && data[0]) {
+        const groupId = data[0].id; // Get group ID
+        const groupCode = data[0].group_code || ""; // Get group code
+        setGroupCode(groupCode); // Update group code in context
+        router.push(`/StatusMgr/1?groupId=${groupId}`); // Redirect
+        console.log("Group created with ID:", groupId);
+      }
+    } catch (error) {
+      console.error("Error during submission:", error);
+      alert("Something went wrong. Please try again.");
     }
   };
+
   return (
     <form
       action={(e) => onSubmit(e)}
@@ -82,7 +139,12 @@ const GroupNameForm = () => {
           className="bg-white"
           required
         />
-        <Input type="date" name="date" required />
+        <Input
+          type="date"
+          name="date"
+          min={new Date().toISOString().split("T")[0]} // Minimum date is today, if we want to test feedback remove this
+          required
+        />
         <Select name="time" required>
           <SelectTrigger>
             <SelectValue placeholder="Select time" />

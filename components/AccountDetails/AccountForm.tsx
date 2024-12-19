@@ -9,6 +9,7 @@ import { fetchAccountDetails, updateAccountDetails } from "@/actions/functions";
 import { useRouter } from "next/navigation";
 import { getUserAvatarUrl } from "@/actions/avatarfunctions";
 import { useUser } from "@/context/UserContext";
+import CountrySelectList from "../static/CountrySelectList";
 
 interface FormData {
   firstName: string;

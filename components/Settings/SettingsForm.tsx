@@ -42,7 +42,7 @@ const SettingsForm = () => {
           label="Account details"
         />
         <NavigationLink
-          href="/NewPassword"
+          href="/Home" // should go to new password page, but this is not fucntional
           icon={LockClosedIcon}
           label="Change password"
         />
@@ -52,7 +52,7 @@ const SettingsForm = () => {
           label="Preferences"
         />
         <NavigationLink
-          href="/help-support"
+          href="/Home"
           icon={QuestionMarkIcon}
           label="Help and support"
         />
