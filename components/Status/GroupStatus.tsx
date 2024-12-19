@@ -84,15 +84,13 @@ const GroupStatus: React.FC<Props> = ({ state, generate, groupId }) => {
       setIsAnimating(true);
       setShowCopySuccess(true);
 
-      // Hide after 3 seconds
       setTimeout(() => {
         setShowCopySuccess(false);
       }, 3000);
 
-      // Reset animation state after transition ends
       setTimeout(() => {
         setIsAnimating(false);
-      }, 3500); // 3000ms + 500ms for animation
+      }, 3500);
     } catch (err) {
       console.error("Failed to copy code:", err);
     }

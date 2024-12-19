@@ -93,7 +93,7 @@ const PreferencesForm = (props: Props) => {
       <div className="">
         <p className="text-sm mb-2">Dietary Restrictions</p>
         <Select onValueChange={handleSelect}>
-          <SelectTrigger className="w-full h-12 rounded-full">
+          <SelectTrigger className="w-full py-5">
             <SelectValue placeholder="Add Preference" />
           </SelectTrigger>
           <SelectContent>
