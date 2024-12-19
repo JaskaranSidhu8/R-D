@@ -51,8 +51,8 @@ const GroupNameForm = () => {
     });
   };
 
-  const hours = Array.from({ length: 24 }, (_, i) => {
-    const hour = i.toString().padStart(2, "0");
+  const hours = Array.from({ length: 16 }, (_, i) => {
+    const hour = (i + 8).toString().padStart(2, "0");
     return `${hour}:00`;
   });
 
@@ -87,7 +87,8 @@ const GroupNameForm = () => {
 
     const getDayOfWeek = (dateString: string): number => {
       const dateObj = new Date(dateString);
-      return dateObj.getDay() === 0 ? 7 : dateObj.getDay();
+      const day = dateObj.getDay();
+      return day === 0 ? 6 : day - 1;
     };
 
     const day = getDayOfWeek(date);
