@@ -18,15 +18,16 @@ const cuisineOptions: CarouselOption[] = [
   { id: 1, name: "Asian", image: "/asian.jpg" },
   { id: 2, name: "American", image: "/american.webp" },
   { id: 3, name: "Italian", image: "/italian.jpg" },
-  { id: 4, name: "Mexican_Latin", image: "/mexican.jpg" },
+  { id: 4, name: "Latin", image: "/mexican.jpg" },
   { id: 5, name: "Indian", image: "/indian.jpg" },
   { id: 6, name: "Mediterranean", image: "/mediterranean.jpg" },
-  { id: 7, name: "European", image: "/european.webp" },
+  { id: 7, name: "European", image: "/European-Cuisine.jpg" },
   { id: 8, name: "Seafood", image: "/seafood.jpg" },
   { id: 9, name: "Vegan", image: "/vegan.jpg" },
   { id: 10, name: "Dessert", image: "/dessert.jpg" },
-  { id: 11, name: "Bar", image: "/bar.jpg" },
+  { id: 11, name: "Bar", image: "/Bar-Cuisine.jpg" },
   { id: 13, name: "African", image: "/african.jpg" },
+  { id: 14, name: "Surprise me!", image: "/qdice.jpg" },
 ];
 
 //the bit representations that will be sent to the database, when more than one is selected an AND operation will be used on them
@@ -84,11 +85,38 @@ const CuisineForm: React.FC<CuisineFormProps> = ({ groupId }) => {
       //front end logic - handles UI selection
       //if it is already selected then it becomes deselected
       if (prev.includes(itemId)) {
-        newSelection = prev.filter((id) => id !== itemId);
+        // Special logic for "Surprise Me!" (itemId === 14)
+        if (itemId === 14) {
+          newSelection = []; // Clear all selections
+        } else {
+          newSelection = prev.filter((id) => id !== itemId);
+        }
       }
       //cannot select more than three items at once
-      else if (prev.length < 3) {
-        newSelection = [...prev, itemId];
+      else if (itemId === 14 || prev.length < 3) {
+        // If "Surprise Me!" is selected
+        if (itemId === 14) {
+          newSelection = [itemId]; // Override all other selections
+
+          // Random bit logic
+          const randomId =
+            Math.floor(
+              Math.random() * (Object.keys(CUISINE_BIT_MAPPINGS).length - 1),
+            ) + 1;
+          const randomBitString = CUISINE_BIT_MAPPINGS[randomId];
+          console.log(
+            `Random selection for Surprise Me: ID=${randomId}, BitString=${randomBitString}`,
+          );
+
+          // Update bitStrings with the random bit
+          updateBitStrings("cuisine_preferences", randomBitString);
+
+          return newSelection;
+        } else {
+          // Regular selection logic
+          newSelection = prev.filter((id) => id !== 14); // Deselect "Surprise Me!" if active
+          newSelection = [...newSelection, itemId];
+        }
       } else {
         return prev;
       }

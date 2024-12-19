@@ -10,6 +10,7 @@ import { useQuiz } from "@/context/QuizContext";
 const drinkOptions = [
   { name: "Alcoholic Drinks", image: "/alcoholicDrinks.jpg" }, //bits one 1 and 2
   { name: "Non-Alcoholic Beverages", image: "/nonAlcoholicDrinks.webp" }, //no bits affecred
+  { name: "....I don't care", image: "/stephenadontcare.jpg" },
 ];
 
 const DrinksForm = () => {
