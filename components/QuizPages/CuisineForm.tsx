@@ -160,7 +160,7 @@ const CuisineForm: React.FC<CuisineFormProps> = ({ groupId }) => {
           }`}
         >
           <span className="flex items-center gap-2">
-            You can't select more than three
+            You can&apos;t select more than three
           </span>
         </div>
       )}
