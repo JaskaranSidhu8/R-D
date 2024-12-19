@@ -18,7 +18,7 @@ const cuisineOptions: CarouselOption[] = [
   { id: 1, name: "Asian", image: "/asian.jpg" },
   { id: 2, name: "American", image: "/american.webp" },
   { id: 3, name: "Italian", image: "/italian.jpg" },
-  { id: 4, name: "Mexican_Latin", image: "/mexican.jpg" },
+  { id: 4, name: "Latin", image: "/mexican.jpg" },
   { id: 5, name: "Indian", image: "/indian.jpg" },
   { id: 6, name: "Mediterranean", image: "/mediterranean.jpg" },
   { id: 7, name: "European", image: "/European-Cuisine.jpg" },
